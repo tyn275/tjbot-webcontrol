@@ -44,3 +44,4 @@ Refs: TJB-009
    - **Should fix**: Đề xuất cải tiến quan trọng.
    - **Nit**: Góp ý nhỏ, không chặn merge.
    - **Question**: Câu hỏi làm rõ thiết kế.
+

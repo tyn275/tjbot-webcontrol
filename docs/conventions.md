@@ -2,7 +2,77 @@
 
 ---
 
-## 1. Quy tắc Giới hạn Kích thước & Độ phức tạp (Bắt buộc bởi ESLint)
+## 1. Cấu trúc Thư mục Dự án
+
+```text
+tjbot-web/
+├── .github/
+│   ├── workflows/
+│   │   ├── ci.yml                 # Tự động test, lint khi mở PR
+│   │   └── deploy.yml             # Tự động deploy GitHub Pages khi vào main
+│   ├── ISSUE_TEMPLATE/            # Mẫu tạo task/issue
+│   └── pull_request_template.md   # Mẫu checklist khi tạo PR
+├── docs/
+│   ├── mqtt-commands.md           # Hợp đồng lệnh và trạng thái MQTT
+│   ├── conventions.md             # Quy ước code (dòng, file, BEM, i18n, structure)
+│   ├── git-workflow.md            # Quy trình nhánh, commitlint
+│   └── deployment.md              # Hướng dẫn deploy Pages / Server riêng
+├── .env.example                   # Mẫu cấu hình môi trường
+├── .gitignore                     # Chặn .env, node_modules, dist
+├── .nvmrc                         # Ghim Node.js LTS (v24)
+├── commitlint.config.js           # Cấu hình chuẩn Conventional Commits
+├── eslint.config.js               # Chặn any, giới hạn 20/40/150 dòng
+├── .prettierrc                    # Chuẩn định dạng code
+├── package.json                   # Dependencies & scripts
+├── tsconfig.json                  # Cấu hình TypeScript Strict
+├── vite.config.ts                 # Cấu hình Vite, Sass, dotenv
+├── index.html                     # File HTML gốc
+└── src/
+    ├── main.tsx                   # Điểm khởi đầu ứng dụng React
+    ├── vite-env.d.ts
+    ├── app/
+    │   ├── App.tsx                # Component gốc
+    │   ├── routes.tsx             # Định tuyến trang (gym, actions, wifi, intro)
+    │   └── layout/                # Khung giao diện (Navbar, Sidebar, LogMonitor...)
+    ├── core/                      # Hằng số phần cứng, env loader, logger
+    ├── services/
+    │   ├── mqtt/                  # Kết nối MQTT, buildCommand, parser trạng thái
+    │   ├── ai/                    # Tích hợp Gemini AI
+    │   └── storage/               # Wrapper an toàn cho localStorage
+    ├── features/                  # Từng khối tính năng độc lập (kèm commands, i18n, scss riêng)
+    │   ├── gym/                   # Trang tổng hợp (ghép 5 khối)
+    │   ├── arm/                   # Điều khiển cánh tay servo
+    │   ├── led/                   # Điều khiển LED đầu
+    │   ├── audio/                 # Phát âm thanh & Text-to-Speech
+    │   ├── mic/                   # Ghi âm và lắng nghe
+    │   ├── camera/                # Xem video HLS từ Pi
+    │   ├── wifi/                  # Giao diện cấu hình
+    │   ├── askme/                 # Khối hội thoại AI
+    │   └── intro/                 # Trang giới thiệu
+    ├── i18n/                      # File cấu hình và từ điển dùng chung
+    └── styles/                    # Sass: biến màu, reset và layout chung
+```
+
+### 1.1. Mẫu cấu trúc chuẩn bên trong một tính năng (Feature Module Pattern)
+Mỗi tính năng trong thư mục `src/features/<feature>/` phải tự chứa đầy đủ các thành phần sau:
+
+```text
+features/led/
+├── LedPanel.tsx           # Component chính của tính năng
+├── components/            # Các component con nhỏ
+│   ├── ColorPicker.tsx
+│   ├── BlinkControl.tsx
+│   └── RainbowButtons.tsx
+├── hooks/                 # Custom hook quản lý logic & vòng đời
+│   └── useLed.ts
+├── led.commands.ts        # Định nghĩa các lệnh gửi MQTT qua buildCommand
+├── led.i18n.ts            # Từ điển đa ngôn ngữ (vi, en) của tính năng
+└── led.scss               # Style SCSS riêng của tính năng (chuẩn BEM)
+```
+
+---
+
+## 2. Quy tắc Giới hạn Kích thước & Độ phức tạp (Bắt buộc bởi ESLint)
 
 - **Hàm `.ts`**: Tối đa **20 dòng** (không tính dòng trống và chú thích).
 - **Hàm / Component `.tsx`**: Tối đa **40 dòng**.
@@ -41,3 +111,4 @@
 - Không viết chữ hiển thị cứng trong file `.tsx`. Sử dụng `t('key')` từ `useTranslation()`.
 - Mỗi tính năng có file `<feature>.i18n.ts` xuất khẩu đối tượng gồm hai bộ ngôn ngữ song song `vi` và `en`.
 - Từ ngữ dùng chung (Kết nối, Ngắt kết nối, Đang tải...) nằm trong `src/i18n/common.i18n.ts`.
+

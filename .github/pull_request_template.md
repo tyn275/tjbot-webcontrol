@@ -14,3 +14,4 @@ Refs: TJB-
 - [ ] Không có chữ hiển thị cứng trong component (đã chuyển vào i18n).
 - [ ] Tuân thủ giới hạn dòng: hàm <= 20/40 dòng, file <= 150 dòng.
 - [ ] Không sử dụng kiểu dữ liệu `any`.
+

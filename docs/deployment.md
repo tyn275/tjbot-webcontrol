@@ -53,3 +53,4 @@ server {
 Do các trang web chạy qua giao thức HTTPS (như GitHub Pages) có cơ chế bảo mật nghiêm ngặt:
 - **MQTT**: Bắt buộc kết nối qua WebSocket bảo mật (`wss://`).
 - **Camera HLS**: URL phát luồng (`HLS_BASE_URL`) bắt buộc phải là `https://`, không được dùng `http://` để tránh lỗi trình duyệt chặn nội dung hỗn hợp (Mixed Content).
+

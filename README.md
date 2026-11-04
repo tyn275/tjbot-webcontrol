@@ -55,7 +55,60 @@ npm run dev
 
 ---
 
-## 5. Tài liệu chi tiết (`docs/`)
+## 5. Cấu trúc thư mục dự án
+
+```text
+tjbot-web/
+├── .github/
+│   ├── workflows/
+│   │   ├── ci.yml                 # Tự động test, lint khi mở PR
+│   │   └── deploy.yml             # Tự động deploy GitHub Pages khi vào main
+│   ├── ISSUE_TEMPLATE/            # Mẫu tạo task/issue
+│   └── pull_request_template.md   # Mẫu checklist khi tạo PR
+├── docs/
+│   ├── mqtt-commands.md           # Hợp đồng lệnh và trạng thái MQTT
+│   ├── conventions.md             # Quy ước code (dòng, file, BEM, i18n, structure)
+│   ├── git-workflow.md            # Quy trình nhánh, commitlint
+│   └── deployment.md              # Hướng dẫn deploy Pages / Server riêng
+├── .env.example                   # Mẫu cấu hình môi trường
+├── .gitignore                     # Chặn .env, node_modules, dist
+├── .nvmrc                         # Ghim Node.js LTS (v24)
+├── commitlint.config.js           # Cấu hình chuẩn Conventional Commits
+├── eslint.config.js               # Chặn any, giới hạn 20/40/150 dòng
+├── .prettierrc                    # Chuẩn định dạng code
+├── package.json                   # Dependencies & scripts
+├── tsconfig.json                  # Cấu hình TypeScript Strict
+├── vite.config.ts                 # Cấu hình Vite, Sass, dotenv
+├── index.html                     # File HTML gốc
+└── src/
+    ├── main.tsx                   # Điểm khởi đầu ứng dụng React
+    ├── vite-env.d.ts
+    ├── app/
+    │   ├── App.tsx                # Component gốc
+    │   ├── routes.tsx             # Định tuyến trang (gym, actions, wifi, intro)
+    │   └── layout/                # Khung giao diện (Navbar, Sidebar, LogMonitor...)
+    ├── core/                      # Hằng số phần cứng, env loader, logger
+    ├── services/
+    │   ├── mqtt/                  # Kết nối MQTT, buildCommand, parser trạng thái
+    │   ├── ai/                    # Tích hợp Gemini AI
+    │   └── storage/               # Wrapper an toàn cho localStorage
+    ├── features/                  # Từng khối tính năng độc lập (kèm commands, i18n, scss riêng)
+    │   ├── gym/                   # Trang tổng hợp (ghép 5 khối)
+    │   ├── arm/                   # Điều khiển cánh tay servo
+    │   ├── led/                   # Điều khiển LED đầu
+    │   ├── audio/                 # Phát âm thanh & Text-to-Speech
+    │   ├── mic/                   # Ghi âm và lắng nghe
+    │   ├── camera/                # Xem video HLS từ Pi
+    │   ├── wifi/                  # Giao diện cấu hình
+    │   ├── askme/                 # Khối hội thoại AI
+    │   └── intro/                 # Trang giới thiệu
+    ├── i18n/                      # File cấu hình và từ điển dùng chung
+    └── styles/                    # Sass: biến màu, reset và layout chung
+```
+
+---
+
+## 6. Tài liệu chi tiết (`docs/`)
 
 - [Đặc tả lệnh MQTT](docs/mqtt-commands.md): Cú pháp lệnh, bảng lệnh, gói tin trạng thái Pi.
 - [Quy ước lập trình](docs/conventions.md): Giới hạn dòng (20/40/150), kiến trúc thư mục, BEM Sass, i18n.
@@ -64,8 +117,9 @@ npm run dev
 
 ---
 
-## 6. Cảnh báo bảo mật quan trọng
+## 7. Cảnh báo bảo mật quan trọng
 
 1. **Mọi biến môi trường nhúng vào frontend đều công khai**: File `.env` chứa mật khẩu MQTT sẽ được đưa vào mã JavaScript tải về trình duyệt. Do đó, tài khoản MQTT cho web chỉ nên có quyền truy cập topic riêng của robot.
 2. **Khóa Gemini AI**: Không lưu khóa API Gemini vào `.env`. Khóa được người dùng nhập trực tiếp trên giao diện và lưu trong `localStorage` của trình duyệt.
 3. **Tuyệt đối không commit file `.env`**: `.gitignore` đã chặn file này ngay từ commit đầu tiên.
+

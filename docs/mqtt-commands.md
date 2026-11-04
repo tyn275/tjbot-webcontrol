@@ -60,3 +60,4 @@ Hai lệnh đặc biệt không có dấu ngoặc:
 | `cam=on` / `cam=off` | Trạng thái camera | Cập nhật nút bấm và trình phát video HLS |
 | Báo cáo khởi động / `help` | Báo cáo mạng / danh sách lệnh | Hiển thị vào khung LogMonitor dưới dạng văn bản thuần |
 | Khác | Tin nhắn log từ Pi | Render text thuần (không chèn HTML) |
+
