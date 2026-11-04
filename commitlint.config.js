@@ -1,0 +1,47 @@
+export default {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      [
+        'feat',
+        'fix',
+        'refactor',
+        'style',
+        'docs',
+        'test',
+        'build',
+        'ci',
+        'chore',
+        'perf'
+      ]
+    ],
+    'scope-enum': [
+      2,
+      'always',
+      [
+        'arm',
+        'led',
+        'audio',
+        'mic',
+        'camera',
+        'wifi',
+        'askme',
+        'gym',
+        'intro',
+        'mqtt',
+        'ai',
+        'storage',
+        'i18n',
+        'styles',
+        'core',
+        'app',
+        'deps',
+        'ci',
+        'docs'
+      ]
+    ],
+    'header-max-length': [2, 'always', 72]
+  }
+}

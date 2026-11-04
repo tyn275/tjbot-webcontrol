@@ -1,0 +1,8 @@
+@use 'abstracts/variables' as *;
+@use 'base/reset';
+
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
