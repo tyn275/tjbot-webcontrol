@@ -4,18 +4,7 @@ export default {
     'type-enum': [
       2,
       'always',
-      [
-        'feat',
-        'fix',
-        'refactor',
-        'style',
-        'docs',
-        'test',
-        'build',
-        'ci',
-        'chore',
-        'perf'
-      ]
+      ['feat', 'fix', 'refactor', 'style', 'docs', 'test', 'build', 'ci', 'chore', 'perf'],
     ],
     'scope-enum': [
       2,
@@ -39,10 +28,9 @@ export default {
         'app',
         'deps',
         'ci',
-        'docs'
-      ]
+        'docs',
+      ],
     ],
-    'header-max-length': [2, 'always', 72]
-  }
+    'header-max-length': [2, 'always', 72],
+  },
 }
-

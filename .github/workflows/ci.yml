@@ -35,4 +35,3 @@ jobs:
 
       - name: Run Quality Gate Check
         run: npm run check
-

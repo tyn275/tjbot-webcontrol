@@ -7,7 +7,7 @@
 - **`main`**: Nhánh chính bảo vệ, luôn luôn ở trạng thái chạy được và sạch lỗi. Cấm push trực tiếp lên `main`.
 - **Nhánh tính năng / sửa lỗi**: Được tạo từ `main` theo quy tắc:
   `<loại>/<TASK-ID>-<mô-tả-ngắn>`
-  * Ví dụ: `feature/TJB-009-led-panel`, `fix/TJB-010-arm-slider`.
+  - Ví dụ: `feature/TJB-009-led-panel`, `fix/TJB-010-arm-slider`.
 - **Các tiền tố hợp lệ**: `feature`, `fix`, `refactor`, `docs`, `chore`, `test`.
 
 ---
@@ -15,6 +15,7 @@
 ## 2. Quy ước Commit (Conventional Commits)
 
 Định dạng bắt buộc:
+
 ```text
 <type>(<scope>): <subject>
 
@@ -26,6 +27,7 @@ Refs: <TASK-ID>
 - **Các scope hợp lệ**: `arm`, `led`, `audio`, `mic`, `camera`, `wifi`, `askme`, `gym`, `intro`, `mqtt`, `ai`, `storage`, `i18n`, `styles`, `core`, `app`, `deps`, `ci`, `docs`.
 
 Ví dụ:
+
 ```text
 feat(led): add rainbow effect selector
 
@@ -44,4 +46,3 @@ Refs: TJB-009
    - **Should fix**: Đề xuất cải tiến quan trọng.
    - **Nit**: Góp ý nhỏ, không chặn merge.
    - **Question**: Câu hỏi làm rõ thiết kế.
-

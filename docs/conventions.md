@@ -54,6 +54,7 @@ tjbot-web/
 ```
 
 ### 1.1. Mẫu cấu trúc chuẩn bên trong một tính năng (Feature Module Pattern)
+
 Mỗi tính năng trong thư mục `src/features/<feature>/` phải tự chứa đầy đủ các thành phần sau:
 
 ```text
@@ -111,4 +112,3 @@ features/led/
 - Không viết chữ hiển thị cứng trong file `.tsx`. Sử dụng `t('key')` từ `useTranslation()`.
 - Mỗi tính năng có file `<feature>.i18n.ts` xuất khẩu đối tượng gồm hai bộ ngôn ngữ song song `vi` và `en`.
 - Từ ngữ dùng chung (Kết nối, Ngắt kết nối, Đang tải...) nằm trong `src/i18n/common.i18n.ts`.
-

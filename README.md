@@ -42,16 +42,16 @@ npm run dev
 
 ## 4. Các Scripts chính
 
-| Script | Ý nghĩa |
-|---|---|
-| `npm run dev` | Chạy máy chủ phát triển (Vite Dev Server) |
-| `npm run build` | Kiểm tra kiểu dữ liệu (`tsc`) và đóng gói (`vite build`) |
-| `npm run preview` | Xem thử sản phẩm sau khi build |
-| `npm run format:check` | Kiểm tra định dạng code với Prettier |
-| `npm run lint` | Quét quy tắc code bằng ESLint (cấm `any`, kiểm soát kích thước hàm/file) |
-| `npm run typecheck` | Kiểm tra lỗi TypeScript không phát sinh file |
-| `npm run test` | Chạy bộ kiểm thử tự động với Vitest |
-| `npm run check` | **Cổng chất lượng duy nhất**: Chạy tuần tự format, lint, typecheck, test, build |
+| Script                 | Ý nghĩa                                                                         |
+| ---------------------- | ------------------------------------------------------------------------------- |
+| `npm run dev`          | Chạy máy chủ phát triển (Vite Dev Server)                                       |
+| `npm run build`        | Kiểm tra kiểu dữ liệu (`tsc`) và đóng gói (`vite build`)                        |
+| `npm run preview`      | Xem thử sản phẩm sau khi build                                                  |
+| `npm run format:check` | Kiểm tra định dạng code với Prettier                                            |
+| `npm run lint`         | Quét quy tắc code bằng ESLint (cấm `any`, kiểm soát kích thước hàm/file)        |
+| `npm run typecheck`    | Kiểm tra lỗi TypeScript không phát sinh file                                    |
+| `npm run test`         | Chạy bộ kiểm thử tự động với Vitest                                             |
+| `npm run check`        | **Cổng chất lượng duy nhất**: Chạy tuần tự format, lint, typecheck, test, build |
 
 ---
 
@@ -122,4 +122,3 @@ tjbot-web/
 1. **Mọi biến môi trường nhúng vào frontend đều công khai**: File `.env` chứa mật khẩu MQTT sẽ được đưa vào mã JavaScript tải về trình duyệt. Do đó, tài khoản MQTT cho web chỉ nên có quyền truy cập topic riêng của robot.
 2. **Khóa Gemini AI**: Không lưu khóa API Gemini vào `.env`. Khóa được người dùng nhập trực tiếp trên giao diện và lưu trong `localStorage` của trình duyệt.
 3. **Tuyệt đối không commit file `.env`**: `.gitignore` đã chặn file này ngay từ commit đầu tiên.
-
