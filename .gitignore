@@ -12,6 +12,7 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
 
 # Environment variables (CRITICAL: DO NOT COMMIT REAL SECRETS)
 .env
