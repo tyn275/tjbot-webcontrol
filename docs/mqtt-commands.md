@@ -1,5 +1,7 @@
 # Đặc tả Hợp đồng MQTT (TJBot)
 
+> **QUY TẮC BẮT BUỘC**: Mọi lệnh robot trong tài liệu này bắt buộc phải tạo thông qua hàm duy nhất `buildCommand()` theo đúng Điều khoản 2 của [PROJECT RULES](../.antigravity/project_rules.md).
+
 Tài liệu này quy định giao thức và định dạng dữ liệu trao đổi giữa Web Control và Raspberry Pi 4 chạy `tjbot_client.py`.
 
 ---

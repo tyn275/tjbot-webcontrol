@@ -1,5 +1,7 @@
 # Hướng dẫn Triển khai (Deployment Guide)
 
+> **QUY TẮC BẮT BUỘC**: Cấu hình môi trường và quy trình build deploy phải tuân thủ nghiêm ngặt Điều khoản 1 (ENV Rule) của [PROJECT RULES](../.antigravity/project_rules.md).
+
 ---
 
 ## 1. Triển khai Tự động lên GitHub Pages (Mặc định)

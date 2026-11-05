@@ -25,8 +25,8 @@ Trình duyệt (Web) ──wss──► MQTT Broker ◄──mqtt── Raspberr
 
 ```bash
 # 1. Clone repo
-git clone https://github.com/<user>/tjbot-web.git
-cd tjbot-web
+git clone https://github.com/tyn275/tjbot-webcontrol.git
+cd tjbot-webcontrol
 
 # 2. Cài đặt dependencies đúng theo package-lock
 npm ci
@@ -42,16 +42,16 @@ npm run dev
 
 ## 4. Các Scripts chính
 
-| Script                 | Ý nghĩa                                                                         |
-| ---------------------- | ------------------------------------------------------------------------------- |
-| `npm run dev`          | Chạy máy chủ phát triển (Vite Dev Server)                                       |
-| `npm run build`        | Kiểm tra kiểu dữ liệu (`tsc`) và đóng gói (`vite build`)                        |
-| `npm run preview`      | Xem thử sản phẩm sau khi build                                                  |
-| `npm run format:check` | Kiểm tra định dạng code với Prettier                                            |
-| `npm run lint`         | Quét quy tắc code bằng ESLint (cấm `any`, kiểm soát kích thước hàm/file)        |
-| `npm run typecheck`    | Kiểm tra lỗi TypeScript không phát sinh file                                    |
-| `npm run test`         | Chạy bộ kiểm thử tự động với Vitest                                             |
-| `npm run check`        | **Cổng chất lượng duy nhất**: Chạy tuần tự format, lint, typecheck, test, build |
+| Script                 | Ý nghĩa                                                                   |
+| ---------------------- | ------------------------------------------------------------------------- |
+| `npm run dev`          | Chạy máy chủ phát triển (Vite Dev Server)                                 |
+| `npm run build`        | Đóng gói ứng dụng production (`tsc -b && vite build`)                     |
+| `npm run preview`      | Xem thử sản phẩm sau khi build                                            |
+| `npm run format:check` | Kiểm tra định dạng code với Prettier                                      |
+| `npm run format`       | Tự động chuẩn hóa định dạng toàn bộ file với Prettier                     |
+| `npm run lint`         | Quét quy tắc code bằng ESLint (cấm `any`, kiểm soát kích thước hàm/file)  |
+| `npm run typecheck`    | Kiểm tra toàn bộ kiểu dữ liệu TypeScript (`tsc -b --noEmit`)              |
+| `npm run check`        | **Cổng chất lượng duy nhất**: Chạy tuần tự format, lint, typecheck, build |
 
 ---
 
@@ -59,60 +59,64 @@ npm run dev
 
 ```text
 tjbot-web/
+├── .antigravity/
+│   └── project_rules.md       # Bản hợp đồng phát triển tối cao (10 điều khoản)
 ├── .github/
-│   ├── workflows/
-│   │   ├── ci.yml                 # Tự động test, lint khi mở PR
-│   │   └── deploy.yml             # Tự động deploy GitHub Pages khi vào main
-│   ├── ISSUE_TEMPLATE/            # Mẫu tạo task/issue
-│   └── pull_request_template.md   # Mẫu checklist khi tạo PR
+│   └── workflows/
+│       ├── ci.yml             # Tự động test, lint khi mở PR / push
+│       └── deploy.yml         # Tự động deploy GitHub Pages khi vào main
 ├── docs/
-│   ├── mqtt-commands.md           # Hợp đồng lệnh và trạng thái MQTT
-│   ├── conventions.md             # Quy ước code (dòng, file, BEM, i18n, structure)
-│   ├── git-workflow.md            # Quy trình nhánh, commitlint
-│   └── deployment.md              # Hướng dẫn deploy Pages / Server riêng
-├── .env.example                   # Mẫu cấu hình môi trường
-├── .gitignore                     # Chặn .env, node_modules, dist
-├── .nvmrc                         # Ghim Node.js LTS (v24)
-├── commitlint.config.js           # Cấu hình chuẩn Conventional Commits
-├── eslint.config.js               # Chặn any, giới hạn 20/40/150 dòng
-├── .prettierrc                    # Chuẩn định dạng code
-├── package.json                   # Dependencies & scripts
-├── tsconfig.json                  # Cấu hình TypeScript Strict
-├── vite.config.ts                 # Cấu hình Vite, Sass, dotenv
-├── index.html                     # File HTML gốc
+│   ├── mqtt-commands.md       # Hợp đồng lệnh và trạng thái MQTT
+│   ├── conventions.md         # Quy ước code (dòng, file, BEM, i18n, structure)
+│   ├── git-workflow.md        # Quy trình solo Git, commitlint
+│   └── deployment.md          # Hướng dẫn deploy Pages / Server riêng
+├── public/
+│   └── vite.svg               # Icon ứng dụng
+├── .env.example               # Mẫu cấu hình môi trường
+├── .gitignore                 # Chặn .env, node_modules, dist, tsbuildinfo
+├── .nvmrc                     # Ghim Node.js LTS (v24)
+├── commitlint.config.js       # Cấu hình chuẩn Conventional Commits
+├── eslint.config.js           # Chặn any, giới hạn 20/40/150 dòng, cấm inline style
+├── .prettierrc                # Chuẩn định dạng code
+├── package.json               # Dependencies & scripts
+├── tsconfig.json              # Cấu hình TypeScript Strict Project References
+├── vite.config.ts             # Cấu hình Vite, Sass, dotenv, define __APP_ENV__
+├── index.html                 # File HTML gốc
 └── src/
-    ├── main.tsx                   # Điểm khởi đầu ứng dụng React
-    ├── vite-env.d.ts
+    ├── main.tsx               # Điểm khởi đầu ứng dụng React
+    ├── vite-env.d.ts          # Khai báo kiểu môi trường __APP_ENV__
     ├── app/
-    │   ├── App.tsx                # Component gốc
-    │   ├── routes.tsx             # Định tuyến trang (gym, actions, wifi, intro)
-    │   └── layout/                # Khung giao diện (Navbar, Sidebar, LogMonitor...)
-    ├── core/                      # Hằng số phần cứng, env loader, logger
+    │   ├── App.tsx            # Component gốc
+    │   ├── routes.tsx         # Định tuyến trang (gym, actions, wifi, intro)
+    │   └── layout/            # Khung giao diện (Navbar, Sidebar, LogMonitor...)
+    ├── core/                  # Hằng số phần cứng, env loader, logger
+    │   └── env.ts             # Cổng duy nhất đọc biến môi trường có kiểu
     ├── services/
-    │   ├── mqtt/                  # Kết nối MQTT, buildCommand, parser trạng thái
-    │   ├── ai/                    # Tích hợp Gemini AI
-    │   └── storage/               # Wrapper an toàn cho localStorage
-    ├── features/                  # Từng khối tính năng độc lập (kèm commands, i18n, scss riêng)
-    │   ├── gym/                   # Trang tổng hợp (ghép 5 khối)
-    │   ├── arm/                   # Điều khiển cánh tay servo
-    │   ├── led/                   # Điều khiển LED đầu
-    │   ├── audio/                 # Phát âm thanh & Text-to-Speech
-    │   ├── mic/                   # Ghi âm và lắng nghe
-    │   ├── camera/                # Xem video HLS từ Pi
-    │   ├── wifi/                  # Giao diện cấu hình
-    │   ├── askme/                 # Khối hội thoại AI
-    │   └── intro/                 # Trang giới thiệu
-    ├── i18n/                      # File cấu hình và từ điển dùng chung
-    └── styles/                    # Sass: biến màu, reset và layout chung
+    │   ├── mqtt/              # Kết nối MQTT, buildCommand, parser trạng thái
+    │   ├── ai/                # Tích hợp Gemini AI
+    │   └── storage/           # Wrapper an toàn cho localStorage
+    ├── features/              # Từng khối tính năng độc lập (kèm commands, i18n, scss riêng)
+    │   ├── gym/               # Trang tổng hợp (ghép 5 khối)
+    │   ├── arm/               # Điều khiển cánh tay servo
+    │   ├── led/               # Điều khiển LED đầu
+    │   ├── audio/             # Phát âm thanh & Text-to-Speech
+    │   ├── mic/               # Ghi âm và lắng nghe
+    │   ├── camera/            # Xem video HLS từ Pi
+    │   ├── wifi/              # Giao diện cấu hình
+    │   ├── askme/             # Khối hội thoại AI
+    │   └── intro/             # Trang giới thiệu
+    ├── i18n/                  # File cấu hình và từ điển dùng chung
+    └── styles/                # Sass: biến màu, reset và layout chung
 ```
 
 ---
 
-## 6. Tài liệu chi tiết (`docs/`)
+## 6. Tài liệu chi tiết (`docs/` & `.antigravity/`)
 
+- [Hợp đồng Phát triển & Nguyên tắc cốt lõi](.antigravity/project_rules.md): **10 điều khoản bất di bất dịch** bắt buộc Antigravity/AI tuân thủ khi viết code.
 - [Đặc tả lệnh MQTT](docs/mqtt-commands.md): Cú pháp lệnh, bảng lệnh, gói tin trạng thái Pi.
 - [Quy ước lập trình](docs/conventions.md): Giới hạn dòng (20/40/150), kiến trúc thư mục, BEM Sass, i18n.
-- [Quy trình Git & Review](docs/git-workflow.md): Quy ước đặt tên nhánh, Conventional Commits, mẫu PR.
+- [Quy trình Git (Solo Developer)](docs/git-workflow.md): Bảng tra cứu Conventional Commits, danh sách cấm commit.
 - [Hướng dẫn Triển khai](docs/deployment.md): Cấu hình deploy tự động lên GitHub Pages hoặc server riêng.
 
 ---
