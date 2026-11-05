@@ -16,8 +16,7 @@
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test": "echo \"No tests specified\"",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run build",
-    "prepare": "husky"
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run build"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
@@ -32,8 +31,6 @@
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
     "@eslint/js": "^9.21.0",
-    "@testing-library/react": "^16.2.0",
-    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
@@ -42,23 +39,10 @@
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
-    "husky": "^9.1.7",
-    "jsdom": "^26.0.0",
-    "lint-staged": "^15.4.3",
     "prettier": "^3.5.2",
     "sass": "^1.85.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0",
-    "vitest": "^3.0.6"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ],
-    "*.{scss,json,md}": [
-      "prettier --write"
-    ]
+    "vite": "^6.2.0"
   }
 }
