@@ -11,9 +11,10 @@ tjbot-web/
 ├── .antigravity/
 │   └── project_rules.md       # Bản hợp đồng phát triển tối cao (10 điều khoản)
 ├── .github/
-│   └── workflows/
-│       ├── ci.yml             # Tự động test, lint khi mở PR / push
-│       └── deploy.yml         # Tự động deploy GitHub Pages khi vào main
+│   ├── workflows/
+│   │   ├── ci.yml             # Tự động test, lint khi mở PR / push
+│   │   └── deploy.yml         # Tự động deploy GitHub Pages khi vào main
+│   └── pull_request_template.md # Mẫu kiểm tra chất lượng khi tạo PR để Copilot review
 ├── docs/
 │   ├── mqtt-commands.md       # Hợp đồng lệnh và trạng thái MQTT
 │   ├── conventions.md         # Quy ước code (dòng, file, BEM, i18n, structure)

@@ -62,9 +62,10 @@ tjbot-web/
 ├── .antigravity/
 │   └── project_rules.md       # Bản hợp đồng phát triển tối cao (10 điều khoản)
 ├── .github/
-│   └── workflows/
-│       ├── ci.yml             # Tự động test, lint khi mở PR / push
-│       └── deploy.yml         # Tự động deploy GitHub Pages khi vào main
+│   ├── workflows/
+│   │   ├── ci.yml             # Tự động test, lint khi mở PR / push
+│   │   └── deploy.yml         # Tự động deploy GitHub Pages khi vào main
+│   └── pull_request_template.md # Mẫu kiểm tra chất lượng khi tạo PR để Copilot review
 ├── docs/
 │   ├── mqtt-commands.md       # Hợp đồng lệnh và trạng thái MQTT
 │   ├── conventions.md         # Quy ước code (dòng, file, BEM, i18n, structure)
@@ -72,6 +73,7 @@ tjbot-web/
 │   └── deployment.md          # Hướng dẫn deploy Pages / Server riêng
 ├── public/
 │   └── vite.svg               # Icon ứng dụng
+├── ROADMAP.md                 # Bảng theo dõi tiến độ chi tiết từng task
 ├── .env.example               # Mẫu cấu hình môi trường
 ├── .gitignore                 # Chặn .env, node_modules, dist, tsbuildinfo
 ├── .nvmrc                     # Ghim Node.js LTS (v24)
@@ -113,6 +115,7 @@ tjbot-web/
 
 ## 6. Tài liệu chi tiết (`docs/` & `.antigravity/`)
 
+- [Lộ trình phát triển & Bảng tiến độ](ROADMAP.md): Bảng theo dõi tiến độ chi tiết từng task với checkbox xác nhận.
 - [Hợp đồng Phát triển & Nguyên tắc cốt lõi](.antigravity/project_rules.md): **10 điều khoản bất di bất dịch** bắt buộc Antigravity/AI tuân thủ khi viết code.
 - [Đặc tả lệnh MQTT](docs/mqtt-commands.md): Cú pháp lệnh, bảng lệnh, gói tin trạng thái Pi.
 - [Quy ước lập trình](docs/conventions.md): Giới hạn dòng (20/40/150), kiến trúc thư mục, BEM Sass, i18n.

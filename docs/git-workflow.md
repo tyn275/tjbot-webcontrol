@@ -1,20 +1,35 @@
-# Quy trình Làm việc Git (Solo Developer)
+# Quy trình Làm việc Git & Pull Request (Review cùng Copilot)
 
-> **QUY TẮC BẮT BUỘC**: Toàn bộ quy trình commit và kiểm soát chất lượng phải tuân thủ bản hợp đồng gốc tại [PROJECT RULES](../.antigravity/project_rules.md).
+> **QUY TẮC BẮT BUỘC**: Toàn bộ quy trình commit, tạo nhánh và kiểm soát chất lượng phải tuân thủ bản hợp đồng gốc tại [PROJECT RULES](../.antigravity/project_rules.md).
 
 ---
 
-## 1. Workflow hàng ngày
+## 1. Quy trình phát triển theo tính năng (Branch & PR Workflow)
+
+Mỗi tính năng hoặc sửa lỗi độc lập được triển khai trên một nhánh riêng và mở Pull Request để GitHub Copilot tự động review:
 
 ```bash
-# Làm xong một tính năng → kiểm tra → commit → push
-npm run check
-git add .
-git commit -m "feat(led): add rainbow effect selector"
-git push
-```
+# 1. Tạo nhánh mới từ main
+git checkout main
+git pull
+git checkout -b feature/TJB-xxx-ten-tinh-nang
 
-GitHub Actions tự động build và deploy lên GitHub Pages sau khi push vào `main`.
+# 2. Phát triển và kiểm tra chất lượng tại local
+npm run check
+
+# 3. Commit theo chuẩn Conventional Commits
+git add .
+git commit -m "feat(led): add color picker component"
+
+# 4. Đẩy nhánh lên GitHub và mở Pull Request
+git push -u origin feature/TJB-xxx-ten-tinh-nang
+
+# 5. Trên GitHub:
+# - Điền thông tin theo mẫu .github/pull_request_template.md
+# - Chờ CI chạy xanh toàn bộ
+# - Nhận xét và kiểm tra các góp ý từ GitHub Copilot Reviewer
+# - Thực hiện Squash and Merge vào nhánh main (deploy.yml sẽ tự động kích hoạt)
+```
 
 ---
 
@@ -50,7 +65,7 @@ GitHub Actions tự động build và deploy lên GitHub Pages sau khi push vào
 git commit -m "feat(arm): add canvas dial for servo angle control"
 git commit -m "fix(mqtt): handle reconnect on broker timeout"
 git commit -m "style(led): apply BEM class names to rainbow buttons"
-git commit -m "docs: link all doc files to project rules contract"
+git commit -m "docs: restore pull request template for copilot review"
 ```
 
 ---
