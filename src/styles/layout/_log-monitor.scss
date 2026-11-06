@@ -1,0 +1,16 @@
+.log-monitor {
+  background-color: #1e272e;
+  color: #2ecc71;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.82rem;
+  padding: 10px 18px;
+  height: 125px;
+  overflow-y: auto;
+  border-top: 2px solid #2c3e50;
+  box-sizing: border-box;
+
+  &__line {
+    line-height: 1.45;
+    word-break: break-all;
+  }
+}

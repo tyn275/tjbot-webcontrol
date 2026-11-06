@@ -2,7 +2,7 @@
 
 > **LƯU Ý DÀNH CHO ANTIGRAVITY / AI ASSISTANT**:
 > Đây là bản hợp đồng tối cao (Single Source of Truth) của repository `tjbot-webcontrol`.
-> Trước khi viết, chỉnh sửa hoặc đề xuất bất kỳ dòng code nào, bạn BẮT BUỘC phải đọc và tự đối chiếu với 9 điều khoản dưới đây.
+> Trước khi viết, chỉnh sửa hoặc đề xuất bất kỳ dòng code nào, bạn BẮT BUỘC phải đọc và tự đối chiếu với 11 điều khoản dưới đây.
 > Mọi vi phạm dù là nhỏ nhất đều bị coi là không hoàn thành nhiệm vụ.
 
 ---
@@ -123,3 +123,21 @@ Trước khi bàn giao bất kỳ task nào cho người dùng:
      `<label> [decorations]: <subject>`
      - Các label hợp lệ: `praise`, `nitpick`, `suggestion`, `issue`, `todo`, `question`, `thought`, `chore`.
      - Các decorations hợp lệ: `(blocking)`, `(non-blocking)`.
+
+---
+
+## ĐIỀU KHOẢN 11: QUY CHUẨN XUẤT NHẬP MODULE (MODULE EXPORT & IMPORT CONVENTION)
+
+1. **100% Named Export cho mã nội bộ**:
+   - Mọi component, hook, hàm tiện ích, đối tượng hằng số do dự án tự viết (trong `src/`) BẮT BUỘC sử dụng Named Export (`export const TenComponent = ...` hoặc `export { TenComponent }`).
+   - TUYỆT ĐỐI CẤM sử dụng `export default` trong mã nguồn nội bộ.
+
+2. **100% Named Import đồng bộ**:
+   - Mọi import từ mã nội bộ BẮT BUỘC dùng ngoặc nhọn `{ TenComponent }` từ file nguồn.
+   - Không được phép tự đặt tên khác tùy tiện lúc import.
+
+3. **Ngoại lệ duy nhất cho Side-effect Import**:
+   - Cú pháp `import './path/to/file'` chỉ được phép dùng cho:
+     - Nạp file style: `import './styles/main.scss'`.
+     - Nạp file cấu hình khởi tạo chạy ngầm một lần: `import './i18n/i18n'`.
+   - Các gói thư viện bên ngoài (third-party packages) được phép tuân theo cách thức export mà thư viện đó quy định.
