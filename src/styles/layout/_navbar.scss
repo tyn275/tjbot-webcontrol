@@ -1,0 +1,59 @@
+.navbar-custom {
+  background-color: #1e272e;
+  border-bottom: 2px solid #2c3e50;
+  height: 56px;
+  display: flex;
+  align-items: center;
+
+  &__brand {
+    font-size: 1.25rem;
+    color: #f1c40f;
+    letter-spacing: 0.5px;
+    user-select: none;
+  }
+
+  &__toggle-btn {
+    border-color: rgba(255, 255, 255, 255);
+    background-color: transparent;
+    color: #ffffff;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+}
+
+.connection-bar {
+  &__status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: #7f8c8d;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.15s ease;
+
+    &--connected {
+      background-color: #2ecc71;
+      box-shadow: 0 0 10px #2ecc71;
+    }
+  }
+
+  &__status-text {
+    font-size: 0.875rem;
+  }
+
+  &__group {
+    width: 200px;
+
+    .btn-outline-warning {
+      background-color: #1e272e;
+      border-color: #f1c40f;
+      color: #f1c40f;
+    }
+  }
+
+  &__input {
+    border-color: #f1c40f;
+  }
+}

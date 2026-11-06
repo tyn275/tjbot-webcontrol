@@ -1,9 +1,29 @@
 @use 'bootstrap/scss/bootstrap' as *;
 @use 'abstracts/variables';
 @use 'base/reset';
+@use 'layout/navbar';
+@use 'layout/sidebar';
+@use 'layout/log-monitor';
 
 .app-root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  &__body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: #f1f3f5;
+  }
+  &__viewport {
+    flex: 1;
+    padding: 1.25rem;
+  }
 }

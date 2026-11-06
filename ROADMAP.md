@@ -34,17 +34,17 @@
 
 _Mục tiêu giai đoạn: Ngay sau khi xong giai đoạn này, chạy `npm run dev` sẽ nhìn thấy 100% hình hài giao diện Dashboard trực quan trên trình duyệt (thanh điều khiển, menu sườn, khung log, và lưới 2 cột chứa 5 khối phần cứng)._
 
-- [ ] **T1.1: Cấu hình i18n & Khung SCSS Layout**
-  - [ ] `src/i18n/i18n.ts` & `src/i18n/common.i18n.ts`: Cấu hình `i18next` và từ điển từ ngữ chung (Kết nối, Ngắt, Đang tải...).
-  - [ ] `src/styles/layout/`: Các file SCSS BEM cho navbar, sidebar, connection bar, log monitor.
-- [ ] **T1.2: Thanh điều hướng trên cùng & Thanh kết nối (Navbar & ConnectionBar)**
-  - [ ] `src/app/layout/ConnectionBar.tsx`: Giao diện chọn `botId`, chấm đèn trạng thái, nút Kết nối / Ngắt.
-  - [ ] `src/app/layout/Navbar.tsx`: Tiêu đề trung tâm điều khiển, nút thu gọn / mở rộng menu sườn.
-- [ ] **T1.3: Menu sườn & Khung giám sát log (Sidebar & LogMonitor)**
-  - [ ] `src/app/layout/Sidebar.tsx`: Menu sườn 4 tab (Giới thiệu, Phòng tập, Hành động, Cấu hình).
-  - [ ] `src/app/layout/LogMonitor.tsx`: Khung đen hiển thị log dưới đáy màn hình, tự động cuộn dòng mới.
-- [ ] **T1.4: Lưới Phòng tập giữ chỗ (GymPage Skeleton)**
-  - [ ] `src/features/gym/GymPage.tsx`: Lưới 2 cột Bootstrap chứa sẵn 5 thẻ giữ chỗ (Placeholder Cards) cho Đèn LED, Cánh tay, Âm thanh, Micro, và Camera y hệt giao diện cũ.
+- [x] **T1.1: Cấu hình i18n & Khung SCSS Layout**
+  - [x] `src/i18n/i18n.ts` & `src/i18n/common.i18n.ts`: Cấu hình `i18next` và từ điển từ ngữ chung (Kết nối, Ngắt, Đang tải...).
+  - [x] `src/styles/layout/`: Các file SCSS BEM cho navbar, sidebar, connection bar, log monitor.
+- [x] **T1.2: Thanh điều hướng trên cùng & Thanh kết nối (Navbar & ConnectionBar)**
+  - [x] `src/app/layout/ConnectionBar.tsx`: Giao diện chọn `botId`, chấm đèn trạng thái, nút Kết nối / Ngắt.
+  - [x] `src/app/layout/Navbar.tsx`: Tiêu đề trung tâm điều khiển, nút thu gọn / mở rộng menu sườn.
+- [x] **T1.3: Menu sườn & Khung giám sát log (Sidebar & LogMonitor)**
+  - [x] `src/app/layout/Sidebar.tsx`: Menu sườn 4 tab (Giới thiệu, Phòng tập, Hành động, Cấu hình).
+  - [x] `src/app/layout/LogMonitor.tsx`: Khung đen hiển thị log dưới đáy màn hình, tự động cuộn dòng mới.
+- [x] **T1.4: Lưới Phòng tập giữ chỗ (GymPage Skeleton)**
+  - [x] `src/features/gym/GymPage.tsx`: Lưới 2 cột Bootstrap chứa sẵn 5 thẻ giữ chỗ (Placeholder Cards) cho Đèn LED, Cánh tay, Âm thanh, Micro, và Camera y hệt giao diện cũ.
 - [ ] **T1.5: Trang giới thiệu & Điều hướng tab (IntroPage & Router)**
   - [ ] `src/features/intro/IntroPage.tsx`: Nhúng iframe Toolhub.
   - [ ] `src/app/routes.tsx` & `src/app/App.tsx`: Lắp ráp layout và xử lý chuyển đổi giữa 4 tab.
