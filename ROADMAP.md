@@ -45,9 +45,9 @@ _Mục tiêu giai đoạn: Ngay sau khi xong giai đoạn này, chạy `npm run 
   - [x] `src/app/layout/LogMonitor.tsx`: Khung đen hiển thị log dưới đáy màn hình, tự động cuộn dòng mới.
 - [x] **T1.4: Lưới Phòng tập giữ chỗ (GymPage Skeleton)**
   - [x] `src/features/gym/GymPage.tsx`: Lưới 2 cột Bootstrap chứa sẵn 5 thẻ giữ chỗ (Placeholder Cards) cho Đèn LED, Cánh tay, Âm thanh, Micro, và Camera y hệt giao diện cũ.
-- [ ] **T1.5: Trang giới thiệu & Điều hướng tab (IntroPage & Router)**
-  - [ ] `src/features/intro/IntroPage.tsx`: Nhúng iframe Toolhub.
-  - [ ] `src/app/routes.tsx` & `src/app/App.tsx`: Lắp ráp layout và xử lý chuyển đổi giữa 4 tab.
+- [x] **T1.5: Trang giới thiệu & Điều hướng tab (IntroPage & Router)**
+  - [x] `src/features/intro/IntroPage.tsx`: Nhúng iframe Toolhub.
+  - [x] `src/app/App.tsx`: Lắp ráp layout và xử lý chuyển đổi giữa các tab.
 
 ---
 

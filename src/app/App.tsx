@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Navbar } from './layout/Navbar'
 import { Sidebar, type TabId } from './layout/Sidebar'
 import { LogMonitor } from './layout/LogMonitor'
+import { IntroPage } from '../features/intro/IntroPage'
 import { GymPage } from '../features/gym/GymPage'
 
 // Định dạng nhật ký hành động giao diện người dùng
@@ -72,7 +73,10 @@ export const App: FC = () => {
       <div className="app-root__body">
         <Sidebar isCollapsed={isCollapsed} activeTab={activeTab} onSelectTab={selectTab} />
         <main className="app-root__main">
-          <div className="app-root__viewport">{activeTab === 'gym' && <GymPage />}</div>
+          <div className="app-root__viewport">
+            {activeTab === 'intro' && <IntroPage />}
+            {activeTab === 'gym' && <GymPage />}
+          </div>
           <LogMonitor logs={logs} />
         </main>
       </div>
