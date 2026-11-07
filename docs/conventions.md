@@ -34,7 +34,10 @@ tjbot-webcontrol/
 │   ├── tsconfig.json        # Cấu hình TypeScript cho Backend (kế thừa base)
 │   ├── package.json         # Thư viện & scripts cho Backend
 │   └── src/
-│       └── index.ts         # Điểm khởi động máy chủ Backend TypeScript
+│       ├── index.ts         # Điểm khởi động máy chủ Backend TypeScript
+│       ├── config/          # Quản lý nạp biến môi trường server (env.ts)
+│       ├── routes/          # Định tuyến API lệnh robot (command.route.ts)
+│       └── services/        # Dịch vụ MQTT Gateway, SSE Stream, Format trạng thái
 ├── docs/                    # Tài liệu kỹ thuật chuyên sâu (mqtt, conventions, deployment...)
 ├── .antigravity/            # Bản hợp đồng phát triển tối cao (project_rules.md)
 ├── .github/workflows/ci.yml # Luồng kiểm tra chất lượng tự động CI
@@ -48,16 +51,24 @@ Mỗi tính năng trong thư mục `client/src/features/<feature>/` phải tự 
 
 ```text
 features/led/
-├── LedPanel.tsx           # Component chính của tính năng
-├── components/            # Các component con nhỏ
-│   ├── ColorPicker.tsx
-│   ├── BlinkControl.tsx
-│   └── RainbowButtons.tsx
-├── hooks/                 # Custom hook quản lý logic & vòng đời
-│   └── useLed.ts
-├── led.commands.ts        # Định nghĩa các lệnh gửi MQTT qua buildCommand
-├── led.i18n.ts            # Từ điển đa ngôn ngữ (vi, en) của tính năng
-└── led.scss               # Style SCSS riêng của tính năng (chuẩn BEM)
+├── LedHexCard.tsx           # Component card chính tích hợp 3 phân hệ LED
+├── components/              # Các component con nhỏ (<= 40 dòng)
+│   ├── ColorPickerHex.tsx   # Khối LED 1: Chọn màu Palette & Hex
+│   ├── RgbInputGroup.tsx    # Khối LED 2: Nhập R-G-B (0..255)
+│   ├── LedSectionLayout.tsx # Layout lớp cha chuẩn hóa LED 1 & 2
+│   ├── BlinkControl.tsx     # Khối cấu hình chớp sáng
+│   ├── RainbowButtons.tsx   # Khối LED 3: Các nút hiệu ứng dải màu
+│   ├── RainbowStopButton.tsx # Nút tắt hiệu ứng LED 3
+│   ├── WandSim.tsx          # Cây đũa phép mô phỏng hiệu ứng LED 3
+│   └── LedBulbSim.tsx       # Bóng đèn mô phỏng phát sáng LED 1 & 2
+├── hooks/                   # Custom hooks chuyên biệt (<= 40 dòng)
+│   ├── useLedHex.ts
+│   ├── useLedRgb.ts
+│   ├── useLedRainbow.ts
+│   └── useLedActions.ts
+├── led.commands.ts          # Định nghĩa các lệnh gửi MQTT qua buildCommand
+├── led.i18n.ts              # Từ điển đa ngôn ngữ (vi, en) của tính năng
+└── led.scss                 # Style SCSS riêng của tính năng (chuẩn BEM)
 ```
 
 ---
@@ -77,8 +88,8 @@ features/led/
 ## 3. Kiến trúc Luồng Dữ liệu
 
 1. **Phân tách module**: Các thư mục tính năng trong `client/src/features/` tuyệt đối **không** import lẫn nhau. Tài nguyên dùng chung phải đặt tại `client/src/core/` hoặc `client/src/services/`.
-2. **Component không gọi MQTT trực tiếp**: Component chỉ tương tác qua Hook chuyên biệt (`useLed`, `useArm`,...). Hook gọi file lệnh `*.commands.ts`, và file này sử dụng `buildCommand()`.
-3. **Quản lý kết nối**: Thực thể kết nối MQTT được quản lý tập trung trong `MqttProvider`, các component lấy dữ liệu qua `useMqtt()`.
+2. **Component không gọi MQTT trực tiếp**: Component chỉ tương tác qua Hook chuyên biệt (`useLedHex`, `useArm`,...). Hook gọi file lệnh `*.commands.ts`, và file này sử dụng `buildCommand()`.
+3. **Quản lý kết nối**: Kết nối MQTT Broker được duy trì bảo mật tại Backend Gateway (`server/src/services/mqtt.service.ts`). Client điều phối kết nối qua hook `useMqttConnection()` và nhận log realtime qua `useLogStream()` (Server-Sent Events).
 4. **Giải phóng tài nguyên**: Mọi timer (`setInterval`), luồng camera (`hls.destroy()`), và đăng ký sự kiện MQTT phải được dọn dẹp trong hàm return của `useEffect`.
 5. **Truy cập lưu trữ**: Đọc/ghi `localStorage` luôn đi qua `client/src/services/storage/storage.ts` có khối `try/catch` và giá trị mặc định.
 

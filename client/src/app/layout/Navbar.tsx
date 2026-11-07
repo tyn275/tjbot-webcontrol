@@ -8,6 +8,7 @@ export interface NavbarProps {
   onToggleSidebar: () => void
   botId: string
   isConnected: boolean
+  isConnecting?: boolean
   onBotIdChange: (id: string) => void
   onToggleConnect: () => void
 }
@@ -17,6 +18,7 @@ export const Navbar: FC<NavbarProps> = ({
   onToggleSidebar,
   botId,
   isConnected,
+  isConnecting = false,
   onBotIdChange,
   onToggleConnect,
 }) => {
@@ -43,6 +45,7 @@ export const Navbar: FC<NavbarProps> = ({
           <ConnectionBar
             botId={botId}
             isConnected={isConnected}
+            isConnecting={isConnecting}
             onBotIdChange={onBotIdChange}
             onToggleConnect={onToggleConnect}
           />

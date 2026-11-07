@@ -56,4 +56,17 @@
   &__input {
     border-color: #f1c40f;
   }
+
+  &__btn {
+    min-width: 90px;
+    transition: all 0.2s ease;
+
+    &:disabled,
+    &--connecting {
+      opacity: 0.65;
+      cursor: not-allowed;
+      pointer-events: auto !important;
+      color: #9e9e9e !important;
+    }
+  }
 }

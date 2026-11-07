@@ -1,92 +1,58 @@
 import { useState, type FC } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Navbar } from './layout/Navbar'
 import { Sidebar, type TabId } from './layout/Sidebar'
 import { LogMonitor } from './layout/LogMonitor'
 import { IntroPage } from '../features/intro/IntroPage'
 import { GymPage } from '../features/gym/GymPage'
+import { useMqttConnection } from './hooks/useMqttConnection'
+import { useLogStream } from './hooks/useLogStream'
 
-// Định dạng nhật ký hành động giao diện người dùng
-const createUiLog = (text: string): string => `[${new Date().toLocaleTimeString()}] [UI] ${text}`
-
-// Hook quản lý trạng thái thanh điều hướng, tab và kết nối giao diện
-const useDashboard = () => {
-  const { t } = useTranslation()
+const useNavigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [activeTab, setActiveTab] = useState<TabId>('gym')
   const [hasVisitedIntro, setHasVisitedIntro] = useState(false)
-  const [botId, setBotId] = useState('tjbot1')
-  const [isConnected, setIsConnected] = useState(false)
-  const [logs, setLogs] = useState<string[]>([])
 
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed)
-    const key = !isCollapsed ? 'logSidebarCollapsed' : 'logSidebarExpanded'
-    setLogs((prev) => [...prev, createUiLog(t(key))])
-  }
-
+  const toggleSidebar = () => setIsCollapsed((prev) => !prev)
   const selectTab = (tab: TabId) => {
     setActiveTab(tab)
     if (tab === 'intro') setHasVisitedIntro(true)
-    setLogs((prev) => [...prev, createUiLog(t('logNavigated', { route: tab.toUpperCase() }))])
   }
 
-  const toggleConnect = () => {
-    setIsConnected(!isConnected)
-    const action = !isConnected ? t('connected') : t('disconnected')
-    setLogs((prev) => [...prev, createUiLog(`[MQTT] ${action}: ${botId}`)])
-  }
-
-  return {
-    isCollapsed,
-    activeTab,
-    hasVisitedIntro,
-    botId,
-    isConnected,
-    logs,
-    setBotId,
-    toggleSidebar,
-    selectTab,
-    toggleConnect,
-  }
+  return { isCollapsed, activeTab, hasVisitedIntro, toggleSidebar, selectTab }
 }
 
 export const App: FC = () => {
-  const {
-    isCollapsed,
-    activeTab,
-    hasVisitedIntro,
-    botId,
-    isConnected,
-    logs,
-    setBotId,
-    toggleSidebar,
-    selectTab,
-    toggleConnect,
-  } = useDashboard()
+  const [botId, setBotId] = useState('tjbot1')
+  const nav = useNavigation()
+  const logStream = useLogStream()
+  const { isConnected, isConnecting, toggleConnect } = useMqttConnection(botId)
 
   return (
     <div className="app-root">
       <Navbar
-        onToggleSidebar={toggleSidebar}
+        onToggleSidebar={nav.toggleSidebar}
         botId={botId}
         isConnected={isConnected}
+        isConnecting={isConnecting}
         onBotIdChange={setBotId}
         onToggleConnect={toggleConnect}
       />
       <div className="app-root__body">
-        <Sidebar isCollapsed={isCollapsed} activeTab={activeTab} onSelectTab={selectTab} />
+        <Sidebar
+          isCollapsed={nav.isCollapsed}
+          activeTab={nav.activeTab}
+          onSelectTab={nav.selectTab}
+        />
         <main className="app-root__main">
           <div className="app-root__viewport">
-            {/* Chỉ riêng iframe Giới thiệu là tải 1 lần và ẩn/hiện bằng CSS */}
-            {hasVisitedIntro && (
-              <div className={`h-100 ${activeTab !== 'intro' ? 'd-none' : ''}`}>
+            {nav.hasVisitedIntro && (
+              <div className={`h-100 ${nav.activeTab !== 'intro' ? 'd-none' : ''}`}>
                 <IntroPage />
               </div>
             )}
-            {activeTab === 'gym' && <GymPage />}
+            {nav.activeTab === 'gym' && <GymPage botId={botId} isConnected={isConnected} />}
           </div>
-          <LogMonitor logs={logs} />
+          <LogMonitor logs={logStream.logs} />
         </main>
       </div>
     </div>

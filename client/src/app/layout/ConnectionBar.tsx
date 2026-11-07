@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 export interface ConnectionBarProps {
   botId: string
   isConnected: boolean
+  isConnecting?: boolean
   onBotIdChange: (id: string) => void
   onToggleConnect: () => void
 }
@@ -58,6 +59,7 @@ const BotIdSelector: FC<BotIdSelectorProps> = ({ botId, placeholder, onBotIdChan
 export const ConnectionBar: FC<ConnectionBarProps> = ({
   botId,
   isConnected,
+  isConnecting = false,
   onBotIdChange,
   onToggleConnect,
 }) => {
@@ -79,7 +81,10 @@ export const ConnectionBar: FC<ConnectionBarProps> = ({
       />
       <button
         type="button"
-        className={`btn btn-sm fw-bold px-3 ${isConnected ? 'btn-danger' : 'btn-success'}`}
+        disabled={isConnecting}
+        className={`btn btn-sm fw-bold px-3 connection-bar__btn ${
+          isConnected ? 'btn-danger' : 'btn-success'
+        } ${isConnecting ? 'connection-bar__btn--connecting' : ''}`}
         onClick={onToggleConnect}
       >
         {isConnected ? t('disconnect') : t('connect')}
