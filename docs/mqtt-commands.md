@@ -9,8 +9,8 @@ Tài liệu này quy định giao thức và định dạng dữ liệu trao đ�
 ## 1. Kết nối Broker
 
 - **Giao thức**: WebSocket bảo mật (`wss://`)
-- **URL**: `wss://<MQTT_HOST>:<MQTT_PORT><MQTT_PATH>` (mặc định cấu hình trong `.env`)
-- **Tài khoản**: Username là `botId`, mật khẩu từ cấu hình.
+- **URL**: `wss://<MQTT_HOST>:<MQTT_PORT><MQTT_PATH>` (mặc định cấu hình trong `server/.env`)
+- **Tài khoản**: Username là `botId`, mật khẩu `MQTT_PASSWORD` bảo mật từ `server/.env`.
 - **Client ID của Web**: `web-client-<botId>-<4 ký tự ngẫu nhiên>`
 - **Timeout kết nối**: 5 giây
 - **Topic gửi lệnh**: `<botId>/commands`
@@ -24,7 +24,7 @@ Tài liệu này quy định giao thức và định dạng dữ liệu trao đ�
 1. Mỗi lệnh là **một chuỗi duy nhất** dạng `Tên(tham số 1, tham số 2, ...)`.
 2. Phía Raspberry Pi dùng regex `^(\w+)\((.*)\)$` để bóc tách tên hàm và tham số.
 3. Tham số được Pi giải mã bằng `ast.literal_eval`, do đó **chuỗi phải nằm trong dấu nháy kép (`"`)** và **số để nguyên**.
-4. **Quy tắc vàng**: Mọi lệnh gửi đi bắt buộc phải tạo thông qua hàm duy nhất `buildCommand(name, ...args)` trong `services/mqtt/command.ts`. Tuyệt đối không tự ghép chuỗi thủ công trong component.
+4. **Quy tắc vàng**: Mọi lệnh gửi đi bắt buộc phải tạo thông qua hàm duy nhất `buildCommand(name, ...args)` trong `client/src/services/mqtt/command.ts`. Tuyệt đối không tự ghép chuỗi thủ công trong component.
 
 ---
 

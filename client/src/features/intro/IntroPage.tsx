@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
-// Hằng số URL trang tài liệu và trợ lý Toolhub của TJBot
+// Trang tài liệu gốc Toolhub của TJBot
 const TOOLHUB_URL = 'https://toolhub.app/tjbot/'
 
 // Trang hiển thị thông tin giới thiệu và tài liệu hướng dẫn TJBot

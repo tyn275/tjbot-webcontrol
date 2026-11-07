@@ -39,12 +39,7 @@ jobs:
 
       - name: Run Quality Gate Check
         env:
-          BASE_PATH: /${{ github.event.repository.name }}/
-          MQTT_HOST: ${{ vars.MQTT_HOST }}
-          MQTT_PORT: ${{ vars.MQTT_PORT }}
-          MQTT_PATH: ${{ vars.MQTT_PATH }}
-          MQTT_PASSWORD: ${{ secrets.MQTT_PASSWORD }}
-          RTSP_PUSH_BASE: ${{ vars.RTSP_PUSH_BASE }}
-          HLS_BASE_URL: ${{ vars.HLS_BASE_URL }}
-          DEFAULT_BOT_ID: ${{ vars.DEFAULT_BOT_ID }}
+          API_URL: ${{ vars.API_URL || 'http://localhost:5000' }}
+          HLS_BASE_URL: ${{ vars.HLS_BASE_URL || 'https://media.toolhub.app' }}
+          DEFAULT_BOT_ID: ${{ vars.DEFAULT_BOT_ID || 'tjbot1' }}
         run: npm run check

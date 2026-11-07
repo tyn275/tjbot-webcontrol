@@ -28,7 +28,7 @@ git push -u origin feature/TJB-xxx-ten-tinh-nang
 # - Điền thông tin theo mẫu .github/pull_request_template.md
 # - Chờ CI chạy xanh toàn bộ
 # - Nhận xét và kiểm tra các góp ý từ GitHub Copilot Reviewer
-# - Thực hiện Squash and Merge vào nhánh main (deploy.yml sẽ tự động kích hoạt)
+# - Thực hiện Squash and Merge vào nhánh main sau khi CI Quality Gate đã xanh 100%
 ```
 
 ---
@@ -52,12 +52,12 @@ git push -u origin feature/TJB-xxx-ten-tinh-nang
 | `docs`     | Thêm hoặc cập nhật tài liệu Markdown                             |
 | `test`     | Thêm hoặc chỉnh sửa các kịch bản kiểm thử                        |
 | `build`    | Thay đổi cấu hình build, Vite, TypeScript, hoặc gói dependencies |
-| `ci`       | Thay đổi kịch bản GitHub Actions (`ci.yml`, `deploy.yml`)        |
+| `ci`       | Thay đổi kịch bản GitHub Actions (`ci.yml`)                      |
 | `chore`    | Các công việc lặt vặt khác không ảnh hưởng mã nguồn chính        |
 | `perf`     | Tối ưu hóa hiệu năng, giảm bộ nhớ, tăng tốc độ                   |
 
 **Các scope hợp lệ:**
-`arm`, `led`, `audio`, `mic`, `camera`, `wifi`, `askme`, `gym`, `intro`, `mqtt`, `ai`, `storage`, `i18n`, `styles`, `core`, `app`, `deps`, `ci`, `docs`
+`arm`, `led`, `audio`, `mic`, `camera`, `wifi`, `askme`, `gym`, `intro`, `mqtt`, `ai`, `storage`, `i18n`, `styles`, `core`, `app`, `layout`, `deps`, `ci`, `docs`, `client`, `server`
 
 **Ví dụ thực tế:**
 
@@ -65,13 +65,13 @@ git push -u origin feature/TJB-xxx-ten-tinh-nang
 git commit -m "feat(arm): add canvas dial for servo angle control"
 git commit -m "fix(mqtt): handle reconnect on broker timeout"
 git commit -m "style(led): apply BEM class names to rainbow buttons"
-git commit -m "docs: restore pull request template for copilot review"
+git commit -m "docs: update monorepo structure in readme and conventions"
 ```
 
 ---
 
 ## 3. Tuyệt đối không được commit
 
-- File `.env` (chứa mật khẩu MQTT) → đã được `.gitignore` chặn tự động.
-- Thư mục `dist/` → đã được `.gitignore` chặn tự động, GitHub Actions lo phần build deploy.
+- File `.env` (chứa mật khẩu MQTT hoặc API Key) → đã được `.gitignore` chặn tự động.
+- Thư mục `dist/` (ở cả `client/` và `server/`) → đã được `.gitignore` và `.prettierignore` chặn tự động.
 - File `*.tsbuildinfo` → đã được `.gitignore` chặn tự động.

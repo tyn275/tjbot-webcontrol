@@ -14,18 +14,20 @@ const useDashboard = () => {
   const { t } = useTranslation()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [activeTab, setActiveTab] = useState<TabId>('gym')
+  const [hasVisitedIntro, setHasVisitedIntro] = useState(false)
   const [botId, setBotId] = useState('tjbot1')
   const [isConnected, setIsConnected] = useState(false)
   const [logs, setLogs] = useState<string[]>([])
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed)
-    const msg = !isCollapsed ? t('logSidebarCollapsed') : t('logSidebarExpanded')
-    setLogs((prev) => [...prev, createUiLog(msg)])
+    const key = !isCollapsed ? 'logSidebarCollapsed' : 'logSidebarExpanded'
+    setLogs((prev) => [...prev, createUiLog(t(key))])
   }
 
   const selectTab = (tab: TabId) => {
     setActiveTab(tab)
+    if (tab === 'intro') setHasVisitedIntro(true)
     setLogs((prev) => [...prev, createUiLog(t('logNavigated', { route: tab.toUpperCase() }))])
   }
 
@@ -38,6 +40,7 @@ const useDashboard = () => {
   return {
     isCollapsed,
     activeTab,
+    hasVisitedIntro,
     botId,
     isConnected,
     logs,
@@ -52,6 +55,7 @@ export const App: FC = () => {
   const {
     isCollapsed,
     activeTab,
+    hasVisitedIntro,
     botId,
     isConnected,
     logs,
@@ -74,7 +78,12 @@ export const App: FC = () => {
         <Sidebar isCollapsed={isCollapsed} activeTab={activeTab} onSelectTab={selectTab} />
         <main className="app-root__main">
           <div className="app-root__viewport">
-            {activeTab === 'intro' && <IntroPage />}
+            {/* Chỉ riêng iframe Giới thiệu là tải 1 lần và ẩn/hiện bằng CSS */}
+            {hasVisitedIntro && (
+              <div className={`h-100 ${activeTab !== 'intro' ? 'd-none' : ''}`}>
+                <IntroPage />
+              </div>
+            )}
             {activeTab === 'gym' && <GymPage />}
           </div>
           <LogMonitor logs={logs} />
