@@ -5,11 +5,13 @@
 @use 'layout/sidebar';
 @use 'layout/log-monitor';
 @use 'layout/intro';
+@use '../features/led/led';
 
 .app-root {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   &__body {
     display: flex;
@@ -20,13 +22,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow: hidden;
     background-color: #f1f3f5;
   }
   &__viewport {
     flex: 1;
-    display: flex;
-    flex-direction: column;
+    overflow-y: auto;
     padding: 1.25rem;
   }
 }

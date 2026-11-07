@@ -53,12 +53,12 @@ cp client/.env.example client/.env
 cp server/.env.example server/.env
 
 # 4. Khởi chạy môi trường phát triển
-# Chạy giao diện Frontend (mặc định tại http://localhost:5173)
+# Chạy đồng thời cả Backend (cổng 5000) và Frontend (cổng 5173)
 npm run dev
 
 # Hoặc khởi chạy riêng từng phân hệ
-npm run dev:client     # Chạy Frontend Vite Dev Server
-npm run dev:server     # Chạy Backend Node.js Server
+npm run dev:client     # Chạy riêng Frontend Vite Dev Server (http://localhost:5173)
+npm run dev:server     # Chạy riêng Backend Node.js Server (http://localhost:5000)
 ```
 
 ---
@@ -67,7 +67,7 @@ npm run dev:server     # Chạy Backend Node.js Server
 
 | Script                 | Ý nghĩa thực thi                                                                      |
 | ---------------------- | ------------------------------------------------------------------------------------- |
-| `npm run dev`          | Khởi chạy máy chủ phát triển Frontend (`client/`)                                     |
+| `npm run dev`          | Khởi chạy đồng thời cả Backend (5000) và Frontend (5173) qua `concurrently`           |
 | `npm run dev:client`   | Khởi chạy máy chủ phát triển Frontend (`client/`)                                     |
 | `npm run dev:server`   | Khởi chạy máy chủ phát triển Backend (`server/`)                                      |
 | `npm run build`        | Đóng gói ứng dụng Frontend production (`client/dist`)                                 |
@@ -102,8 +102,8 @@ tjbot-webcontrol/
 │       ├── vite-env.d.ts    # Khai báo kiểu môi trường __APP_ENV__
 │       ├── app/             # App component & layout (Navbar, Sidebar, LogMonitor...)
 │       ├── core/            # hardware-limits.ts, env.ts
-│       ├── services/        # mqtt, storage...
-│       ├── features/        # gym, arm, led, audio, mic, camera, wifi, askme, intro...
+│       ├── services/        # api (REST, SSE), logger, mqtt (command), storage
+│       ├── features/        # gym, led, arm, audio, mic, camera, wifi, askme, intro...
 │       ├── i18n/            # Cấu hình và từ điển song ngữ (vi/en)
 │       └── styles/          # Sass BEM: variables, reset và layout
 ├── server/                  # Phân hệ Backend (Node.js + TypeScript cho máy chủ phòng Lab)
@@ -111,7 +111,10 @@ tjbot-webcontrol/
 │   ├── tsconfig.json        # Cấu hình TypeScript cho Backend (kế thừa base)
 │   ├── package.json         # Thư viện runtime của Backend
 │   └── src/
-│       └── index.ts         # Điểm khởi động máy chủ Backend TypeScript
+│       ├── index.ts         # Điểm khởi động máy chủ Backend TypeScript
+│       ├── config/          # Quản lý nạp biến môi trường server (env.ts)
+│       ├── routes/          # Định tuyến API (command.route.ts...)
+│       └── services/        # Dịch vụ MQTT Gateway, SSE Stream, Format trạng thái
 ├── docs/                    # Tài liệu kỹ thuật chuyên sâu (mqtt, conventions, deployment...)
 ├── .antigravity/            # Bản hợp đồng phát triển tối cao (project_rules.md)
 └── ROADMAP.md               # Bảng theo dõi tiến độ chi tiết từng task

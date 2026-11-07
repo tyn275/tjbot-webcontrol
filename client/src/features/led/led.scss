@@ -1,0 +1,245 @@
+@use '../../styles/abstracts/variables' as *;
+
+.led {
+  background-color: #fff;
+
+  &__icon-box {
+    background-color: #f0f3ff;
+    color: #5f27cd;
+  }
+
+  &__bulb-sim {
+    min-width: 120px;
+    min-height: 130px;
+  }
+
+  &__bulb-svg {
+    color: var(--led-sim-color, currentColor);
+    filter: drop-shadow(0 0 15px var(--led-sim-color, transparent));
+    transition: all 0.3s ease;
+  }
+
+  &__bulb-tag {
+    font-size: 0.7rem;
+  }
+
+  &__hex-input {
+    max-width: 130px;
+  }
+
+  &__color-native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  &__rgb-field {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  &__rgb-badge {
+    width: 32px;
+    justify-content: center;
+    border: none;
+    flex-shrink: 0;
+
+    &--r {
+      background-color: #dc3545;
+    }
+
+    &--g {
+      background-color: #198754;
+    }
+
+    &--b {
+      background-color: #0d6efd;
+    }
+  }
+
+  &__rgb-input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  &__blink-box {
+    font-size: 0.8rem;
+  }
+
+  &__blink-input {
+    width: 48px;
+  }
+
+  &__recognized-text {
+    font-size: 0.72rem;
+  }
+
+  &__color-name {
+    color: var(--led-sim-color, currentColor);
+  }
+
+  &__rainbow-title {
+    background: linear-gradient(
+      to right,
+      #ef5350,
+      #f48fb1,
+      #7e57c2,
+      #2196f3,
+      #26c6da,
+      #43a047,
+      #eeff41,
+      #f9a825,
+      #ff5722
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    display: inline-block;
+  }
+
+  &__wand-svg {
+    color: #6c757d;
+    transition: all 0.3s ease;
+
+    &--active {
+      animation: rainbowGlow 3s linear infinite;
+    }
+  }
+
+  &__text-red {
+    color: #d63031;
+    font-weight: 700;
+  }
+
+  &__text-green {
+    color: #00b894;
+    font-weight: 700;
+  }
+
+  &__text-pearl {
+    color: #596275;
+    font-weight: 700;
+  }
+
+  &__dash {
+    display: inline-block;
+    margin: 0 4px;
+    font-weight: 800;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    &--rg {
+      background-image: linear-gradient(to right, #d63031, #00b894);
+    }
+
+    &--rw {
+      background-image: linear-gradient(to right, #d63031, #596275);
+    }
+
+    &--gw {
+      background-image: linear-gradient(to right, #00b894, #596275);
+    }
+  }
+
+  &__btn-ombre {
+    font-weight: 700;
+    border: 1.5px solid transparent;
+    border-radius: 6px;
+    flex: 1 1 0;
+    min-width: 0;
+    transition: all 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      filter: brightness(1.03);
+    }
+
+    &--rg {
+      background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        linear-gradient(135deg, #e74c3c 0%, #2ecc71 100%) border-box;
+
+      &:hover {
+        background:
+          linear-gradient(#fafafa, #fafafa) padding-box,
+          linear-gradient(135deg, #e74c3c 0%, #2ecc71 100%) border-box;
+      }
+    }
+
+    &--rw {
+      background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        linear-gradient(135deg, #e74c3c 0%, #bdc3c7 100%) border-box;
+
+      &:hover {
+        background:
+          linear-gradient(#fafafa, #fafafa) padding-box,
+          linear-gradient(135deg, #e74c3c 0%, #bdc3c7 100%) border-box;
+      }
+    }
+
+    &--gw {
+      background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        linear-gradient(135deg, #2ecc71 0%, #bdc3c7 100%) border-box;
+
+      &:hover {
+        background:
+          linear-gradient(#fafafa, #fafafa) padding-box,
+          linear-gradient(135deg, #2ecc71 0%, #bdc3c7 100%) border-box;
+      }
+    }
+  }
+
+  &__btn-7color {
+    background: linear-gradient(45deg, #d63031, #0984e3);
+    color: #ffffff;
+    font-weight: 700;
+    border: none;
+    flex: 1 1 0;
+    min-width: 0;
+
+    &:hover {
+      filter: brightness(1.1);
+      color: #ffffff;
+    }
+  }
+
+  &__btn-breath {
+    font-weight: 700;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+@keyframes rainbowGlow {
+  0% {
+    color: #ff0000;
+    filter: drop-shadow(0 0 15px #ff0000);
+  }
+  20% {
+    color: #ffff00;
+    filter: drop-shadow(0 0 15px #ffff00);
+  }
+  40% {
+    color: #00ff00;
+    filter: drop-shadow(0 0 15px #00ff00);
+  }
+  60% {
+    color: #00ffff;
+    filter: drop-shadow(0 0 15px #00ffff);
+  }
+  80% {
+    color: #0000ff;
+    filter: drop-shadow(0 0 15px #0000ff);
+  }
+  100% {
+    color: #ff00ff;
+    filter: drop-shadow(0 0 15px #ff00ff);
+  }
+}

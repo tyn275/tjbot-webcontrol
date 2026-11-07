@@ -12,7 +12,7 @@
     "server"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=client",
+    "dev": "concurrently -n \"server,client\" -c \"magenta,cyan\" \"npm run dev:server\" \"npm run dev:client\"",
     "dev:client": "npm run dev --workspace=client",
     "dev:server": "npm run dev --workspace=server",
     "build": "npm run build --workspace=client",
@@ -28,6 +28,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
+    "concurrently": "^10.0.7",
     "prettier": "^3.5.2"
   }
 }

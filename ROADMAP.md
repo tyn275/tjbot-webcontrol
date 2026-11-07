@@ -58,36 +58,42 @@ _Mục tiêu giai đoạn: Xây dựng bộ não truyền nhận dữ liệu ng�
 - [x] **T2.1: Giới hạn phần cứng & Bộ nhớ cục bộ**
   - [x] `client/src/core/hardware-limits.ts`: Các hằng số vật lý (góc -90..90 độ, throttle 60ms, TTS tối đa 200 từ).
   - [x] `client/src/services/storage/storage.ts`: Wrapper `localStorage` an toàn có `try/catch` và giá trị mặc định.
-- [ ] **T2.2: Định nghĩa Topic & Cổng phát lệnh duy nhất**
-  - [ ] `client/src/services/mqtt/topics.ts`: Topic gửi lệnh và nhận trạng thái theo `botId`.
-  - [ ] `client/src/services/mqtt/command.ts`: Hàm duy nhất `buildCommand(name, ...args)` bọc nháy kép chuỗi qua `JSON.stringify`, giữ nguyên số.
-- [ ] **T2.3: Giải mã trạng thái & Nhật ký hệ thống**
-  - [ ] `client/src/services/mqtt/status-parser.ts`: Bóc tách `s2t=...`, `cam=on/off`, báo cáo mạng và log từ Pi.
-  - [ ] `client/src/core/logger.ts`: Quản lý danh sách log tối đa 100 dòng, render text thuần túy (chống XSS 100%).
-- [ ] **T2.4: Kết nối MQTT Client & Đấu nối giao diện**
-  - [ ] `client/src/services/mqtt/mqtt-client.ts`: Quản lý WebSocket qua `mqtt.js`, tự động kết nối lại khi mất mạng.
-  - [ ] `client/src/services/mqtt/MqttProvider.tsx` & `client/src/services/mqtt/useMqtt.ts`: Context và hook điều khiển kết nối.
-  - [ ] Đấu nối `useMqtt` vào `ConnectionBar.tsx` và `LogMonitor.tsx` (bấm Kết nối / Ngắt chạy thật trên giao diện).
+- [x] **T2.2: Định nghĩa Cổng phát lệnh duy nhất & Điều phối lệnh Backend**
+  - [x] `client/src/services/mqtt/command.ts`: Hàm duy nhất `buildCommand(name, ...args)` bọc nháy kép chuỗi qua `JSON.stringify`, giữ nguyên số.
+  - [x] `server/src/routes/command.route.ts`: API endpoint tiếp nhận lệnh và điều phối gửi xuống Broker.
+  - [x] `client/src/services/api/api-client.ts`: Client gọi API gửi lệnh tới Backend an toàn.
+- [x] **T2.3: Giải mã trạng thái & Nhật ký hệ thống qua SSE**
+  - [x] `server/src/services/status-formatter.ts`: Bóc tách và định dạng gói tin trạng thái, báo cáo mạng và log từ Pi.
+  - [x] `server/src/services/sse.service.ts`: Kênh truyền phát Server-Sent Events (SSE) `/api/logs/stream`.
+  - [x] `client/src/services/api/sse-client.ts` & `client/src/services/logger/log.service.ts`: Lắng nghe luồng SSE và quản lý danh sách log tối đa 100 dòng, render text thuần túy chống XSS.
+- [x] **T2.4: Kết nối MQTT Client qua Backend Gateway & Đấu nối giao diện**
+  - [x] `server/src/services/mqtt.service.ts`: Quản lý kết nối MQTT bảo mật bằng `MQTT_PASSWORD` phía server, tự động kết nối lại khi mất mạng.
+  - [x] `client/src/app/hooks/useMqttConnection.ts` & `client/src/app/hooks/useLogStream.ts`: Hooks quản lý trạng thái kết nối và dòng log realtime.
+  - [x] Đấu nối `useMqttConnection` và `useLogStream` vào `ConnectionBar.tsx` và `LogMonitor.tsx` (bấm Kết nối / Ngắt chạy thật trên giao diện).
 
 ---
 
-## GIAI ĐOẠN 3: TÍNH NĂNG ĐÈN LED ĐẦU (FEATURE: LED)
+## GIAI ĐOẠN 3: TÍNH NĂNG ĐÈN LED ĐẦU (FEATURE: LED) (HOÀN THÀNH)
 
 _Mục tiêu giai đoạn: Hoàn thiện và đắp trực tiếp vào ô Card LED của trang GymPage._
 
-- [ ] **T3.1: Lệnh MQTT & Đa ngôn ngữ**
-  - [ ] `client/src/features/led/led.commands.ts`: Các lệnh `Head`, `HeadBlink`, `Rainbow`.
-  - [ ] `client/src/features/led/led.i18n.ts`: Từ điển song ngữ cho đèn LED.
-  - [ ] `client/src/features/led/hooks/useLed.ts`: Hook điều khiển trạng thái màu và gửi lệnh.
-- [ ] **T3.2: Khối chọn màu HEX & RGB**
-  - [ ] `client/src/features/led/components/ColorPickerHex.tsx`: Ô nhập mã HEX, nút mở bảng màu, mô phỏng bóng đèn LED 1.
-  - [ ] `client/src/features/led/components/ColorPickerRgb.tsx`: 3 ô nhập R, G, B (0..255), mô phỏng bóng đèn LED 2.
-- [ ] **T3.3: Khối chớp sáng & Dải màu Rainbow**
-  - [ ] `client/src/features/led/components/BlinkControl.tsx`: Cài đặt số lần và tốc độ chớp.
-  - [ ] `client/src/features/led/components/RainbowButtons.tsx`: 5 nút hiệu ứng dải màu và nút tắt hiệu ứng.
-- [ ] **T3.4: Lắp ráp Panel Đèn LED hoàn chỉnh**
-  - [ ] `client/src/features/led/LedPanel.tsx` & `client/src/features/led/led.scss`: Card giao diện hoàn chỉnh.
-  - [ ] Thay thế thẻ giữ chỗ LED trong `GymPage.tsx` bằng `LedPanel`.
+- [x] **T3.1: Lệnh MQTT & Đa ngôn ngữ Đèn LED**
+  - [x] `client/src/features/led/led.commands.ts`: Các hàm xây dựng lệnh `Head`, `HeadBlink`, `Rainbow` qua `buildCommand`.
+  - [x] `client/src/features/led/led.i18n.ts`: Từ điển song ngữ (vi, en) cho toàn bộ phân hệ LED.
+  - [x] `client/src/features/led/hooks/`: Bộ 4 custom hooks chuyên biệt (`useLedHex.ts`, `useLedRgb.ts`, `useLedRainbow.ts`, `useLedActions.ts`).
+- [x] **T3.2: Khối chọn màu HEX (LED 1) & RGB (LED 2)**
+  - [x] `client/src/features/led/components/ColorPickerHex.tsx`: Ô nhập mã HEX, mở bảng màu palette, bóng đèn mô phỏng LED 1.
+  - [x] `client/src/features/led/components/RgbInputGroup.tsx`: 3 ô nhập R, G, B (0..255) kèm badge màu, bóng đèn mô phỏng LED 2.
+  - [x] `client/src/features/led/components/LedSectionLayout.tsx`: Khung dùng chung chuẩn hóa cho LED 1 và LED 2.
+- [x] **T3.3: Khối chớp sáng & Dải màu Rainbow (LED 3 EFFECT)**
+  - [x] `client/src/features/led/components/BlinkControl.tsx`: Cài đặt số lần và tốc độ chớp.
+  - [x] `client/src/features/led/components/WandSim.tsx`: Cây đũa phép mô phỏng phát sáng hiệu ứng LED 3.
+  - [x] `client/src/features/led/components/RainbowButtons.tsx`: 3 nút viền Ombre chữ màu độc lập (Phương án 2), nút 7 Sắc và Nhịp thở.
+  - [x] `client/src/features/led/components/RainbowStopButton.tsx`: Nút Tắt hiệu ứng xám than căng đều w-100.
+  - [x] `client/src/features/led/components/LedRainbowSection.tsx`: Lắp ráp khối LED 3 EFFECT hoàn chỉnh.
+- [x] **T3.4: Lắp ráp Card Đèn LED hoàn chỉnh**
+  - [x] `client/src/features/led/LedHexCard.tsx` & `client/src/features/led/led.scss`: Card giao diện điều khiển đèn LED hoàn chỉnh.
+  - [x] Thay thế thẻ giữ chỗ LED trong `GymPage.tsx` bằng `LedHexCard`.
 
 ---
 

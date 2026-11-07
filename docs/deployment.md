@@ -37,7 +37,7 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    # Chuyển tiếp các yêu cầu API về máy chủ Backend
+    # Chuyển tiếp các yêu cầu API và luồng SSE về máy chủ Backend
     location /api/ {
         proxy_pass http://127.0.0.1:5000;
         proxy_http_version 1.1;
@@ -45,6 +45,11 @@ server {
         proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
+
+        # Cấu hình tối ưu cho Server-Sent Events (SSE) /api/logs/stream
+        proxy_buffering off;
+        proxy_cache off;
+        chunked_transfer_encoding off;
     }
 }
 ```

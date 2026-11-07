@@ -1,9 +1,14 @@
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GymPlaceholderCard } from './components/GymPlaceholderCard'
+import { LedHexCard } from '../led/LedHexCard'
 
-// Trang phòng tập điều khiển các phân hệ phần cứng
-export const GymPage: FC = () => {
+interface Props {
+  readonly botId?: string
+  readonly isConnected?: boolean
+}
+
+export const GymPage: FC<Props> = ({ botId = 'tjbot1', isConnected = false }) => {
   const { t } = useTranslation()
   const notice = t('placeholderNotice')
 
@@ -11,7 +16,7 @@ export const GymPage: FC = () => {
     <div className="gym-layout container-fluid p-1">
       <div className="row g-4">
         <div className="col-md-6">
-          <GymPlaceholderCard title={t('cardLed')} notice={notice} />
+          <LedHexCard botId={botId} isConnected={isConnected} />
         </div>
         <div className="col-md-6">
           <GymPlaceholderCard title={t('cardArm')} notice={notice} />
