@@ -12,21 +12,31 @@ Dự án được xây dựng theo kiến trúc **Fullstack Monorepo (npm worksp
 ## 1. Sơ đồ Luồng Hoạt động Hệ thống
 
 ```text
-┌──────────────────────────┐           ┌──────────────────────────┐
-│   Trình duyệt (Client)   │           │   Backend Server (Node)  │
-│  React 19 + TypeScript   │           │     TypeScript Gateway   │
-└────────────┬─────────────┘           └────────────┬─────────────┘
-             │                                      │
-             │ HTTP / WebSocket                     │
-             │ (API_URL: cổng 5000)                 │
-             ▼                                      │
-   ┌──────────────────┐                             │
-   │  Backend Proxy   │◄────────────────────────────┘
-   └────────┬─────────┘
-            │
-            ├──► wss (MQTT_PASSWORD bảo mật) ──► MQTT Broker ◄── Raspberry Pi 4 (Robot)
-            │                                    (commands/status)
-            └──► HTTPS (Gemini API Key)      ──► Google Gemini API
+┌─────────────────────────────────┐
+│      Trình duyệt (Client)       │
+│     React 19 + TypeScript       │
+└────────────────┬────────────────┘
+                 │
+                 │ HTTP REST (/api/command)
+                 │ Server-Sent Events (/api/logs/stream)
+                 │ (Cổng 5000)
+                 ▼
+┌─────────────────────────────────┐
+│     Backend Gateway (Node.js)   │  ◄── Quản lý bí mật an toàn (server/.env):
+│    TypeScript Security Proxy    │      MQTT_PASSWORD, GEMINI_API_KEY
+└────────┬───────────────┬────────┘
+         │               │
+         │ wss://        │ HTTPS
+         ▼               ▼
+┌─────────────────┐  ┌─────────────────────┐
+│   MQTT Broker   │  │  Google Gemini API  │
+└────────┬────────┘  └─────────────────────┘
+         │
+         │ commands / status
+         ▼
+┌─────────────────────────┐
+│  Raspberry Pi 4 (Robot) │
+└─────────────────────────┘
 ```
 
 ---
