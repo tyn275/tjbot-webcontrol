@@ -1,33 +1,9 @@
 @use 'bootstrap/scss/bootstrap' as *;
 @use 'abstracts/variables';
 @use 'base/reset';
-@use 'layout/navbar';
-@use 'layout/sidebar';
-@use 'layout/log-monitor';
-@use 'layout/intro';
+@use '../app';
+@use '../layout/navbar/navbar';
+@use '../layout/sidebar/sidebar';
+@use '../layout/log-monitor/log-monitor';
+@use '../features/intro/intro';
 @use '../features/led/led';
-
-.app-root {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-
-  &__body {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-  }
-  &__main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background-color: #f1f3f5;
-  }
-  &__viewport {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.25rem;
-  }
-}

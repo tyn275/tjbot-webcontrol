@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { InfoIcon, DumbbellIcon, BoltIcon, GearIcon } from './Icons'
+import { InfoIcon, DumbbellIcon, BoltIcon, GearIcon } from '../Icons'
 
 export type TabId = 'intro' | 'gym' | 'actions' | 'wifi'
 

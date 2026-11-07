@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { subscribeLogs } from '../../services/logger/log.service'
-import { initSseRobotStatus } from '../../services/api/sse-client'
+import { subscribeLogs } from '../services/logger/log.service'
+import { initSseRobotStatus } from '../services/api/sse-client'
 
 export const useLogStream = () => {
   const [logs, setLogs] = useState<string[]>([])

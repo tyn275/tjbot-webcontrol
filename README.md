@@ -109,13 +109,16 @@ tjbot-webcontrol/
 │   ├── package.json         # Thư viện runtime của Frontend (React, Bootstrap, Sass...)
 │   └── src/
 │       ├── main.tsx         # Điểm khởi đầu ứng dụng React
+│       ├── App.tsx          # Component gốc của ứng dụng (Root Shell)
+│       ├── app.scss         # Style bố cục tổng thể (.app-root)
 │       ├── vite-env.d.ts    # Khai báo kiểu môi trường __APP_ENV__
-│       ├── app/             # App component & layout (Navbar, Sidebar, LogMonitor...)
+│       ├── layout/          # Khung giao diện: navbar/, sidebar/, log-monitor/, Icons.tsx
+│       ├── hooks/           # Custom hooks toàn cục (useMqttConnection, useLogStream)
 │       ├── core/            # hardware-limits.ts, env.ts
 │       ├── services/        # api (REST, SSE), logger, mqtt (command), storage
 │       ├── features/        # gym, led, arm, audio, mic, camera, wifi, askme, intro...
 │       ├── i18n/            # Cấu hình và từ điển song ngữ (vi/en)
-│       └── styles/          # Sass BEM: variables, reset và layout
+│       └── styles/          # Sass BEM: biến toàn cục (abstracts), reset và main.scss
 ├── server/                  # Phân hệ Backend (Node.js + TypeScript cho máy chủ phòng Lab)
 │   ├── .env.example         # Mẫu biến môi trường bảo mật (MQTT_PASSWORD, GEMINI_API_KEY...)
 │   ├── tsconfig.json        # Cấu hình TypeScript cho Backend (kế thừa base)

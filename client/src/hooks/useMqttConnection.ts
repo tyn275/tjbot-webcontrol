@@ -1,15 +1,11 @@
 import { useState, useEffect } from 'react'
-import {
-  getRobotStatus,
-  postConnectRobot,
-  postDisconnectRobot,
-} from '../../services/api/api-client'
+import { getRobotStatus, postConnectRobot, postDisconnectRobot } from '../services/api/api-client'
 import {
   logStartingNetwork,
   logConnectSuccess,
   logDisconnectedManual,
-} from '../../services/logger/log.service'
-import { env } from '../../core/env'
+} from '../services/logger/log.service'
+import { env } from '../core/env'
 
 const handleConnectAction = async (botId: string): Promise<boolean> => {
   logStartingNetwork('wss://mqtt.toolhub.app:8084...')
