@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import tjbotLogo from '../../assets/tjbot-logo.svg'
 import { ConnectionBar } from './ConnectionBar'
 import { LanguageSwitcher } from './LanguageSwitcher'
 
@@ -34,7 +35,7 @@ export const Navbar: FC<NavbarProps> = ({
             ☰
           </button>
           <div className="navbar-custom__brand fw-bold text-warning d-flex align-items-center">
-            <img src="/vite.svg" alt="TJBot Logo" width="24" height="24" className="me-2" />
+            <img src={tjbotLogo} alt="TJBot Logo" width="24" height="24" className="me-2" />
             <span>{t('title')}</span>
           </div>
         </div>

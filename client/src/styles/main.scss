@@ -4,6 +4,7 @@
 @use 'layout/navbar';
 @use 'layout/sidebar';
 @use 'layout/log-monitor';
+@use 'layout/intro';
 
 .app-root {
   min-height: 100vh;
@@ -24,6 +25,8 @@
   }
   &__viewport {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     padding: 1.25rem;
   }
 }

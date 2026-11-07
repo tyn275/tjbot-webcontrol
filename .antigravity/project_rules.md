@@ -9,18 +9,19 @@
 
 ## ĐIỀU KHOẢN 1: QUẢN LÝ BIẾN MÔI TRƯỜNG (ENV RULE)
 
-1. **Tuyệt đối cấm**: Không được gõ `process.env` ở bất kỳ file nào bên trong thư mục `src/` (trình duyệt không hỗ trợ và sẽ gây lỗi `process is not defined`).
-2. **Cổng truy cập duy nhất**: Mọi component, service, hook chỉ được đọc biến môi trường qua đối tượng có kiểu tại `src/core/env.ts`.
+1. **Tuyệt đối cấm**: Không được gõ `process.env` ở bất kỳ file nào bên trong thư mục `client/src/` (trình duyệt không hỗ trợ và sẽ gây lỗi `process is not defined`).
+2. **Cổng truy cập duy nhất**: Mọi component, service, hook ở phía Frontend chỉ được đọc biến môi trường qua đối tượng có kiểu tại `client/src/core/env.ts`. Biến bí mật tuyệt đối (như private key) chỉ được lưu tại `server/.env`.
 3. **Cơ chế nạp biến**:
-   - `vite.config.ts` chạy trên môi trường Node.js, dùng `dotenv` nạp `.env` ở local hoặc nhận từ biến môi trường của CI.
-   - `vite.config.ts` bắt buộc kiểm tra các biến bắt buộc (`MQTT_HOST`, `MQTT_PORT`, `MQTT_PATH`, `RTSP_PUSH_BASE`, `HLS_BASE_URL`, `DEFAULT_BOT_ID`). Nếu thiếu, phải dừng build ngay lập tức và in lỗi rõ ràng.
+   - `client/vite.config.ts` chạy trên môi trường Node.js, dùng `dotenv` nạp `client/.env` ở local hoặc nhận từ biến môi trường của CI.
+   - `client/vite.config.ts` bắt buộc kiểm tra các biến bắt buộc phía client (`API_URL`, `HLS_BASE_URL`, `DEFAULT_BOT_ID`). Nếu thiếu, phải dừng build ngay lập tức và in lỗi rõ ràng.
+   - Các biến bảo mật và thông số hạ tầng (`PORT`, `MQTT_HOST`, `MQTT_PORT`, `MQTT_PATH`, `MQTT_PASSWORD`, `RTSP_PUSH_BASE`, `GEMINI_API_KEY`) được nạp và quản lý độc quyền tại `server/.env`.
    - Chỉ truyền các biến hợp lệ sang trình duyệt thông qua cơ chế `define: { __APP_ENV__: ... }`.
 
 ---
 
 ## ĐIỀU KHOẢN 2: MỘT CỔNG PHÁT LỆNH ROBOT DUY NHẤT (COMMAND GATE RULE)
 
-1. **Hàm duy nhất**: Mọi lệnh điều khiển robot gửi qua MQTT bắt buộc phải được tạo bởi hàm `buildCommand(name, ...args)` trong `src/services/mqtt/command.ts`.
+1. **Hàm duy nhất**: Mọi lệnh điều khiển robot gửi qua MQTT bắt buộc phải được tạo bởi hàm `buildCommand(name, ...args)` trong `client/src/services/mqtt/command.ts`.
 2. **Cấm ghép chuỗi**: Tuyệt đối cấm ghép chuỗi string thủ công dạng `Arm(${angle})` hay `Head(" + color + ")` ở bất kỳ component hay hook nào.
 3. **Quy tắc chuỗi tham số**: Số để nguyên; Chuỗi ký tự bắt buộc được escape trong nháy kép thông qua `JSON.stringify` để đảm bảo phía Raspberry Pi giải mã `ast.literal_eval` không bao giờ bị lỗi.
 
@@ -47,8 +48,8 @@
 
 ## ĐIỀU KHOẢN 5: CÔ LẬP MODULE TÍNH NĂNG (ISOLATION RULE)
 
-1. **Không import chéo**: Các thư mục tính năng trong `src/features/*` (ví dụ: `arm`, `led`, `camera`...) tuyệt đối KHÔNG được import trực tiếp lẫn nhau.
-2. **Chia sẻ tài nguyên**: Nếu cần dùng chung dữ liệu hoặc logic, phải đưa vào `src/core/` hoặc `src/services/`.
+1. **Không import chéo**: Các thư mục tính năng trong `client/src/features/*` (ví dụ: `arm`, `led`, `camera`...) tuyệt đối KHÔNG được import trực tiếp lẫn nhau.
+2. **Chia sẻ tài nguyên**: Nếu cần dùng chung dữ liệu hoặc logic, phải đưa vào `client/src/core/` hoặc `client/src/services/`.
 3. **Phân tầng gọi lệnh**: Component $\rightarrow$ Feature Hook $\rightarrow$ Feature Commands $\rightarrow$ `buildCommand()`. Component không được tương tác trực tiếp với MQTT Client.
 
 ---
@@ -58,7 +59,7 @@
 1. **100% SCSS**: Toàn bộ style phải viết bằng `.scss`. Tuyệt đối cấm file `.css`, cấm thẻ `<style>`.
 2. **Cấm inline style**: Tuyệt đối cấm thuộc tính `style={{...}}` trong JSX.
 3. **Chuẩn BEM**: Mọi class phải đặt theo chuẩn BEM có tiền tố tính năng (ví dụ: `.led__swatch--active`).
-4. **Quản lý biến màu**: Cấm gõ cứng mã màu hex trong component hay scss con; bắt buộc dùng biến từ `src/styles/abstracts/_variables.scss`.
+4. **Quản lý biến màu**: Cấm gõ cứng mã màu hex trong component hay scss con; bắt buộc dùng biến từ `client/src/styles/abstracts/_variables.scss`.
 
 ---
 
@@ -129,7 +130,7 @@ Trước khi bàn giao bất kỳ task nào cho người dùng:
 ## ĐIỀU KHOẢN 11: QUY CHUẨN XUẤT NHẬP MODULE (MODULE EXPORT & IMPORT CONVENTION)
 
 1. **100% Named Export cho mã nội bộ**:
-   - Mọi component, hook, hàm tiện ích, đối tượng hằng số do dự án tự viết (trong `src/`) BẮT BUỘC sử dụng Named Export (`export const TenComponent = ...` hoặc `export { TenComponent }`).
+   - Mọi component, hook, hàm tiện ích, đối tượng hằng số do dự án tự viết (trong `client/src/` và `server/src/`) BẮT BUỘC sử dụng Named Export (`export const TenComponent = ...` hoặc `export { TenComponent }`).
    - TUYỆT ĐỐI CẤM sử dụng `export default` trong mã nguồn nội bộ.
 
 2. **100% Named Import đồng bộ**:

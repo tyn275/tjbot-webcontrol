@@ -23,6 +23,7 @@ export const commonI18n = {
     logSidebarCollapsed: 'Đã thu gọn thanh điều hướng bên trái.',
     logSidebarExpanded: 'Đã mở rộng thanh điều hướng bên trái.',
     logNavigated: 'Chuyển hướng sang phân hệ: {{route}}',
+    introFrameTitle: 'Toolhub TJBot Home',
   },
   en: {
     title: 'TJBot Control Center',
@@ -48,5 +49,6 @@ export const commonI18n = {
     logSidebarCollapsed: 'Collapsed left navigation sidebar.',
     logSidebarExpanded: 'Expanded left navigation sidebar.',
     logNavigated: 'Navigated to module: {{route}}',
+    introFrameTitle: 'Toolhub TJBot Home',
   },
 } as const

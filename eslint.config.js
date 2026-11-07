@@ -38,20 +38,20 @@ export default tseslint.config(
   },
   {
     // Giới hạn số dòng hàm riêng biệt cho file logic và file component
-    files: ['src/**/*.ts'],
+    files: ['**/src/**/*.ts'],
     rules: {
       'max-lines-per-function': ['error', { max: 20, skipBlankLines: true, skipComments: true }],
     },
   },
   {
-    files: ['src/**/*.tsx'],
+    files: ['**/src/**/*.tsx'],
     rules: {
       'max-lines-per-function': ['error', { max: 40, skipBlankLines: true, skipComments: true }],
     },
   },
   {
     // Cô lập các module tính năng, không cho phép import chéo giữa các tính năng độc lập
-    files: ['src/features/{arm,led,audio,mic,camera,wifi,askme,intro}/**/*.{ts,tsx}'],
+    files: ['**/src/features/{arm,led,audio,mic,camera,wifi,askme,intro}/**/*.{ts,tsx}'],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -86,7 +86,7 @@ export default tseslint.config(
   },
   {
     // Miễn giảm giới hạn số dòng cho từ điển đa ngôn ngữ và các file cấu hình hệ thống
-    files: ['src/**/*.i18n.ts', '*.config.{js,ts}'],
+    files: ['**/src/**/*.i18n.ts', '*.config.{js,ts}'],
     rules: {
       'max-lines': 'off',
       'max-lines-per-function': 'off',

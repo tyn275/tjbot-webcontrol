@@ -4,14 +4,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const requiredEnvVars = [
-  'MQTT_HOST',
-  'MQTT_PORT',
-  'MQTT_PATH',
-  'RTSP_PUSH_BASE',
-  'HLS_BASE_URL',
-  'DEFAULT_BOT_ID',
-] as const
+const requiredEnvVars = ['API_URL', 'HLS_BASE_URL', 'DEFAULT_BOT_ID'] as const
 
 const missingVars = requiredEnvVars.filter((key) => !process.env[key])
 
@@ -24,21 +17,14 @@ if (missingVars.length > 0) {
   )
 }
 
-const basePath = process.env.BASE_PATH || '/'
-
 export default defineConfig({
-  base: basePath,
+  base: '/',
   plugins: [react()],
   define: {
     __APP_ENV__: JSON.stringify({
-      MQTT_HOST: process.env.MQTT_HOST,
-      MQTT_PORT: Number(process.env.MQTT_PORT),
-      MQTT_PATH: process.env.MQTT_PATH,
-      MQTT_PASSWORD: process.env.MQTT_PASSWORD || '',
-      RTSP_PUSH_BASE: process.env.RTSP_PUSH_BASE,
+      API_URL: process.env.API_URL,
       HLS_BASE_URL: process.env.HLS_BASE_URL,
       DEFAULT_BOT_ID: process.env.DEFAULT_BOT_ID,
-      BASE_PATH: basePath,
     }),
   },
   css: {

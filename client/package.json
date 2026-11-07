@@ -1,0 +1,46 @@
+{
+  "name": "tjbot-client",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "npm@11.19.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "format:check": "prettier --check . --ignore-path ../.prettierignore",
+    "format": "prettier --write . --ignore-path ../.prettierignore",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc -b --noEmit",
+    "test": "echo \"No tests specified\"",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run build"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "hls.js": "^1.5.17",
+    "i18next": "^24.2.2",
+    "mqtt": "^5.10.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-i18next": "^15.4.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "dotenv": "^16.4.7",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "prettier": "^3.5.2",
+    "sass": "^1.85.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.24.1",
+    "vite": "^6.2.0"
+  }
+}
