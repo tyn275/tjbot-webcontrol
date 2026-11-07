@@ -47,3 +47,11 @@ export const logCommandError = (command: string): void => {
 export const logStatusReceive = (topic: string, message: string): void => {
   appendLog(i18n.t('logStatusReceive', { topic, message }))
 }
+
+export const logNavigated = (route: string): void => {
+  appendLog(i18n.t('logNavigated', { route }))
+}
+
+export const logSidebarToggle = (collapsed: boolean): void => {
+  appendLog(i18n.t(collapsed ? 'logSidebarCollapsed' : 'logSidebarExpanded'))
+}

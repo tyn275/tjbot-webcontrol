@@ -1,7 +1,7 @@
 export const ledTranslations = {
   vi: {
     title: 'ĐÈN TRÍ TUỆ',
-    subtitle: 'Hai bộ điều khiển LED chạy độc lập hoàn toàn',
+    subtitle: 'Bộ điều khiển LED chạy độc lập hoàn toàn',
     hexSection: '1. ĐIỀU KHIỂN QUA MÃ HEX / PALETTE',
     rgbSection: '2. ĐIỀU KHIỂN QUA HỆ THẬP PHÂN RGB (0 - 255)',
     led1Label: 'LED 1 (HEX)',
@@ -28,7 +28,7 @@ export const ledTranslations = {
   },
   en: {
     title: 'INTELLIGENT LED',
-    subtitle: 'Two LED controllers operating completely independently',
+    subtitle: 'The LED controllers operating completely independently',
     hexSection: '1. CONTROL VIA HEX / PALETTE',
     rgbSection: '2. CONTROL VIA DECIMAL RGB (0 - 255)',
     led1Label: 'LED 1 (HEX)',
