@@ -102,7 +102,7 @@ Trước khi bàn giao bất kỳ task nào cho người dùng:
 ## ĐIỀU KHOẢN 10: QUY ƯỚC CHÚ THÍCH & THÔNG ĐIỆP HỆ THỐNG (COMMENT & MESSAGE CONVENTIONS)
 
 1. **Ngôn ngữ chú thích thuần nhất**:
-   - Toàn bộ chú thích (comments) trong mã nguồn BẮT BUỘC phải viết bằng **tiếng Việt chuẩn mực, gãy gọn**.
+   - Toàn bộ chú thích (comments) trong mã nguồn BẮT BUỘC phải viết bằng **tiếng Việt có dấu chuẩn mực, gãy gọn**.
    - TUYỆT ĐỐI CẤM viết nửa Anh nửa Việt (ví dụ: cấm viết `// Enforce rule`, `// Relaxed rules for test`, `// Specific function limits`).
    - Các thuật ngữ kỹ thuật chuyên ngành quốc tế được phép giữ nguyên dạng chuẩn (như MQTT, WebSocket, Broker, Payload, Topic, BEM, CSS, SCSS, DOM, API, Throttle, Cleanup).
 

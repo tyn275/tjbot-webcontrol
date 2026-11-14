@@ -94,22 +94,24 @@ _Mục tiêu giai đoạn: Hoàn thiện và đắp trực tiếp vào ô Card L
 
 ---
 
-## GIAI ĐOẠN 4: TÍNH NĂNG CÁNH TAY ROBOT (FEATURE: ARM)
+## GIAI ĐOẠN 4: TÍNH NĂNG CÁNH TAY ROBOT (FEATURE: ARM) (HOÀN THÀNH)
 
 _Mục tiêu giai đoạn: Hoàn thiện và đắp trực tiếp vào ô Card Cánh tay của trang GymPage._
 
-- [ ] **T4.1: Lệnh MQTT & Đa ngôn ngữ**
-  - [ ] `src/features/arm/arm.commands.ts`: Các lệnh `Arm`, `Muscle`, `Wavehand`.
-  - [ ] `src/features/arm/arm.i18n.ts`: Từ điển song ngữ cánh tay.
-  - [ ] `src/features/arm/hooks/useArm.ts`: Hook quản lý góc xoay và throttle 60ms cho chế độ Làm theo tôi.
-- [ ] **T4.2: Đĩa xoay góc Canvas**
-  - [ ] `src/features/arm/components/AngleDial.tsx`: Canvas vẽ đĩa tròn tương tác kéo/click chuột đổi góc (-90..90 độ).
-- [ ] **T4.3: Khóa cơ bắp & Kịch bản vẫy tay**
-  - [ ] `src/features/arm/components/MuscleToggle.tsx`: Công tắc Cơ bắp (`Muscle("on")`) và Nghỉ ngơi (`Muscle("off")`).
-  - [ ] `src/features/arm/components/WavehandControl.tsx`: Cấu hình số lần, tốc độ vẫy tay và nút dừng.
-- [ ] **T4.4: Lắp ráp Panel Cánh tay hoàn chỉnh**
-  - [ ] `src/features/arm/ArmPanel.tsx` & `src/features/arm/arm.scss`: Card giao diện hoàn chỉnh.
-  - [ ] Thay thế thẻ giữ chỗ Cánh tay trong `GymPage.tsx` bằng `ArmPanel`.
+- [x] **T4.1: Lệnh MQTT & Đa ngôn ngữ**
+  - [x] `src/features/arm/arm.commands.ts`: Các lệnh `Arm`, `Muscle`, `Wavehand`.
+  - [x] `src/features/arm/arm.i18n.ts`: Từ điển song ngữ cánh tay.
+  - [x] `src/features/arm/hooks/`: Bộ hook `useArmMuscle.ts`, `useArmAngle.ts`, `useArmWave.ts`.
+- [x] **T4.2: Đĩa xoay góc Canvas**
+  - [x] `src/features/arm/components/AngleDial.tsx`: Canvas vẽ đĩa tròn tương tác kéo/click chuột đổi góc (-90..90 độ).
+  - [x] `src/features/arm/components/angle-dial.canvas.ts`: Bóc tách thuật toán vẽ và tọa độ chuột.
+- [x] **T4.3: Khóa cơ bắp & Kịch bản vẫy tay**
+  - [x] `src/features/arm/components/MuscleToggle.tsx`: Công tắc Cơ bắp (`Muscle("on")`) và Nghỉ ngơi (`Muscle("off")`).
+  - [x] `src/features/arm/components/WavehandControl.tsx`: Cấu hình số lần, tốc độ vẫy tay và nút dừng.
+  - [x] `src/features/arm/components/WaveSim.tsx`: Hoạt ảnh CSS đĩa tròn bàn tay vẫy.
+- [x] **T4.4: Lắp ráp Panel Cánh tay hoàn chỉnh**
+  - [x] `src/features/arm/ArmPanel.tsx` & `src/features/arm/arm.scss`: Card giao diện hoàn chỉnh.
+  - [x] Thay thế thẻ giữ chỗ Cánh tay trong `GymPage.tsx` bằng `ArmPanel`.
 
 ---
 

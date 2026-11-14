@@ -1,0 +1,130 @@
+@use '../../styles/abstracts/variables' as *;
+
+// Phong cách trực quan của thẻ điều khiển cánh tay robot
+.arm-card {
+  background-color: $white;
+
+  &__icon-box {
+    background-color: $arm-icon-bg;
+    color: $arm-accent;
+  }
+
+  &__muscle-group {
+    background-color: $light-bg;
+  }
+
+  &__guide {
+    font-size: 0.7rem;
+  }
+
+  &__log {
+    font-size: 0.72rem;
+  }
+}
+
+// Khung đĩa điều khiển góc quay servo cánh tay
+.arm-dial {
+  min-width: 130px;
+
+  &__box {
+    height: 160px;
+    background-color: $white;
+  }
+
+  &__canvas {
+    cursor: pointer;
+    background-color: $arm-dial-bg;
+    border-radius: 50%;
+  }
+
+  &__label {
+    font-size: 0.9rem;
+    color: $arm-accent;
+  }
+}
+
+// Công tắc gạt kích hoạt chế độ bám theo thời gian thực
+.arm-switch {
+  cursor: pointer;
+  width: 2.5em;
+  height: 1.25em;
+}
+
+// Khung đĩa tròn hoạt ảnh kịch bản vẫy tay
+.arm-wave-sim {
+  min-width: 130px;
+
+  &__box {
+    height: 160px;
+    background-color: $white;
+  }
+
+  &__disk {
+    width: 120px;
+    height: 120px;
+    background-color: $arm-dial-bg;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.02);
+  }
+
+  &__icon {
+    font-size: 3rem;
+    color: $arm-accent;
+    transform-origin: bottom center;
+    animation: armWaveAnim 1.4s ease-in-out infinite;
+  }
+}
+
+// Bố cục phân bổ cân đối cho cụm điều khiển vẫy tay
+.arm-wave {
+  &__times {
+    width: 52px;
+    flex-shrink: 0;
+  }
+
+  &__speed {
+    width: 88px;
+    flex-shrink: 0;
+  }
+
+  &__btn-wave {
+    flex: 1.15 1 0;
+    min-width: 80px;
+  }
+
+  &__btn-stop {
+    flex: 0.85 1 0;
+    min-width: 60px;
+  }
+
+  &__btn {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    padding: 0.25rem 0.4rem;
+  }
+}
+
+// Hoạt ảnh lắc lư cánh tay khi vẫy
+@keyframes armWaveAnim {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-12deg);
+  }
+  40% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(-10deg);
+  }
+  80% {
+    transform: rotate(8deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
