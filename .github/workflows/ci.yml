@@ -39,7 +39,11 @@ jobs:
 
       - name: Run Quality Gate Check
         env:
-          API_URL: ${{ vars.API_URL || 'http://localhost:5000' }}
+          MQTT_HOST: ${{ vars.MQTT_HOST || 'mqtt.toolhub.app' }}
+          MQTT_PORT: ${{ vars.MQTT_PORT || '8084' }}
+          MQTT_PATH: ${{ vars.MQTT_PATH || '/mqtt' }}
+          MQTT_PASSWORD: ${{ secrets.MQTT_PASSWORD }}
           HLS_BASE_URL: ${{ vars.HLS_BASE_URL || 'https://media.toolhub.app' }}
           DEFAULT_BOT_ID: ${{ vars.DEFAULT_BOT_ID || 'tjbot1' }}
+          BASE_PATH: /
         run: npm run check

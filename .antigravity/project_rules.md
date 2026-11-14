@@ -2,26 +2,25 @@
 
 > **LƯU Ý DÀNH CHO ANTIGRAVITY / AI ASSISTANT**:
 > Đây là bản hợp đồng tối cao (Single Source of Truth) của repository `tjbot-webcontrol`.
-> Trước khi viết, chỉnh sửa hoặc đề xuất bất kỳ dòng code nào, bạn BẮT BUỘC phải đọc và tự đối chiếu với 11 điều khoản dưới đây.
+> Trước khi viết, chỉnh sửa hoặc đề xuất bất kỳ dòng code nào, bạn BẮT BUỘC phải đọc và tự đối chiếu với 12 điều khoản dưới đây.
 > Mọi vi phạm dù là nhỏ nhất đều bị coi là không hoàn thành nhiệm vụ.
 
 ---
 
 ## ĐIỀU KHOẢN 1: QUẢN LÝ BIẾN MÔI TRƯỜNG (ENV RULE)
 
-1. **Tuyệt đối cấm**: Không được gõ `process.env` ở bất kỳ file nào bên trong thư mục `client/src/` (trình duyệt không hỗ trợ và sẽ gây lỗi `process is not defined`).
-2. **Cổng truy cập duy nhất**: Mọi component, service, hook ở phía Frontend chỉ được đọc biến môi trường qua đối tượng có kiểu tại `client/src/core/env.ts`. Biến bí mật tuyệt đối (như private key) chỉ được lưu tại `server/.env`.
+1. **Tuyệt đối cấm**: Không được gõ `process.env` ở bất kỳ file nào bên trong thư mục `src/` (trình duyệt không hỗ trợ và sẽ gây lỗi `process is not defined`).
+2. **Cổng truy cập duy nhất**: Mọi component, service, hook ở phía Frontend chỉ được đọc biến môi trường qua đối tượng có kiểu tại `src/core/env.ts`. Khóa AI API Key được quản lý bảo mật qua `sessionStorage`.
 3. **Cơ chế nạp biến**:
-   - `client/vite.config.ts` chạy trên môi trường Node.js, dùng `dotenv` nạp `client/.env` ở local hoặc nhận từ biến môi trường của CI.
-   - `client/vite.config.ts` bắt buộc kiểm tra các biến bắt buộc phía client (`API_URL`, `HLS_BASE_URL`, `DEFAULT_BOT_ID`). Nếu thiếu, phải dừng build ngay lập tức và in lỗi rõ ràng.
-   - Các biến bảo mật và thông số hạ tầng (`PORT`, `MQTT_HOST`, `MQTT_PORT`, `MQTT_PATH`, `MQTT_PASSWORD`, `RTSP_PUSH_BASE`, `GEMINI_API_KEY`) được nạp và quản lý độc quyền tại `server/.env`.
+   - `vite.config.ts` chạy trên môi trường Node.js, dùng `dotenv` nạp `.env` ở local hoặc nhận từ biến môi trường của CI.
+   - `vite.config.ts` bắt buộc kiểm tra các biến bắt buộc phía client (`MQTT_HOST`, `MQTT_PORT`, `MQTT_PATH`, `HLS_BASE_URL`, `DEFAULT_BOT_ID`). Nếu thiếu, phải dừng build ngay lập tức và in lỗi rõ ràng.
    - Chỉ truyền các biến hợp lệ sang trình duyệt thông qua cơ chế `define: { __APP_ENV__: ... }`.
 
 ---
 
 ## ĐIỀU KHOẢN 2: MỘT CỔNG PHÁT LỆNH ROBOT DUY NHẤT (COMMAND GATE RULE)
 
-1. **Hàm duy nhất**: Mọi lệnh điều khiển robot gửi qua MQTT bắt buộc phải được tạo bởi hàm `buildCommand(name, ...args)` trong `client/src/services/mqtt/command.ts`.
+1. **Hàm duy nhất**: Mọi lệnh điều khiển robot gửi qua MQTT bắt buộc phải được tạo bởi hàm `buildCommand(name, ...args)` trong `src/services/mqtt/command.ts`.
 2. **Cấm ghép chuỗi**: Tuyệt đối cấm ghép chuỗi string thủ công dạng `Arm(${angle})` hay `Head(" + color + ")` ở bất kỳ component hay hook nào.
 3. **Quy tắc chuỗi tham số**: Số để nguyên; Chuỗi ký tự bắt buộc được escape trong nháy kép thông qua `JSON.stringify` để đảm bảo phía Raspberry Pi giải mã `ast.literal_eval` không bao giờ bị lỗi.
 
@@ -48,8 +47,8 @@
 
 ## ĐIỀU KHOẢN 5: CÔ LẬP MODULE TÍNH NĂNG (ISOLATION RULE)
 
-1. **Không import chéo**: Các thư mục tính năng trong `client/src/features/*` (ví dụ: `arm`, `led`, `camera`...) tuyệt đối KHÔNG được import trực tiếp lẫn nhau.
-2. **Chia sẻ tài nguyên**: Nếu cần dùng chung dữ liệu hoặc logic, phải đưa vào `client/src/core/` hoặc `client/src/services/`.
+1. **Không import chéo**: Các thư mục tính năng trong `src/features/*` (ví dụ: `arm`, `led`, `camera`...) tuyệt đối KHÔNG được import trực tiếp lẫn nhau.
+2. **Chia sẻ tài nguyên**: Nếu cần dùng chung dữ liệu hoặc logic, phải đưa vào `src/core/` hoặc `src/services/`.
 3. **Phân tầng gọi lệnh**: Component $\rightarrow$ Feature Hook $\rightarrow$ Feature Commands $\rightarrow$ `buildCommand()`. Component không được tương tác trực tiếp với MQTT Client.
 
 ---
@@ -59,7 +58,7 @@
 1. **100% SCSS**: Toàn bộ style phải viết bằng `.scss`. Tuyệt đối cấm file `.css`, cấm thẻ `<style>`.
 2. **Cấm inline style**: Tuyệt đối cấm thuộc tính `style={{...}}` trong JSX.
 3. **Chuẩn BEM**: Mọi class phải đặt theo chuẩn BEM có tiền tố tính năng (ví dụ: `.led__swatch--active`).
-4. **Quản lý biến màu**: Cấm gõ cứng mã màu hex trong component hay scss con; bắt buộc dùng biến từ `client/src/styles/abstracts/_variables.scss`.
+4. **Quản lý biến màu**: Cấm gõ cứng mã màu hex trong component hay scss con; bắt buộc dùng biến từ `src/styles/abstracts/_variables.scss`.
 
 ---
 
@@ -116,7 +115,6 @@ Trước khi bàn giao bất kỳ task nào cho người dùng:
    - CẤM chèn icon, biểu tượng cảm xúc hoặc ký tự trang trí (ví dụ: `👉`, `🚀`, `⚡`, `❌`, `✅`, `🔥`...) vào:
      - Chú thích mã nguồn (code comments)
      - Thông báo lỗi (error messages / exceptions)
-     - Nhật ký hệ thống (log messages / console output)
      - Thông điệp commit (commit messages)
 
 4. **Chuẩn chú thích khi review / thảo luận**:
@@ -130,7 +128,7 @@ Trước khi bàn giao bất kỳ task nào cho người dùng:
 ## ĐIỀU KHOẢN 11: QUY CHUẨN XUẤT NHẬP MODULE (MODULE EXPORT & IMPORT CONVENTION)
 
 1. **100% Named Export cho mã nội bộ**:
-   - Mọi component, hook, hàm tiện ích, đối tượng hằng số do dự án tự viết (trong `client/src/` và `server/src/`) BẮT BUỘC sử dụng Named Export (`export const TenComponent = ...` hoặc `export { TenComponent }`).
+   - Mọi component, hook, hàm tiện ích, đối tượng hằng số do dự án tự viết (trong `src/`) BẮT BUỘC sử dụng Named Export (`export const TenComponent = ...` hoặc `export { TenComponent }`).
    - TUYỆT ĐỐI CẤM sử dụng `export default` trong mã nguồn nội bộ.
 
 2. **100% Named Import đồng bộ**:
@@ -142,3 +140,22 @@ Trước khi bàn giao bất kỳ task nào cho người dùng:
      - Nạp file style: `import './styles/main.scss'`.
      - Nạp file cấu hình khởi tạo chạy ngầm một lần: `import './i18n/i18n'`.
    - Các gói thư viện bên ngoài (third-party packages) được phép tuân theo cách thức export mà thư viện đó quy định.
+
+---
+
+## ĐIỀU KHOẢN 12: QUY TRÌNH QUÉT HỢP ĐỒNG & DUYỆT PHƯƠNG ÁN (CONTRACT SCANNING & USER APPROVAL RULE)
+
+1. **Bắt buộc quét toàn bộ hợp đồng (.md)**:
+   - Trước khi đề xuất, lập kế hoạch hoặc bắt tay vào thực hiện bất kỳ nhiệm vụ nào (refactor, thêm tính năng, sửa đổi kiến trúc hay cấu trúc thư mục), AI Agent BẮT BUỘC phải chủ động đọc và rà soát toàn bộ các file contract định nghĩa dự án (`.antigravity/project_rules.md`, `ROADMAP.md`, `docs/conventions.md` và các tài liệu liên quan trong `docs/`).
+   - Mọi hành động kỹ thuật phải được đối chiếu trực tiếp với các điều khoản trong hợp đồng để loại trừ triệt để nguy cơ vi phạm.
+
+2. **Đề xuất phương án kỹ thuật & nêu ý kiến phân tích**:
+   - Trước khi tiến hành chỉnh sửa hoặc tạo bất kỳ file code nào, AI Agent BẮT BUỘC phải trình bày kế hoạch làm việc rõ ràng cho Người dùng:
+     - **Mục tiêu kỹ thuật & Phạm vi công việc**: Liệt kê cụ thể những file dự kiến thêm mới, sửa đổi hoặc xóa bỏ.
+     - **Phương án thực hiện**: Phân tích giải pháp kỹ thuật, nêu rõ lý do tại sao chọn giải pháp đó cùng ưu/nhược điểm.
+     - **Ý kiến đề xuất & Cảnh báo rủi ro**: Nhận định về tính khả thi, cảnh báo trước nếu phát hiện nguy cơ phát sinh phạm vi ngoài luồng (scope creep) hoặc xung đột với hợp đồng.
+
+3. **Người dùng là người quyết định cuối cùng**:
+   - AI Agent TUYỆT ĐỐI KHÔNG ĐƯỢC tự ý bắt tay vào viết code, sửa đổi file hay tự động triển khai khi chưa nhận được sự phê duyệt của Người dùng đối với phương án đề xuất.
+   - Chỉ khi Người dùng xem xét, đưa ra ý kiến và CHÍNH THỨC ĐỒNG Ý / DUYỆT phương án, AI Agent mới được phép bắt đầu thực thi code.
+   - Nếu Người dùng KHÔNG ĐỒNG Ý hoặc yêu cầu điều chỉnh, AI Agent phải ngay lập tức tiếp thu và điều chỉnh phương án theo đúng chỉ đạo của Người dùng.

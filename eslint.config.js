@@ -31,7 +31,7 @@ export default tseslint.config(
         'error',
         {
           selector: "JSXAttribute[name.name='style']",
-          message: 'CAM inline style style={{...}}. Bat buoc dung class SCSS theo chuan BEM.',
+          message: 'CẤM inline style style={{...}}. Bắt buộc dùng class SCSS theo chuẩn BEM.',
         },
       ],
     },
@@ -77,7 +77,7 @@ export default tseslint.config(
                 '../../intro/**',
               ],
               message:
-                'Cac module tinh nang khong duoc import cheo lan nhau. Hay chuyen code dung chung vao core/ hoac services/.',
+                'Các module tính năng không được import chéo lẫn nhau. Hãy chuyển code dùng chung vào core/ hoặc services/.',
             },
           ],
         },

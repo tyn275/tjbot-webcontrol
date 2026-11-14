@@ -4,75 +4,59 @@
 
 ---
 
-## 1. Kiến trúc Triển khai Fullstack trên Máy chủ riêng
+## 1. Kiến trúc Triển khai: Client tĩnh thuần túy (Static Client SPA)
 
-Dự án được triển khai trực tiếp trên máy chủ riêng:
+Dự án được thiết kế theo kiến trúc Client tĩnh hoàn toàn (Static SPA), không cần máy chủ Backend trung gian:
 
-- **Frontend (`client`)**: Ứng dụng web React 19 đóng gói thành các file tĩnh (`dist/`) và phục vụ qua Nginx.
-- **Backend (`server`)**: Dịch vụ máy chủ Node.js xử lý các API trung gian, kết nối MQTT an toàn và gọi AI Gemini.
+- **Frontend tĩnh**: Ứng dụng React 19 + Vite đóng gói thành các file tĩnh (`dist/`) được deploy trực tiếp lên **GitHub Pages** hoặc bất kỳ máy chủ tĩnh / CDN nào (Nginx, Cloudflare Pages, Vercel).
+- **Giao tiếp phần cứng**: Trình duyệt kết nối WSS (`wss://mqtt.toolhub.app:8084/mqtt`) trực tiếp tới Mosquitto Broker và sử dụng Web Serial API cho chế độ ngoại tuyến.
+- **Trí tuệ nhân tạo (AI)**: Gọi trực tiếp API Gemini từ trình duyệt với API Key được quản lý an toàn trong `sessionStorage`.
 
 ---
 
-## 2. Quy trình Triển khai Frontend (Client)
+## 2. Quy trình Triển khai tự động lên GitHub Pages
+
+Dự án đã tích hợp workflow tự động tại `.github/workflows/deploy.yml`:
+
+1. Khi code được merge vào nhánh `main`, GitHub Actions sẽ tự động:
+   - Cài đặt môi trường Node.js.
+   - Nạp các biến môi trường từ GitHub Secrets / Variables (`MQTT_HOST`, `MQTT_PORT`, `MQTT_PATH`, `HLS_BASE_URL`, `DEFAULT_BOT_ID`).
+   - Chạy kiểm tra Quality Gate toàn diện: `npm run check`.
+   - Đóng gói ứng dụng vào thư mục `./dist`.
+   - Deploy trực tiếp lên GitHub Pages.
+
+---
+
+## 3. Quy trình Triển khai Thủ công trên Máy chủ Nginx riêng
 
 1. Đóng gói ứng dụng:
    ```bash
-   npm run build:client
+   npm run build
    ```
-2. Toàn bộ file tĩnh được tạo ra tại thư mục `client/dist/`.
-3. Chép toàn bộ nội dung thư mục `client/dist/` vào thư mục web của Nginx (ví dụ: `/var/www/tjbot-web`).
+2. Toàn bộ file tĩnh được tạo ra tại thư mục `dist/`.
+3. Chép toàn bộ nội dung thư mục `dist/` vào thư mục web của Nginx (ví dụ: `/var/www/tjbot-web`).
 
-### Mẫu cấu hình Nginx phục vụ Frontend và Reverse Proxy:
+### Mẫu cấu hình Nginx phục vụ Single Page App:
 
 ```nginx
 server {
     listen 80;
     server_name tjbot.lab.local;
 
-    # Phục vụ giao diện người dùng (SPA)
     root /var/www/tjbot-web;
     index index.html;
 
     location / {
         try_files $uri $uri/ /index.html;
     }
-
-    # Chuyển tiếp các yêu cầu API và luồng SSE về máy chủ Backend
-    location /api/ {
-        proxy_pass http://127.0.0.1:5000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-
-        # Cấu hình tối ưu cho Server-Sent Events (SSE) /api/logs/stream
-        proxy_buffering off;
-        proxy_cache off;
-        chunked_transfer_encoding off;
-    }
 }
 ```
 
 ---
 
-## 3. Quy trình Triển khai Backend (Server)
-
-1. Cài đặt các gói phụ thuộc và build mã nguồn TypeScript:
-   ```bash
-   npm run build:server
-   ```
-2. Khởi chạy tiến trình nền trên máy chủ qua PM2:
-   ```bash
-   pm2 start server/dist/index.js --name tjbot-server
-   pm2 save
-   ```
-
----
-
 ## 4. Quy tắc Mạng & Mixed Content
 
-Khi máy chủ kích hoạt giao thức bảo mật HTTPS:
+Khi ứng dụng chạy trên HTTPS (bao gồm cả GitHub Pages):
 
 - **MQTT**: Bắt buộc kết nối qua WebSocket bảo mật (`wss://`).
 - **Camera HLS**: URL phát luồng (`HLS_BASE_URL`) bắt buộc phải là `https://`, không dùng `http://` để tránh lỗi trình duyệt chặn nội dung hỗn hợp (Mixed Content).

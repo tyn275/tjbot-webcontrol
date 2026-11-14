@@ -6,20 +6,21 @@ Tài liệu này quy định giao thức và định dạng dữ liệu trao đ�
 
 ---
 
-## 1. Kết nối Broker (Backend Gateway)
+## 1. Kết nối Broker trực tiếp (WSS Direct Client)
 
-Hệ thống sử dụng mô hình kết nối bảo mật tập trung qua **Backend Gateway (`server/src/services/mqtt.service.ts`)**:
+Hệ thống hoạt động theo mô hình Client tĩnh thuần túy (Static SPA), trình duyệt thiết lập kết nối WebSocket bảo mật (`wss://`) trực tiếp tới Mosquitto Broker thông qua `src/services/mqtt/mqtt-client.ts`:
 
-- Trình duyệt Client gửi lệnh qua Backend API REST và nhận luồng log/trạng thái qua Server-Sent Events (SSE), hoàn toàn không giữ mật khẩu Broker (tuân thủ Điều khoản 1).
-- Backend Server là thực thể duy nhất thiết lập kết nối tới Broker với các thông số:
+- Toàn bộ thông số kết nối được nạp an toàn tại thời điểm build và truy xuất qua `src/core/env.ts` (tuân thủ Điều khoản 1):
   - **Giao thức**: WebSocket bảo mật (`wss://`)
-  - **URL**: `wss://<MQTT_HOST>:<MQTT_PORT><MQTT_PATH>` (cấu hình trong `server/.env`)
-  - **Tài khoản**: Username là `botId`, mật khẩu `MQTT_PASSWORD` bảo mật từ `server/.env`
-  - **Client ID của Gateway**: `web-client-<botId>-<4 ký tự ngẫu nhiên>`
-  - **Timeout kết nối**: 5 giây
+  - **URL**: `wss://<MQTT_HOST>:<MQTT_PORT><MQTT_PATH>` (ví dụ: `wss://mqtt.toolhub.app:8084/mqtt`)
+  - **Tài khoản**: Username là `botId`, mật khẩu `MQTT_PASSWORD` từ biến môi trường
+  - **Client ID của Web Client**: `web-client-<botId>-<6 ký tự ngẫu nhiên>`
+  - **Timeout kết nối**: 5 giây, tự động thử lại sau 3 giây (`reconnectPeriod: 3000`)
   - **Topic gửi lệnh**: `<botId>/commands`
   - **Topic nhận trạng thái**: `<botId>/status`
-  - **Mã robot mặc định**: `tjbot1` (chọn nhanh `tjbot1`, `tjbot2`)
+  - **Mã robot mặc định**: `tjbot1` (người dùng có thể nhập hoặc chuyển đổi trên thanh điều khiển)
+- **Tự động kích hoạt thông tin**: Ngay khi đăng ký (subscribe) thành công kênh `<botId>/status`, Web Client tự động phát lệnh `info` tới kênh `<botId>/commands` để robot phản hồi cấu hình mạng thực tế.
+- **Lọc gói tin lưu tạm**: Web Client chủ động bỏ qua các gói tin retain cũ (`packet.retain === true`) của Broker để đảm bảo chỉ hiển thị thông tin thời gian thực từ robot.
 
 ---
 
@@ -28,7 +29,7 @@ Hệ thống sử dụng mô hình kết nối bảo mật tập trung qua **Bac
 1. Mỗi lệnh là **một chuỗi duy nhất** dạng `Tên(tham số 1, tham số 2, ...)`.
 2. Phía Raspberry Pi dùng regex `^(\w+)\((.*)\)$` để bóc tách tên hàm và tham số.
 3. Tham số được Pi giải mã bằng `ast.literal_eval`, do đó **chuỗi phải nằm trong dấu nháy kép (`"`)** và **số để nguyên**.
-4. **Quy tắc vàng**: Mọi lệnh gửi đi bắt buộc phải tạo thông qua hàm duy nhất `buildCommand(name, ...args)` trong `client/src/services/mqtt/command.ts`. Tuyệt đối không tự ghép chuỗi thủ công trong component.
+4. **Quy tắc vàng**: Mọi lệnh gửi đi bắt buộc phải tạo thông qua hàm duy nhất `buildCommand(name, ...args)` trong `src/services/mqtt/command.ts`. Tuyệt đối không tự ghép chuỗi thủ công trong component.
 
 ---
 
@@ -61,9 +62,12 @@ Hai lệnh đặc biệt không có dấu ngoặc:
 
 ## 4. Gói tin Trạng thái từ Robot (`<botId>/status`)
 
-| Dữ liệu nhận được          | Ý nghĩa                       | Web xử lý                                                      |
-| -------------------------- | ----------------------------- | -------------------------------------------------------------- |
-| `s2t=<văn bản>`            | Kết quả Speech-to-Text        | Cập nhật giao diện nhận diện giọng nói / chuyển cho AI nếu bật |
-| `cam=on` / `cam=off`       | Trạng thái camera             | Cập nhật nút bấm và trình phát video HLS                       |
-| Báo cáo khởi động / `help` | Báo cáo mạng / danh sách lệnh | Hiển thị vào khung LogMonitor dưới dạng văn bản thuần          |
-| Khác                       | Tin nhắn log từ Pi            | Render text thuần (không chèn HTML)                            |
+Khi nhận gói tin trạng thái từ robot, hệ thống áp dụng hàm chuẩn hóa âm thoại `normalizeStatusMessage` (chuyển đổi `ai pi` / `ai-pi` thành `IP`, chuyển đổi `chấm` / `dot` giữa các số thành dấu `.`) và hiển thị trực tiếp toàn bộ nội dung nguyên bản (raw text) lên khung nhật ký `LogMonitor` qua hàm `logStatusReceive()`:
+
+| Dữ liệu nhận được                          | Ý nghĩa                                              | Web xử lý                                                  |
+| ------------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------------- |
+| Phản hồi lệnh `info`                       | Báo cáo thông tin kết nối và địa chỉ IP mạng thực tế | Chuẩn hóa âm thoại và in toàn bộ chuỗi raw lên LogMonitor  |
+| Báo cáo khởi động `[TJBOT STARTUP REPORT]` | Thông tin card mạng lúc robot vừa khởi động          | Chuẩn hóa âm thoại và in toàn bộ chuỗi raw lên LogMonitor  |
+| `s2t=<văn bản>` hoặc âm thoại              | Kết quả nhận diện giọng nói Speech-to-Text           | Chuẩn hóa âm thoại và in toàn bộ chuỗi raw lên LogMonitor  |
+| `cam=on` / `cam=off`                       | Trạng thái camera                                    | Cập nhật trạng thái camera và trình phát HLS               |
+| Khác / tin nhắn log từ Pi                  | Nhật ký hoạt động của robot                          | Chuẩn hóa âm thoại và render text thuần túy lên LogMonitor |
