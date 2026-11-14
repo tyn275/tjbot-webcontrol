@@ -2,6 +2,7 @@ import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GymPlaceholderCard } from './components/GymPlaceholderCard'
 import { LedHexCard } from '../led/LedHexCard'
+import { ArmPanel } from '../arm/ArmPanel'
 
 interface Props {
   readonly botId?: string
@@ -19,7 +20,7 @@ export const GymPage: FC<Props> = ({ botId = 'tjbot1', isConnected = false }) =>
           <LedHexCard botId={botId} isConnected={isConnected} />
         </div>
         <div className="col-md-6">
-          <GymPlaceholderCard title={t('cardArm')} notice={notice} />
+          <ArmPanel botId={botId} isConnected={isConnected} />
         </div>
         <div className="col-md-6">
           <GymPlaceholderCard title={t('cardAudio')} notice={notice} />

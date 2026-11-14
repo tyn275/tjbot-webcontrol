@@ -1,4 +1,4 @@
-// Bảng màu giao diện
+// Bảng màu giao diện chung
 $primary-color: #0066cc;
 $secondary-color: #6c757d;
 $success-color: #28a745;
@@ -7,6 +7,16 @@ $warning-color: #ffc107;
 $info-color: #17a2b8;
 $light-bg: #f8f9fa;
 $dark-bg: #212529;
+$white: #ffffff;
+
+// Bảng màu phân hệ cánh tay robot
+$arm-accent: #f59f00;
+$arm-accent-dark: #d97706;
+$arm-icon-bg: #fff9db;
+$arm-dial-bg: #fafafa;
+$arm-grid-line: #e0e0e0;
+$arm-axis-line: #f0f0f0;
+$arm-pivot: #333333;
 
 // Phông chữ và khoảng cách
 $font-family-base:
@@ -25,5 +35,13 @@ $spacing-unit: 8px;
   --info-color: #{$info-color};
   --light-bg: #{$light-bg};
   --dark-bg: #{$dark-bg};
+  --white: #{$white};
+  --arm-accent: #{$arm-accent};
+  --arm-accent-dark: #{$arm-accent-dark};
+  --arm-icon-bg: #{$arm-icon-bg};
+  --arm-dial-bg: #{$arm-dial-bg};
+  --arm-grid-line: #{$arm-grid-line};
+  --arm-axis-line: #{$arm-axis-line};
+  --arm-pivot: #{$arm-pivot};
   --spacing-unit: #{$spacing-unit};
 }
