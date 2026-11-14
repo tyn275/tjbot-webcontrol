@@ -30,8 +30,6 @@ export default {
         'deps',
         'ci',
         'docs',
-        'client',
-        'server',
       ],
     ],
     'header-max-length': [2, 'always', 72],

@@ -57,7 +57,7 @@ git push -u origin feature/TJB-xxx-ten-tinh-nang
 | `perf`     | Tối ưu hóa hiệu năng, giảm bộ nhớ, tăng tốc độ                   |
 
 **Các scope hợp lệ:**
-`arm`, `led`, `audio`, `mic`, `camera`, `wifi`, `askme`, `gym`, `intro`, `mqtt`, `ai`, `storage`, `i18n`, `styles`, `core`, `app`, `layout`, `deps`, `ci`, `docs`, `client`, `server`
+`arm`, `led`, `audio`, `mic`, `camera`, `wifi`, `askme`, `gym`, `intro`, `mqtt`, `ai`, `storage`, `i18n`, `styles`, `core`, `app`, `layout`, `deps`, `ci`, `docs`
 
 **Ví dụ thực tế:**
 
@@ -65,7 +65,7 @@ git push -u origin feature/TJB-xxx-ten-tinh-nang
 git commit -m "feat(arm): add canvas dial for servo angle control"
 git commit -m "fix(mqtt): handle reconnect on broker timeout"
 git commit -m "style(led): apply BEM class names to rainbow buttons"
-git commit -m "docs: update monorepo structure in readme and conventions"
+git commit -m "docs: update project structure in readme and conventions"
 ```
 
 ---
@@ -73,5 +73,5 @@ git commit -m "docs: update monorepo structure in readme and conventions"
 ## 3. Tuyệt đối không được commit
 
 - File `.env` (chứa mật khẩu MQTT hoặc API Key) → đã được `.gitignore` chặn tự động.
-- Thư mục `dist/` (ở cả `client/` và `server/`) → đã được `.gitignore` và `.prettierignore` chặn tự động.
+- Thư mục `dist/` → đã được `.gitignore` và `.prettierignore` chặn tự động.
 - File `*.tsbuildinfo` → đã được `.gitignore` chặn tự động.
