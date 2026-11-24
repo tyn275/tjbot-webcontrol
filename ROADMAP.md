@@ -127,14 +127,14 @@ _Mục tiêu giai đoạn: Hoàn thiện và đắp trực tiếp vào 2 ô Card
   - [x] `src/features/audio/components/TtsSection.tsx`: Textarea nhập văn bản, chọn ngôn ngữ và giọng đọc.
   - [x] `src/features/audio/AudioPanel.tsx` & `src/features/audio/audio.scss`: Card giao diện hoàn chỉnh.
   - [x] Thay thế thẻ giữ chỗ Âm thanh trong `GymPage.tsx` bằng `AudioPanel`.
-- [ ] **T5.2: Phân hệ Thu âm & Nhận diện giọng nói (Mic)**
-  - [ ] `src/features/mic/mic.commands.ts`: Các lệnh `Record`, `Listen`.
-  - [ ] `src/features/mic/mic.i18n.ts`: Từ điển song ngữ micro.
-  - [ ] `src/features/mic/hooks/useMic.ts`: Hook lắng nghe gói trạng thái `s2t=...` từ robot.
-  - [ ] `src/features/mic/components/RecordControl.tsx`: Khối Nghe và nói nhại (`Record`).
-  - [ ] `src/features/mic/components/ListenControl.tsx`: Khối Nghe hiểu AI (`Listen`) và khung hiển thị kết quả.
-  - [ ] `src/features/mic/MicPanel.tsx` & `src/features/mic/mic.scss`: Card giao diện hoàn chỉnh.
-  - [ ] Thay thế thẻ giữ chỗ Micro trong `GymPage.tsx` bằng `MicPanel`.
+- [x] **T5.2: Phân hệ Thu âm & Nhận diện giọng nói (Mic)**
+  - [x] `src/features/mic/mic.commands.ts`: Các lệnh `Record`, `Listen`.
+  - [x] `src/features/mic/mic.i18n.ts`: Từ điển song ngữ micro.
+  - [x] `src/features/mic/hooks/`: Bộ hook `useMicRecord.ts` và `useMicListen.ts` lắng nghe gói trạng thái `s2t=...` từ robot.
+  - [x] `src/features/mic/components/MicRecordSection.tsx`: Khối Nghe và nói nhại (`Record`).
+  - [x] `src/features/mic/components/MicListenSection.tsx`: Khối Nghe hiểu AI (`Listen`) và khung hiển thị kết quả.
+  - [x] `src/features/mic/MicPanel.tsx` & `src/features/mic/mic.scss`: Card giao diện hoàn chỉnh.
+  - [x] Thay thế thẻ giữ chỗ Micro trong `GymPage.tsx` bằng `MicPanel`.
 
 ---
 

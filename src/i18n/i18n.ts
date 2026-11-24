@@ -4,6 +4,7 @@ import { commonI18n } from './common.i18n'
 import { ledTranslations } from '../features/led/led.i18n'
 import { armTranslations } from '../features/arm/arm.i18n'
 import { audioTranslations } from '../features/audio/audio.i18n'
+import { micTranslations } from '../features/mic/mic.i18n'
 
 export const defaultNS = 'common'
 
@@ -14,6 +15,7 @@ export const resources = {
       led: ledTranslations.vi,
       arm: armTranslations.vi,
       audio: audioTranslations.vi,
+      mic: micTranslations.vi.mic,
     },
   },
   en: {
@@ -22,6 +24,7 @@ export const resources = {
       led: ledTranslations.en,
       arm: armTranslations.en,
       audio: audioTranslations.en,
+      mic: micTranslations.en.mic,
     },
   },
 } as const
