@@ -9,6 +9,18 @@ $light-bg: #f8f9fa;
 $dark-bg: #212529;
 $white: #ffffff;
 
+// Bảng màu thanh điều hướng và thanh bên
+$navbar-bg: #1e272e;
+$navbar-border: #2c3e50;
+$sidebar-bg: #2c3e50;
+$status-dot-default: #7f8c8d;
+$status-dot-active: #2ecc71;
+$btn-connecting-color: #9e9e9e;
+
+// Bảng màu phân hệ đèn LED
+$led-accent: #5f27cd;
+$led-icon-bg: #f0f3ff;
+
 // Bảng màu phân hệ cánh tay robot
 $arm-accent: #f59f00;
 $arm-accent-dark: #d97706;
@@ -17,6 +29,13 @@ $arm-dial-bg: #fafafa;
 $arm-grid-line: #e0e0e0;
 $arm-axis-line: #f0f0f0;
 $arm-pivot: #333333;
+
+// Bảng màu phân hệ âm thanh
+$audio-accent: #e64980;
+$audio-accent-dark: #d6336c;
+$audio-icon-bg: #fff0f6;
+$audio-book: #1c7ed6;
+$audio-disk-bg: #fafafa;
 
 // Phông chữ và khoảng cách
 $font-family-base:
@@ -36,6 +55,14 @@ $spacing-unit: 8px;
   --light-bg: #{$light-bg};
   --dark-bg: #{$dark-bg};
   --white: #{$white};
+  --navbar-bg: #{$navbar-bg};
+  --navbar-border: #{$navbar-border};
+  --sidebar-bg: #{$sidebar-bg};
+  --status-dot-default: #{$status-dot-default};
+  --status-dot-active: #{$status-dot-active};
+  --btn-connecting-color: #{$btn-connecting-color};
+  --led-accent: #{$led-accent};
+  --led-icon-bg: #{$led-icon-bg};
   --arm-accent: #{$arm-accent};
   --arm-accent-dark: #{$arm-accent-dark};
   --arm-icon-bg: #{$arm-icon-bg};
@@ -43,5 +70,10 @@ $spacing-unit: 8px;
   --arm-grid-line: #{$arm-grid-line};
   --arm-axis-line: #{$arm-axis-line};
   --arm-pivot: #{$arm-pivot};
+  --audio-accent: #{$audio-accent};
+  --audio-accent-dark: #{$audio-accent-dark};
+  --audio-icon-bg: #{$audio-icon-bg};
+  --audio-book: #{$audio-book};
+  --audio-disk-bg: #{$audio-disk-bg};
   --spacing-unit: #{$spacing-unit};
 }

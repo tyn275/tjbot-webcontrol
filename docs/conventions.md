@@ -1,6 +1,6 @@
 # Quy ước Lập trình (Conventions)
 
-> **QUY TẮC BẮT BUỘC**: Toàn bộ quy chuẩn phát triển trong tài liệu này được quản lý và đối chiếu theo bản hợp đồng gốc tại [PROJECT RULES](../.antigravity/project_rules.md). Mọi dòng code phải tuân thủ nghiêm ngặt 12 điều khoản trong hợp đồng.
+> **QUY TẮC BẮT BUỘC**: Toàn bộ quy chuẩn phát triển trong tài liệu này được quản lý và đối chiếu theo bản hợp đồng gốc tại [AGENTS.md](../AGENTS.md). Mọi dòng code phải tuân thủ nghiêm ngặt 12 điều khoản trong hợp đồng.
 
 ---
 
@@ -8,7 +8,7 @@
 
 ```text
 tjbot-webcontrol/
-├── .antigravity/            # Bản hợp đồng phát triển tối cao (project_rules.md)
+├── AGENTS.md                # Bản hợp đồng phát triển tối cao
 ├── .github/workflows/       # Luồng CI (ci.yml) và Deploy GitHub Pages (deploy.yml)
 ├── docs/                    # Tài liệu kỹ thuật chuyên sâu (mqtt, conventions, deployment...)
 ├── public/                  # Tài nguyên tĩnh công khai (favicon, svg...)

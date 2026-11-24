@@ -1,8 +1,11 @@
 // Các khóa định danh lưu trữ cục bộ trong trình duyệt
 export const STORAGE_KEYS = {
   BOT_ID: 'tjbot_device_id',
+  RECENT_BOT_IDS: 'tjbot_recent_ids',
   GEMINI_API_KEY: 'gemini_api_key',
 } as const
+
+const MAX_RECENT_BOT_IDS = 10
 
 // Đọc chuỗi an toàn từ bộ nhớ trình duyệt có xử lý ngoại lệ chế độ ẩn danh
 export const getItem = (key: string, defaultValue = ''): string => {
@@ -62,4 +65,19 @@ export const getSavedBotId = (defaultId = 'tjbot1'): string => {
 // Lưu mã định danh Robot vào bộ nhớ trình duyệt
 export const saveBotId = (botId: string): void => {
   setItem(STORAGE_KEYS.BOT_ID, botId.trim())
+}
+
+export const getRecentBotIds = (): string[] => {
+  const stored = getJson<unknown>(STORAGE_KEYS.RECENT_BOT_IDS, [])
+  if (!Array.isArray(stored)) return []
+  return stored
+    .filter((value): value is string => typeof value === 'string' && value.trim() !== '')
+    .slice(0, MAX_RECENT_BOT_IDS)
+}
+
+export const saveRecentBotId = (botId: string): void => {
+  const normalized = botId.trim()
+  if (!normalized) return
+  const recent = getRecentBotIds().filter((id) => id !== normalized)
+  setJson(STORAGE_KEYS.RECENT_BOT_IDS, [normalized, ...recent].slice(0, MAX_RECENT_BOT_IDS))
 }

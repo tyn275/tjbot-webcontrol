@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
-import { publishRobotCommand } from '../../../services/mqtt/mqtt-client'
-import { logCommandSent, logCommandError } from '../../../services/logger/log.service'
+import { dispatchRobotCommand } from '../../../services/mqtt/mqtt-client'
 import { buildWavehandCommand, buildStopWaveCommand, type WaveSpeed } from '../arm.commands'
 
 interface WaveParams {
@@ -11,9 +10,7 @@ interface WaveParams {
 
 // Bắn lệnh MQTT ra ngoài mạng và ghi nhật ký hệ thống
 const emit = (cmd: string, botId: string, isConnected: boolean): void => {
-  if (!isConnected) return logCommandError(cmd)
-  logCommandSent(botId, cmd)
-  publishRobotCommand(botId, cmd)
+  dispatchRobotCommand(botId, cmd, isConnected)
 }
 
 // Hook quản lý trạng thái và thao tác phát lệnh kịch bản vẫy tay

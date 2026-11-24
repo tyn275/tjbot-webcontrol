@@ -1,56 +1,101 @@
-import { useState, type FC, type ChangeEvent } from 'react'
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  type FC,
+  type ChangeEvent,
+  type RefObject,
+} from 'react'
 import { useTranslation } from 'react-i18next'
+import { BotIdMenu } from './BotIdMenu'
 
 export interface ConnectionBarProps {
-  botId: string
-  isConnected: boolean
-  isConnecting?: boolean
-  onBotIdChange: (id: string) => void
-  onToggleConnect: () => void
+  readonly botId: string
+  readonly recentBotIds: readonly string[]
+  readonly isConnected: boolean
+  readonly isConnecting?: boolean
+  readonly onBotIdChange: (id: string) => void
+  readonly onToggleConnect: () => void
 }
 
 interface BotIdSelectorProps {
-  botId: string
-  placeholder: string
-  onBotIdChange: (id: string) => void
+  readonly botId: string
+  readonly recentBotIds: readonly string[]
+  readonly placeholder: string
+  readonly disabled: boolean
+  readonly onBotIdChange: (id: string) => void
 }
 
-// Khối nhập mã robot kèm dropdown chọn nhanh
-const BotIdSelector: FC<BotIdSelectorProps> = ({ botId, placeholder, onBotIdChange }) => {
+const isBotIdDisabled = (isConnected: boolean, isConnecting: boolean): boolean =>
+  isConnected || isConnecting
+
+const useClickOutside = (ref: RefObject<HTMLElement | null>, onClose: () => void) => {
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        onClose()
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [ref, onClose])
+}
+
+const useDropdownState = (disabled: boolean) => {
   const [isOpen, setIsOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const close = useCallback(() => setIsOpen(false), [])
+  const toggle = useCallback(() => setIsOpen((prev) => !prev), [])
+
+  useClickOutside(ref, close)
+  useEffect(() => {
+    if (disabled) close()
+  }, [disabled, close])
+
+  return { isOpen, ref, close, toggle }
+}
+
+// Khối nhập mã robot kèm dropdown chọn nhanh từ lịch sử
+const BotIdSelector: FC<BotIdSelectorProps> = ({
+  botId,
+  placeholder,
+  disabled,
+  recentBotIds,
+  onBotIdChange,
+}) => {
+  const { isOpen, ref, close, toggle } = useDropdownState(disabled)
+  const hasRecent = recentBotIds.length > 0
+
   const handleSelect = (id: string) => {
     onBotIdChange(id)
-    setIsOpen(false)
+    close()
   }
 
   return (
-    <div className="input-group input-group-sm position-relative connection-bar__group">
+    <div ref={ref} className="input-group input-group-sm position-relative connection-bar__group">
       <input
         type="text"
         className="form-control connection-bar__input"
         value={botId}
         onChange={(e: ChangeEvent<HTMLInputElement>) => onBotIdChange(e.target.value)}
         placeholder={placeholder}
+        disabled={disabled}
       />
-      <button
-        type="button"
-        className="btn btn-outline-warning dropdown-toggle"
-        onClick={() => setIsOpen((prev) => !prev)}
-      />
-      {isOpen && (
-        <ul className="dropdown-menu dropdown-menu-end show position-absolute end-0 top-100">
-          <li>
-            <button type="button" className="dropdown-item" onClick={() => handleSelect('tjbot1')}>
-              tjbot1
-            </button>
-          </li>
-          <li>
-            <button type="button" className="dropdown-item" onClick={() => handleSelect('tjbot2')}>
-              tjbot2
-            </button>
-          </li>
-        </ul>
+      {hasRecent && (
+        <button
+          type="button"
+          className="btn btn-outline-warning dropdown-toggle"
+          disabled={disabled}
+          onClick={toggle}
+        />
       )}
+      <BotIdMenu
+        isOpen={isOpen}
+        disabled={disabled}
+        recentBotIds={recentBotIds}
+        onSelect={handleSelect}
+      />
     </div>
   )
 }
@@ -58,6 +103,7 @@ const BotIdSelector: FC<BotIdSelectorProps> = ({ botId, placeholder, onBotIdChan
 // Cụm hiển thị trạng thái kết nối và chọn mã robot
 export const ConnectionBar: FC<ConnectionBarProps> = ({
   botId,
+  recentBotIds,
   isConnected,
   isConnecting = false,
   onBotIdChange,
@@ -76,7 +122,9 @@ export const ConnectionBar: FC<ConnectionBarProps> = ({
       </div>
       <BotIdSelector
         botId={botId}
+        recentBotIds={recentBotIds}
         placeholder={t('botIdPlaceholder')}
+        disabled={isBotIdDisabled(isConnected, isConnecting)}
         onBotIdChange={onBotIdChange}
       />
       <button

@@ -1,12 +1,20 @@
 import mqtt, { type MqttClient, type IPublishPacket } from 'mqtt'
 import { env } from '../../core/env'
-import { logConnectSuccess, logStatusReceive } from '../logger/log.service'
+import {
+  logCommandError,
+  logCommandSent,
+  logConnectSuccess,
+  logStatusReceive,
+} from '../logger/log.service'
 import { normalizeStatusMessage } from './status-formatter'
 
 type StatusCallback = (connected: boolean) => void
+type MessageCallback = (topic: string, message: string) => void
 
 let activeClient: MqttClient | null = null
+let activeBotId: string | null = null
 const statusListeners = new Set<StatusCallback>()
+const messageListeners = new Set<MessageCallback>()
 
 export const isMqttConnected = (): boolean => {
   return activeClient?.connected ?? false
@@ -16,6 +24,14 @@ export const subscribeMqttStatus = (listener: StatusCallback): (() => void) => {
   statusListeners.add(listener)
   return () => {
     statusListeners.delete(listener)
+  }
+}
+
+// Đăng ký nhận thông điệp MQTT thô từ robot kèm cơ chế hủy lắng nghe
+export const subscribeMqttMessage = (listener: MessageCallback): (() => void) => {
+  messageListeners.add(listener)
+  return () => {
+    messageListeners.delete(listener)
   }
 }
 
@@ -41,6 +57,7 @@ const buildClientOptions = (botId: string) => {
 
 const dispatchRobotStatus = (topic: string, raw: string): void => {
   logStatusReceive(topic, normalizeStatusMessage(raw))
+  messageListeners.forEach((fn) => fn(topic, raw))
 }
 
 const bindClientEvents = (client: MqttClient, botId: string): void => {
@@ -63,15 +80,18 @@ const bindClientEvents = (client: MqttClient, botId: string): void => {
 }
 
 export const connectMqtt = async (botId: string): Promise<boolean> => {
-  if (activeClient?.connected) {
+  if (activeClient?.connected && activeBotId === botId) {
     return true
   }
+
+  if (activeClient) await disconnectMqtt()
 
   return new Promise((resolve) => {
     const url = buildBrokerUrl()
     const options = buildClientOptions(botId)
     const client = mqtt.connect(url, options)
     activeClient = client
+    activeBotId = botId
 
     bindClientEvents(client, botId)
 
@@ -85,6 +105,7 @@ export const disconnectMqtt = async (): Promise<void> => {
   return new Promise((resolve) => {
     activeClient?.end(true, {}, () => {
       activeClient = null
+      activeBotId = null
       notifyStatus(false)
       resolve()
     })
@@ -97,5 +118,19 @@ export const publishRobotCommand = (botId: string, command: string): boolean => 
   }
   const commandTopic = `${botId}/commands`
   activeClient.publish(commandTopic, command)
+  return true
+}
+
+// Chỉ ghi nhận lệnh đã gửi khi MQTT client còn kết nối và chấp nhận publish.
+export const dispatchRobotCommand = (
+  botId: string,
+  command: string,
+  isConnected = true
+): boolean => {
+  if (!isConnected || !publishRobotCommand(botId, command)) {
+    logCommandError(command)
+    return false
+  }
+  logCommandSent(botId, command)
   return true
 }

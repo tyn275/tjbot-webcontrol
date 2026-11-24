@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import { commonI18n } from './common.i18n'
 import { ledTranslations } from '../features/led/led.i18n'
 import { armTranslations } from '../features/arm/arm.i18n'
+import { audioTranslations } from '../features/audio/audio.i18n'
 
 export const defaultNS = 'common'
 
@@ -12,6 +13,7 @@ export const resources = {
       ...commonI18n.vi,
       led: ledTranslations.vi,
       arm: armTranslations.vi,
+      audio: audioTranslations.vi,
     },
   },
   en: {
@@ -19,6 +21,7 @@ export const resources = {
       ...commonI18n.en,
       led: ledTranslations.en,
       arm: armTranslations.en,
+      audio: audioTranslations.en,
     },
   },
 } as const

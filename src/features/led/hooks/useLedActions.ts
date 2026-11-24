@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
-import { publishRobotCommand } from '../../../services/mqtt/mqtt-client'
-import { logCommandSent, logCommandError } from '../../../services/logger/log.service'
+import { dispatchRobotCommand } from '../../../services/mqtt/mqtt-client'
 import { buildHeadHexCommand, buildHeadBlinkHexCommand } from '../led.commands'
 
 export interface LedActionParams {
@@ -12,12 +11,7 @@ export interface LedActionParams {
 }
 
 const dispatchCommand = (cmd: string, botId: string, isConnected: boolean): void => {
-  if (!isConnected) {
-    logCommandError(cmd)
-    return
-  }
-  logCommandSent(botId, cmd)
-  publishRobotCommand(botId, cmd)
+  dispatchRobotCommand(botId, cmd, isConnected)
 }
 
 export const useLedActions = ({ botId, hex, times, speed, isConnected }: LedActionParams) => {

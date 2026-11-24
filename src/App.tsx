@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react'
+import { useEffect, useState, type FC } from 'react'
 import { Navbar } from './layout/navbar/Navbar'
 import { Sidebar, type TabId } from './layout/sidebar/Sidebar'
 import { LogMonitor } from './layout/log-monitor/LogMonitor'
@@ -7,6 +7,19 @@ import { GymPage } from './features/gym/GymPage'
 import { useMqttConnection } from './hooks/useMqttConnection'
 import { useLogStream } from './hooks/useLogStream'
 import { logNavigated, logSidebarToggle } from './services/logger/log.service'
+import { getRecentBotIds, saveRecentBotId } from './services/storage/storage'
+
+const useRecentBotHistory = (botId: string, isConnected: boolean): string[] => {
+  const [recentBotIds, setRecentBotIds] = useState(getRecentBotIds)
+
+  useEffect(() => {
+    if (!isConnected) return
+    saveRecentBotId(botId)
+    setRecentBotIds(getRecentBotIds())
+  }, [botId, isConnected])
+
+  return recentBotIds
+}
 
 const useNavigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -35,12 +48,14 @@ export const App: FC = () => {
   const nav = useNavigation()
   const logStream = useLogStream()
   const { isConnected, isConnecting, toggleConnect } = useMqttConnection(botId)
+  const recentBotIds = useRecentBotHistory(botId, isConnected)
 
   return (
     <div className="app-root">
       <Navbar
         onToggleSidebar={nav.toggleSidebar}
         botId={botId}
+        recentBotIds={recentBotIds}
         isConnected={isConnected}
         isConnecting={isConnecting}
         onBotIdChange={setBotId}

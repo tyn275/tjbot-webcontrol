@@ -17,7 +17,7 @@
   - [x] Khóa phiên bản Node.js LTS (`.nvmrc`).
   - [x] Chặn bảo mật triệt để (`.gitignore` chặn `.env`, `node_modules`, `dist`, `*.tsbuildinfo`).
 - [x] **T0.2: Thiết lập Hợp đồng & Ràng buộc (Project Rules)**
-  - [x] Tạo `.antigravity/project_rules.md` gồm 12 điều khoản bất di bất dịch.
+  - [x] Tạo `AGENTS.md` ở thư mục gốc gồm 12 điều khoản bất di bất dịch.
   - [x] Gắn liên kết hợp đồng từ tất cả các file tài liệu (`README.md`, `docs/*`).
   - [x] Cấu hình ESLint AST cấm inline style (`style={{...}}`) và chặn import chéo giữa các feature.
 - [x] **T0.3: Luồng CI/CD & Triển khai Máy chủ Lab**
@@ -119,14 +119,14 @@ _Mục tiêu giai đoạn: Hoàn thiện và đắp trực tiếp vào ô Card C
 
 _Mục tiêu giai đoạn: Hoàn thiện và đắp trực tiếp vào 2 ô Card Âm thanh và Micro của trang GymPage._
 
-- [ ] **T5.1: Phân hệ Âm thanh & Text-to-Speech (Audio)**
-  - [ ] `src/features/audio/audio.commands.ts`: Các lệnh `Play`, `TextToSpeak`, `Silent`.
-  - [ ] `src/features/audio/audio.i18n.ts`: Từ điển song ngữ âm thanh.
-  - [ ] `src/features/audio/hooks/useAudio.ts`: Hook phát file và giới hạn đếm từ TTS (tối đa 200 từ).
-  - [ ] `src/features/audio/components/SoundPicker.tsx`: Chọn file có sẵn (`hello.mp3`, `bye.mp3`...) và nút Suỵt.
-  - [ ] `src/features/audio/components/TtsForm.tsx`: Textarea nhập văn bản, chọn ngôn ngữ và giọng đọc.
-  - [ ] `src/features/audio/AudioPanel.tsx` & `src/features/audio/audio.scss`: Card giao diện hoàn chỉnh.
-  - [ ] Thay thế thẻ giữ chỗ Âm thanh trong `GymPage.tsx` bằng `AudioPanel`.
+- [x] **T5.1: Phân hệ Âm thanh & Text-to-Speech (Audio)**
+  - [x] `src/features/audio/audio.commands.ts`: Các lệnh `Play`, `TextToSpeak`, `Silent`.
+  - [x] `src/features/audio/audio.i18n.ts`: Từ điển song ngữ âm thanh.
+  - [x] `src/features/audio/hooks/`: Bộ hook `useAudioFile.ts` và `useAudioTts.ts` kèm cơ chế lai ngắt hoạt ảnh thông minh.
+  - [x] `src/features/audio/components/SoundPickerSection.tsx`: Chọn file có sẵn (`hello.mp3`, `bye.mp3`...) và nút Suỵt.
+  - [x] `src/features/audio/components/TtsSection.tsx`: Textarea nhập văn bản, chọn ngôn ngữ và giọng đọc.
+  - [x] `src/features/audio/AudioPanel.tsx` & `src/features/audio/audio.scss`: Card giao diện hoàn chỉnh.
+  - [x] Thay thế thẻ giữ chỗ Âm thanh trong `GymPage.tsx` bằng `AudioPanel`.
 - [ ] **T5.2: Phân hệ Thu âm & Nhận diện giọng nói (Mic)**
   - [ ] `src/features/mic/mic.commands.ts`: Các lệnh `Record`, `Listen`.
   - [ ] `src/features/mic/mic.i18n.ts`: Từ điển song ngữ micro.
