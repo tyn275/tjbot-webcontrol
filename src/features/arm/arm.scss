@@ -7,6 +7,13 @@
   &__icon-box {
     background-color: $arm-icon-bg;
     color: $arm-accent;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    flex-shrink: 0;
   }
 
   &__muscle-group {

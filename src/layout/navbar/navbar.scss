@@ -1,21 +1,27 @@
+@use '../../styles/abstracts/variables' as *;
+
+// Phong cách thanh điều hướng tiêu đề chính (Navbar)
 .navbar-custom {
-  background-color: #1e272e;
-  border-bottom: 2px solid #2c3e50;
-  height: 56px;
+  background-color: $navbar-bg;
+  border-bottom: 2px solid $navbar-border;
+  min-height: 56px;
+  height: auto;
   display: flex;
   align-items: center;
+  z-index: 100;
 
   &__brand {
     font-size: 1.25rem;
-    color: #f1c40f;
+    color: $warning-color;
     letter-spacing: 0.5px;
     user-select: none;
+    white-space: nowrap;
   }
 
   &__toggle-btn {
-    border-color: rgba(255, 255, 255, 255);
+    border-color: $white;
     background-color: transparent;
-    color: #ffffff;
+    color: $white;
     padding: 0.25rem 0.65rem;
     font-size: 0.95rem;
     cursor: pointer;
@@ -23,42 +29,46 @@
   }
 }
 
+// Cụm trạng thái kết nối MQTT và nhập chọn mã robot
 .connection-bar {
   &__status-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
     display: inline-block;
-    background-color: #7f8c8d;
+    background-color: $status-dot-default;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
     transition: background-color 0.15s ease;
 
     &--connected {
-      background-color: #2ecc71;
-      box-shadow: 0 0 10px #2ecc71;
+      background-color: $status-dot-active;
+      box-shadow: 0 0 10px $status-dot-active;
     }
   }
 
   &__status-text {
     font-size: 0.875rem;
+    white-space: nowrap;
   }
 
   &__group {
-    width: 200px;
+    max-width: 170px;
+    min-width: 130px;
 
     .btn-outline-warning {
-      background-color: #1e272e;
-      border-color: #f1c40f;
-      color: #f1c40f;
+      background-color: $navbar-bg;
+      border-color: $warning-color;
+      color: $warning-color;
     }
   }
 
   &__input {
-    border-color: #f1c40f;
+    border-color: $warning-color;
   }
 
   &__btn {
     min-width: 90px;
+    white-space: nowrap;
     transition: all 0.2s ease;
 
     &:disabled,
@@ -66,7 +76,7 @@
       opacity: 0.65;
       cursor: not-allowed;
       pointer-events: auto !important;
-      color: #9e9e9e !important;
+      color: $btn-connecting-color !important;
     }
   }
 }

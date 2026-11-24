@@ -1,0 +1,141 @@
+@use '../../styles/abstracts/variables' as *;
+
+// Phong cách giao diện phân hệ âm thanh
+.audio {
+  &__header-icon {
+    background-color: $audio-icon-bg;
+    color: $audio-accent;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  &__disk-container {
+    width: 150px;
+    flex-shrink: 0;
+
+    &--bibo {
+      height: 160px;
+    }
+
+    &--reading {
+      height: 220px;
+    }
+  }
+
+  &__disk {
+    width: 120px;
+    height: 120px;
+    background-color: $audio-disk-bg;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.02);
+  }
+
+  &__icon-lips {
+    font-size: 3rem;
+    color: $audio-accent;
+  }
+
+  &__icon-book {
+    font-size: 2.8rem;
+    color: $audio-book;
+  }
+
+  &__disk-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+
+    &--bibo {
+      color: $audio-accent;
+    }
+
+    &--reading {
+      color: $primary-color;
+    }
+  }
+
+  &__section-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $secondary-color;
+  }
+
+  &__btn-play {
+    background-color: $audio-accent;
+    border-color: $audio-accent;
+    color: $white;
+
+    &:hover,
+    &:focus {
+      background-color: $audio-accent-dark;
+      border-color: $audio-accent-dark;
+      color: $white;
+    }
+  }
+
+  &__guide {
+    font-size: 0.7rem;
+  }
+
+  &__sub-label {
+    font-size: 0.65rem;
+  }
+
+  &__alert {
+    font-size: 0.65rem;
+  }
+
+  &__word-count {
+    font-size: 0.65rem;
+  }
+
+  &__tts-col {
+    min-width: 0;
+  }
+
+  &__log {
+    font-size: 0.72rem;
+    line-height: 1.25rem;
+    height: 1.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__talking-animation {
+    animation: audioLipsChattering 0.25s ease-in-out infinite;
+  }
+
+  &__reading-animation {
+    animation: audioBookReading 0.5s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes audioLipsChattering {
+  0% {
+    transform: scaleY(1) scaleX(1);
+  }
+  50% {
+    transform: scaleY(0.6) scaleX(1.05);
+  }
+  100% {
+    transform: scaleY(1) scaleX(1);
+  }
+}
+
+@keyframes audioBookReading {
+  0% {
+    transform: rotate(-6deg) scale(1);
+  }
+  100% {
+    transform: rotate(6deg) scale(1.05);
+  }
+}

@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
 import { HARDWARE_LIMITS, clampArmAngle } from '../../../core/hardware-limits'
-import { publishRobotCommand } from '../../../services/mqtt/mqtt-client'
-import { logCommandSent, logCommandError } from '../../../services/logger/log.service'
+import { dispatchRobotCommand } from '../../../services/mqtt/mqtt-client'
 import { buildArmCommand } from '../arm.commands'
 
 interface AngleParams {
@@ -12,9 +11,7 @@ interface AngleParams {
 
 // Bắn lệnh quay servo cánh tay qua giao thức MQTT
 const emit = (cmd: string, botId: string, isConnected: boolean): void => {
-  if (!isConnected) return logCommandError(cmd)
-  logCommandSent(botId, cmd)
-  publishRobotCommand(botId, cmd)
+  dispatchRobotCommand(botId, cmd, isConnected)
 }
 
 // Điều tiết tần suất gửi lệnh góc quay theo thời gian thực nhằm tránh nghẽn MQTT

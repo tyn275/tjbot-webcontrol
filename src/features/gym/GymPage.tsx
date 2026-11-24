@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { GymPlaceholderCard } from './components/GymPlaceholderCard'
 import { LedHexCard } from '../led/LedHexCard'
 import { ArmPanel } from '../arm/ArmPanel'
+import { AudioPanel } from '../audio/AudioPanel'
 
 interface Props {
   readonly botId?: string
@@ -23,7 +24,7 @@ export const GymPage: FC<Props> = ({ botId = 'tjbot1', isConnected = false }) =>
           <ArmPanel botId={botId} isConnected={isConnected} />
         </div>
         <div className="col-md-6">
-          <GymPlaceholderCard title={t('cardAudio')} notice={notice} />
+          <AudioPanel botId={botId} isConnected={isConnected} />
         </div>
         <div className="col-md-6">
           <GymPlaceholderCard title={t('cardMic')} notice={notice} />

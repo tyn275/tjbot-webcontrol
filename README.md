@@ -81,7 +81,7 @@ npm run dev
 
 ```text
 tjbot-webcontrol/
-├── .antigravity/            # Bản hợp đồng phát triển tối cao (project_rules.md)
+├── AGENTS.md                # Bản hợp đồng phát triển tối cao
 ├── .github/workflows/       # Luồng CI (ci.yml) và Deploy GitHub Pages (deploy.yml)
 ├── docs/                    # Tài liệu kỹ thuật chuyên sâu (mqtt, conventions, deployment...)
 ├── public/                  # Tài nguyên tĩnh công khai (favicon, svg...)
@@ -117,7 +117,7 @@ tjbot-webcontrol/
 ## 6. Tài liệu Kỹ thuật Chi tiết
 
 - [Lộ trình phát triển & Bảng tiến độ](ROADMAP.md): Bảng theo dõi tiến độ chi tiết từng task theo 8 giai đoạn.
-- [Hợp đồng Phát triển & Nguyên tắc cốt lõi](.antigravity/project_rules.md): **12 điều khoản bất di bất dịch** bắt buộc tuân thủ khi viết code (giới hạn 20/40/150 dòng, 0 any, 0 inline style, 100% BEM, 100% i18n, quy trình quét contract & duyệt phương án).
+- [Hợp đồng Phát triển & Nguyên tắc cốt lõi](AGENTS.md): **12 điều khoản bất di bất dịch** bắt buộc tuân thủ khi viết code (giới hạn 20/40/150 dòng, 0 any, 0 inline style, 100% BEM, 100% i18n, quy trình quét contract & duyệt phương án).
 - [Đặc tả Hợp đồng MQTT](docs/mqtt-commands.md): Cú pháp lệnh `buildCommand()`, bảng lệnh robot, cấu trúc gói tin phản hồi trạng thái từ Pi.
 - [Quy ước lập trình](docs/conventions.md): Kiến trúc Feature Module Pattern, giới hạn kích thước hàm, quy chuẩn BEM Sass, i18n.
 - [Quy trình Git (Solo Developer)](docs/git-workflow.md): Bảng tra cứu Conventional Commits, quy tắc nhánh `feature/*`.

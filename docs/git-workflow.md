@@ -1,6 +1,6 @@
 # Quy trình Làm việc Git & Pull Request (Review cùng Copilot)
 
-> **QUY TẮC BẮT BUỘC**: Toàn bộ quy trình commit, tạo nhánh và kiểm soát chất lượng phải tuân thủ bản hợp đồng gốc tại [PROJECT RULES](../.antigravity/project_rules.md).
+> **QUY TẮC BẮT BUỘC**: Toàn bộ quy trình commit, tạo nhánh và kiểm soát chất lượng phải tuân thủ bản hợp đồng gốc tại [AGENTS.md](../AGENTS.md).
 
 ---
 

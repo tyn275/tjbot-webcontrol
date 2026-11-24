@@ -6,8 +6,8 @@ export const LedCardHeader: FC = () => {
 
   return (
     <div className="d-flex align-items-center mb-3">
-      <div className="led__icon-box p-2 rounded me-3 d-flex align-items-center justify-content-center">
-        <svg width="28" height="28" viewBox="0 0 100 100" fill="currentColor">
+      <div className="led__icon-box rounded me-3 d-flex align-items-center justify-content-center">
+        <svg width="32" height="32" viewBox="15 10 70 78" fill="currentColor">
           <path d="M 50 12 C 33 12 22 24 22 39 C 22 49 27 55 33 61 C 36 64 36 67 36 69 L 64 69 C 64 67 64 64 67 61 C 73 55 78 49 78 39 C 78 24 67 12 50 12 Z" />
           <path
             d="M 33 42 C 28 35 28 26 36 19"

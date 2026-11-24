@@ -1,7 +1,14 @@
 import { i18n } from '../../i18n/i18n'
 
-type LogListener = (entry: string) => void
+export interface LogEntry {
+  readonly id: number
+  readonly createdAt: number
+  readonly message: string
+}
+
+type LogListener = (entry: LogEntry) => void
 const listeners = new Set<LogListener>()
+let nextLogId = 0
 
 const formatCurrentTime = (): string => {
   return new Date().toLocaleTimeString('en-US', {
@@ -20,7 +27,11 @@ export const subscribeLogs = (listener: LogListener): (() => void) => {
 }
 
 export const appendLog = (message: string): void => {
-  const entry = `[${formatCurrentTime()}] ${message}`
+  const entry: LogEntry = {
+    id: nextLogId++,
+    createdAt: Date.now(),
+    message: `[${formatCurrentTime()}] ${message}`,
+  }
   listeners.forEach((fn) => fn(entry))
 }
 

@@ -16,7 +16,7 @@ export const ArmHeader: FC<Props> = ({ muscle, onToggle }) => {
   return (
     <div className="d-flex align-items-center mb-3 flex-wrap gap-3">
       <div className="d-flex align-items-center">
-        <div className="p-2 rounded me-3 d-flex align-items-center justify-content-center arm-card__icon-box">
+        <div className="rounded me-3 d-flex align-items-center justify-content-center arm-card__icon-box">
           <RobotArmIcon />
         </div>
         <div>

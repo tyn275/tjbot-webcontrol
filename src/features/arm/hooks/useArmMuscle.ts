@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
-import { publishRobotCommand } from '../../../services/mqtt/mqtt-client'
-import { logCommandSent, logCommandError } from '../../../services/logger/log.service'
+import { dispatchRobotCommand } from '../../../services/mqtt/mqtt-client'
 import { buildMuscleCommand, type MuscleState } from '../arm.commands'
 
 interface MuscleParams {
@@ -11,9 +10,7 @@ interface MuscleParams {
 // Gửi lệnh đóng/ngắt cơ bắp servo cánh tay qua kết nối MQTT
 const emitMuscle = (state: MuscleState, botId: string, isConnected: boolean): void => {
   const cmd = buildMuscleCommand(state)
-  if (!isConnected) return logCommandError(cmd)
-  logCommandSent(botId, cmd)
-  publishRobotCommand(botId, cmd)
+  dispatchRobotCommand(botId, cmd, isConnected)
 }
 
 // Hook quản lý trạng thái kích hoạt cơ bắp servo cánh tay
