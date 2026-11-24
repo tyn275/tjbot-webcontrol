@@ -13,9 +13,7 @@ export const TtsCountrySelect: FC<Props> = ({ lang, onLangChange }) => {
 
   return (
     <div>
-      <label className="text-muted small fw-bold d-block mb-1 audio__sub-label">
-        {t('audio.labelCountry')}
-      </label>
+      <label className="text-muted small fw-bold d-block mb-1">{t('audio.labelLanguage')}</label>
       <select
         className="form-select form-select-sm"
         value={lang}

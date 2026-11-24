@@ -13,9 +13,7 @@ export const TtsServiceSelect: FC<Props> = ({ service, onServiceChange }) => {
 
   return (
     <div>
-      <label className="text-muted small fw-bold d-block mb-1 audio__sub-label">
-        {t('audio.labelService')}
-      </label>
+      <label className="text-muted small fw-bold d-block mb-1">{t('audio.labelService')}</label>
       <select
         className="form-select form-select-sm"
         value={service}

@@ -15,9 +15,7 @@ export const TtsVoiceSelect: FC<Props> = ({ lang, voice, onVoiceChange }) => {
 
   return (
     <div>
-      <label className="text-muted small fw-bold d-block mb-1 audio__sub-label">
-        {t('audio.labelVoice')}
-      </label>
+      <label className="text-muted small fw-bold d-block mb-1">{t('audio.labelVoice')}</label>
       <select
         className="form-select form-select-sm"
         value={voice}
