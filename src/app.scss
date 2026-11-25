@@ -1,3 +1,5 @@
+@use './styles/abstracts/variables' as *;
+
 .app-root {
   height: 100vh;
   display: flex;
@@ -15,7 +17,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background-color: #f1f3f5;
+    background-color: $viewport-bg;
   }
 
   &__viewport {

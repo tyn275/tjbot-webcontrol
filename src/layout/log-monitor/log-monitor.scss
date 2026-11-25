@@ -1,16 +1,18 @@
+@use '../../styles/abstracts/variables' as *;
+
 .log-monitor {
   flex-shrink: 0;
   height: 135px;
-  background-color: #1e272e;
-  color: #2ecc71;
+  background-color: $log-bg;
+  color: $log-text;
   font-family: 'Courier New', Courier, monospace;
   font-size: 0.82rem;
   padding: 10px 18px;
   overflow-y: auto;
-  border-top: 2px solid #2c3e50;
+  border-top: 2px solid $log-border;
   box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: #576574 #1e272e;
+  scrollbar-color: $log-scroll-thumb $log-bg;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -23,16 +25,16 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: #1e272e;
+    background: $log-bg;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #576574;
+    background: $log-scroll-thumb;
     border-radius: 4px;
-    border: 1px solid #2c3e50;
+    border: 1px solid $log-border;
 
     &:hover {
-      background: #8395a7;
+      background: $log-scroll-thumb-hover;
     }
   }
 

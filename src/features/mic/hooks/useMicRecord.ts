@@ -27,8 +27,10 @@ const useRecordStop = (deps: RecordDeps) => {
   return useCallback(() => {
     deps.cleanupRef.current?.()
     deps.cleanupRef.current = null
-    deps.setRecording(false)
-    dispatchRecord(deps.botId, buildRecordCommand('off'), deps.isConnected)
+    const ok = dispatchRecord(deps.botId, buildRecordCommand('off'), deps.isConnected)
+    if (ok) {
+      deps.setRecording(false)
+    }
   }, [deps])
 }
 

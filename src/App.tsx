@@ -2,18 +2,24 @@ import { useEffect, useState, type FC } from 'react'
 import { Navbar } from './layout/navbar/Navbar'
 import { Sidebar, type TabId } from './layout/sidebar/Sidebar'
 import { LogMonitor } from './layout/log-monitor/LogMonitor'
-import { IntroPage } from './features/intro/IntroPage'
-import { GymPage } from './features/gym/GymPage'
+import { AppViewport } from './layout/AppViewport'
 import { useMqttConnection } from './hooks/useMqttConnection'
 import { useLogStream } from './hooks/useLogStream'
 import { logNavigated, logSidebarToggle } from './services/logger/log.service'
-import { getRecentBotIds, saveRecentBotId } from './services/storage/storage'
+import {
+  getRecentBotIds,
+  saveRecentBotId,
+  getSavedBotId,
+  saveBotId,
+} from './services/storage/storage'
+import { env } from './core/env'
 
 const useRecentBotHistory = (botId: string, isConnected: boolean): string[] => {
   const [recentBotIds, setRecentBotIds] = useState(getRecentBotIds)
 
   useEffect(() => {
     if (!isConnected) return
+    saveBotId(botId)
     saveRecentBotId(botId)
     setRecentBotIds(getRecentBotIds())
   }, [botId, isConnected])
@@ -44,7 +50,7 @@ const useNavigation = () => {
 }
 
 export const App: FC = () => {
-  const [botId, setBotId] = useState('tjbot1')
+  const [botId, setBotId] = useState(() => getSavedBotId(env.defaultBotId))
   const nav = useNavigation()
   const logStream = useLogStream()
   const { isConnected, isConnecting, toggleConnect } = useMqttConnection(botId)
@@ -68,14 +74,12 @@ export const App: FC = () => {
           onSelectTab={nav.selectTab}
         />
         <main className="app-root__main">
-          <div className="app-root__viewport">
-            {nav.hasVisitedIntro && (
-              <div className={`h-100 ${nav.activeTab !== 'intro' ? 'd-none' : ''}`}>
-                <IntroPage />
-              </div>
-            )}
-            {nav.activeTab === 'gym' && <GymPage botId={botId} isConnected={isConnected} />}
-          </div>
+          <AppViewport
+            activeTab={nav.activeTab}
+            hasVisitedIntro={nav.hasVisitedIntro}
+            botId={botId}
+            isConnected={isConnected}
+          />
           <LogMonitor logs={logStream.logs} />
         </main>
       </div>

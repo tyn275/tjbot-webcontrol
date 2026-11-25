@@ -1,7 +1,7 @@
 import { buildCommand } from '../../services/mqtt/command'
 
 export type MuscleState = 'on' | 'off'
-export type WaveSpeed = 'fast' | 'low'
+export type WaveSpeed = 'fast' | 'slow'
 
 // Tạo lệnh điều khiển góc quay servo cánh tay robot qua cổng phát lệnh tập trung
 export const buildArmCommand = (angle: number): string => {

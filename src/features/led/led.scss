@@ -1,7 +1,7 @@
 @use '../../styles/abstracts/variables' as *;
 
 .led {
-  background-color: #fff;
+  background-color: $white;
 
   &__icon-box {
     background-color: $led-icon-bg;
@@ -34,6 +34,15 @@
     max-width: 130px;
   }
 
+  &__hex-field--invalid {
+    border-color: $danger-color;
+
+    &:focus {
+      border-color: $danger-color;
+      box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+  }
+
   &__color-native {
     position: absolute;
     width: 1px;
@@ -55,15 +64,15 @@
     flex-shrink: 0;
 
     &--r {
-      background-color: #dc3545;
+      background-color: $led-badge-r;
     }
 
     &--g {
-      background-color: #198754;
+      background-color: $led-badge-g;
     }
 
     &--b {
-      background-color: #0d6efd;
+      background-color: $led-badge-b;
     }
   }
 
@@ -91,15 +100,15 @@
   &__rainbow-title {
     background: linear-gradient(
       to right,
-      #ef5350,
-      #f48fb1,
-      #7e57c2,
-      #2196f3,
-      #26c6da,
-      #43a047,
-      #eeff41,
-      #f9a825,
-      #ff5722
+      $rainbow-1,
+      $rainbow-2,
+      $rainbow-3,
+      $rainbow-4,
+      $rainbow-5,
+      $rainbow-6,
+      $rainbow-7,
+      $rainbow-8,
+      $rainbow-9
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -109,7 +118,7 @@
   }
 
   &__wand-svg {
-    color: #6c757d;
+    color: $led-wand-default;
     transition: all 0.3s ease;
 
     &--active {
@@ -118,17 +127,17 @@
   }
 
   &__text-red {
-    color: #d63031;
+    color: $led-tag-red;
     font-weight: 700;
   }
 
   &__text-green {
-    color: #00b894;
+    color: $led-tag-green;
     font-weight: 700;
   }
 
   &__text-pearl {
-    color: #596275;
+    color: $led-tag-pearl;
     font-weight: 700;
   }
 
@@ -141,15 +150,15 @@
     -webkit-text-fill-color: transparent;
 
     &--rg {
-      background-image: linear-gradient(to right, #d63031, #00b894);
+      background-image: linear-gradient(to right, $led-tag-red, $led-tag-green);
     }
 
     &--rw {
-      background-image: linear-gradient(to right, #d63031, #596275);
+      background-image: linear-gradient(to right, $led-tag-red, $led-tag-pearl);
     }
 
     &--gw {
-      background-image: linear-gradient(to right, #00b894, #596275);
+      background-image: linear-gradient(to right, $led-tag-green, $led-tag-pearl);
     }
   }
 
@@ -168,44 +177,44 @@
 
     &--rg {
       background:
-        linear-gradient(#ffffff, #ffffff) padding-box,
-        linear-gradient(135deg, #e74c3c 0%, #2ecc71 100%) border-box;
+        linear-gradient($white, $white) padding-box,
+        linear-gradient(135deg, $led-ombre-rg-from 0%, $led-ombre-rg-to 100%) border-box;
 
       &:hover {
         background:
-          linear-gradient(#fafafa, #fafafa) padding-box,
-          linear-gradient(135deg, #e74c3c 0%, #2ecc71 100%) border-box;
+          linear-gradient($light-bg, $light-bg) padding-box,
+          linear-gradient(135deg, $led-ombre-rg-from 0%, $led-ombre-rg-to 100%) border-box;
       }
     }
 
     &--rw {
       background:
-        linear-gradient(#ffffff, #ffffff) padding-box,
-        linear-gradient(135deg, #e74c3c 0%, #bdc3c7 100%) border-box;
+        linear-gradient($white, $white) padding-box,
+        linear-gradient(135deg, $led-ombre-rg-from 0%, $led-ombre-rw-to 100%) border-box;
 
       &:hover {
         background:
-          linear-gradient(#fafafa, #fafafa) padding-box,
-          linear-gradient(135deg, #e74c3c 0%, #bdc3c7 100%) border-box;
+          linear-gradient($light-bg, $light-bg) padding-box,
+          linear-gradient(135deg, $led-ombre-rg-from 0%, $led-ombre-rw-to 100%) border-box;
       }
     }
 
     &--gw {
       background:
-        linear-gradient(#ffffff, #ffffff) padding-box,
-        linear-gradient(135deg, #2ecc71 0%, #bdc3c7 100%) border-box;
+        linear-gradient($white, $white) padding-box,
+        linear-gradient(135deg, $led-ombre-rg-to 0%, $led-ombre-rw-to 100%) border-box;
 
       &:hover {
         background:
-          linear-gradient(#fafafa, #fafafa) padding-box,
-          linear-gradient(135deg, #2ecc71 0%, #bdc3c7 100%) border-box;
+          linear-gradient($light-bg, $light-bg) padding-box,
+          linear-gradient(135deg, $led-ombre-rg-to 0%, $led-ombre-rw-to 100%) border-box;
       }
     }
   }
 
   &__btn-7color {
-    background: linear-gradient(45deg, #d63031, #0984e3);
-    color: #ffffff;
+    background: linear-gradient(45deg, $led-tag-red, $led-btn-7color-to);
+    color: $white;
     font-weight: 700;
     border: none;
     flex: 1 1 0;
@@ -213,7 +222,7 @@
 
     &:hover {
       filter: brightness(1.1);
-      color: #ffffff;
+      color: $white;
     }
   }
 
@@ -226,27 +235,27 @@
 
 @keyframes rainbowGlow {
   0% {
-    color: #ff0000;
-    filter: drop-shadow(0 0 15px #ff0000);
+    color: $glow-red;
+    filter: drop-shadow(0 0 15px $glow-red);
   }
   20% {
-    color: #ffff00;
-    filter: drop-shadow(0 0 15px #ffff00);
+    color: $glow-yellow;
+    filter: drop-shadow(0 0 15px $glow-yellow);
   }
   40% {
-    color: #00ff00;
-    filter: drop-shadow(0 0 15px #00ff00);
+    color: $glow-green;
+    filter: drop-shadow(0 0 15px $glow-green);
   }
   60% {
-    color: #00ffff;
-    filter: drop-shadow(0 0 15px #00ffff);
+    color: $glow-cyan;
+    filter: drop-shadow(0 0 15px $glow-cyan);
   }
   80% {
-    color: #0000ff;
-    filter: drop-shadow(0 0 15px #0000ff);
+    color: $glow-blue;
+    filter: drop-shadow(0 0 15px $glow-blue);
   }
   100% {
-    color: #ff00ff;
-    filter: drop-shadow(0 0 15px #ff00ff);
+    color: $glow-magenta;
+    filter: drop-shadow(0 0 15px $glow-magenta);
   }
 }

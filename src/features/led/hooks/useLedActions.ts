@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { dispatchRobotCommand } from '../../../services/mqtt/mqtt-client'
-import { buildHeadHexCommand, buildHeadBlinkHexCommand } from '../led.commands'
+import { clampTimes } from '../../../core/hardware-limits'
+import { buildHeadHexCommand, buildHeadBlinkHexCommand, isValidHex } from '../led.commands'
 
 export interface LedActionParams {
   readonly botId: string
@@ -16,6 +17,7 @@ const dispatchCommand = (cmd: string, botId: string, isConnected: boolean): void
 
 export const useLedActions = ({ botId, hex, times, speed, isConnected }: LedActionParams) => {
   const turnOn = useCallback(() => {
+    if (!isValidHex(hex)) return
     dispatchCommand(buildHeadHexCommand('on', hex), botId, isConnected)
   }, [botId, hex, isConnected])
 
@@ -24,7 +26,9 @@ export const useLedActions = ({ botId, hex, times, speed, isConnected }: LedActi
   }, [botId, isConnected])
 
   const blink = useCallback(() => {
-    dispatchCommand(buildHeadBlinkHexCommand(times, speed, hex), botId, isConnected)
+    if (!isValidHex(hex)) return
+    const safeTimes = clampTimes(times, 1, 20)
+    dispatchCommand(buildHeadBlinkHexCommand(safeTimes, speed, hex), botId, isConnected)
   }, [botId, times, speed, hex, isConnected])
 
   return { turnOn, turnOff, blink }

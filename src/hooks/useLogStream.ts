@@ -5,8 +5,12 @@ const LOG_RETENTION_MS = 3 * 60 * 1000
 const LOG_CLEANUP_INTERVAL_MS = 5 * 1000
 const MAX_LOG_ENTRIES = 100
 
-const removeExpiredLogs = (logs: LogEntry[], now: number): LogEntry[] =>
-  logs.filter((entry) => now - entry.createdAt < LOG_RETENTION_MS).slice(-MAX_LOG_ENTRIES)
+const removeExpiredLogs = (logs: LogEntry[], now: number): LogEntry[] => {
+  const filtered = logs
+    .filter((entry) => now - entry.createdAt < LOG_RETENTION_MS)
+    .slice(-MAX_LOG_ENTRIES)
+  return filtered.length === logs.length ? logs : filtered
+}
 
 export const useLogStream = () => {
   const [logs, setLogs] = useState<LogEntry[]>([])

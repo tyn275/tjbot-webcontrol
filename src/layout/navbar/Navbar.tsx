@@ -25,14 +25,28 @@ const NavbarBrand: FC<BrandProps> = ({ onToggleSidebar, label, title }) => (
   <div className="d-flex align-items-center">
     <button
       type="button"
-      className="btn btn-outline-light btn-sm me-3 navbar-custom__toggle-btn"
+      className="btn btn-outline-light me-3 navbar-custom__toggle-btn"
       onClick={onToggleSidebar}
       aria-label={label}
     >
-      ☰
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
     </button>
     <div className="navbar-custom__brand fw-bold text-warning d-flex align-items-center">
-      <img src={tjbotLogo} alt="TJBot Logo" width="24" height="24" className="me-2" />
+      <img src={tjbotLogo} alt={title} width="24" height="24" className="me-2" />
       <span>{title}</span>
     </div>
   </div>

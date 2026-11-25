@@ -8,18 +8,56 @@ $info-color: #17a2b8;
 $light-bg: #f8f9fa;
 $dark-bg: #212529;
 $white: #ffffff;
+$viewport-bg: #f1f3f5;
 
 // Bảng màu thanh điều hướng và thanh bên
 $navbar-bg: #1e272e;
 $navbar-border: #2c3e50;
 $sidebar-bg: #2c3e50;
+$sidebar-link: #dcdde1;
 $status-dot-default: #7f8c8d;
 $status-dot-active: #2ecc71;
 $btn-connecting-color: #9e9e9e;
 
+// Bảng màu nhật ký hệ thống (Terminal Log)
+$log-bg: #1e272e;
+$log-text: #2ecc71;
+$log-border: #2c3e50;
+$log-scroll-thumb: #576574;
+$log-scroll-thumb-hover: #8395a7;
+
 // Bảng màu phân hệ đèn LED
 $led-accent: #5f27cd;
 $led-icon-bg: #f0f3ff;
+$led-badge-r: #dc3545;
+$led-badge-g: #198754;
+$led-badge-b: #0d6efd;
+$led-wand-default: #6c757d;
+$led-tag-red: #d63031;
+$led-tag-green: #00b894;
+$led-tag-pearl: #596275;
+$led-ombre-rg-from: #e74c3c;
+$led-ombre-rg-to: #2ecc71;
+$led-ombre-rw-to: #bdc3c7;
+$led-btn-7color-to: #0984e3;
+
+// Bảng màu dải cầu vồng và phát sáng
+$rainbow-1: #ef5350;
+$rainbow-2: #f48fb1;
+$rainbow-3: #7e57c2;
+$rainbow-4: #2196f3;
+$rainbow-5: #26c6da;
+$rainbow-6: #43a047;
+$rainbow-7: #eeff41;
+$rainbow-8: #f9a825;
+$rainbow-9: #ff5722;
+
+$glow-red: #ff0000;
+$glow-yellow: #ffff00;
+$glow-green: #00ff00;
+$glow-cyan: #00ffff;
+$glow-blue: #0000ff;
+$glow-magenta: #ff00ff;
 
 // Bảng màu phân hệ cánh tay robot
 $arm-accent: #f59f00;
@@ -42,6 +80,9 @@ $mic-accent: #fd7e14;
 $mic-accent-dark: #e8590c;
 $mic-icon-bg: #fff4e6;
 $mic-pulse-blue: #0dcaf0;
+$mic-card-bg: #fafafa;
+$mic-focus-border: #a5d8ff;
+$mic-btn-action: #17a2b8;
 
 // Phông chữ và khoảng cách
 $font-family-base:
@@ -61,6 +102,7 @@ $spacing-unit: 8px;
   --light-bg: #{$light-bg};
   --dark-bg: #{$dark-bg};
   --white: #{$white};
+  --viewport-bg: #{$viewport-bg};
   --navbar-bg: #{$navbar-bg};
   --navbar-border: #{$navbar-border};
   --sidebar-bg: #{$sidebar-bg};

@@ -1,6 +1,7 @@
 import type { TtsLanguage } from './audio.types'
+import { isCjkText } from '../../core/hardware-limits'
 
-// Tiện ích tính toán số từ và ước lượng thời lượng phát âm thanh của robot
+export { isCjkText }
 
 // Bảng ánh xạ thời lượng ước tính cho từng file âm thanh có sẵn (đơn vị mili-giây)
 export const AUDIO_FILE_DURATIONS: Record<string, number> = {
@@ -13,14 +14,6 @@ export const AUDIO_FILE_DURATIONS: Record<string, number> = {
 // Lấy thời lượng ước tính của file âm thanh theo tên file
 export const getAudioFileDurationMs = (filename: string): number => {
   return AUDIO_FILE_DURATIONS[filename] ?? 3000
-}
-
-// Biểu thức chính quy nhận diện ký tự tiếng Nhật/CJK (Hiragana, Katakana, Kanji)
-const CJK_REGEX = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff]/
-
-// Kiểm tra chuỗi có chứa ký tự tiếng Nhật/CJK hay không
-export const isCjkText = (text: string): boolean => {
-  return CJK_REGEX.test(text)
 }
 
 // Đếm số lượng từ hoặc ký tự âm vị dựa trên ngôn ngữ
@@ -62,10 +55,5 @@ export const estimateTtsDurationMs = (text: string, lang: TtsLanguage = 'vi'): n
 // Nhận diện gói tin phản hồi từ robot báo hiệu đã hoàn thành phát âm thanh
 export const isPlaybackFinishedMessage = (payload: string): boolean => {
   const normalized = payload.toLowerCase()
-  return (
-    normalized.includes('completed') ||
-    normalized.includes('finished') ||
-    normalized.includes('đã đọc xong') ||
-    normalized.includes('success: audio')
-  )
+  return normalized.includes('đã đọc xong') || normalized.includes('đã tắt âm thanh')
 }
