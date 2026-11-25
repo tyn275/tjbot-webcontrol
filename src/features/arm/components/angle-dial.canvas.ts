@@ -1,9 +1,17 @@
+const DIAL_COLORS = {
+  ARC_STROKE: '#e0e0e0',
+  AXIS_STROKE: '#f0f0f0',
+  ARM_FILL: '#f59f00',
+  ARM_STROKE: '#d97706',
+  PIVOT_FILL: '#333333',
+} as const
+
 // Vẽ trục giữa và vòng bán nguyệt nét đứt mô phỏng cung quay
 export const drawDialBackground = (ctx: CanvasRenderingContext2D, size: number): void => {
   const c = size / 2
   ctx.beginPath()
   ctx.arc(c, c, 45, Math.PI * 1.5, Math.PI * 0.5, false)
-  ctx.strokeStyle = '#e0e0e0'
+  ctx.strokeStyle = DIAL_COLORS.ARC_STROKE
   ctx.lineWidth = 2
   ctx.setLineDash([4, 4])
   ctx.stroke()
@@ -11,7 +19,7 @@ export const drawDialBackground = (ctx: CanvasRenderingContext2D, size: number):
   ctx.beginPath()
   ctx.moveTo(c, c - 45)
   ctx.lineTo(c, c + 45)
-  ctx.strokeStyle = '#f0f0f0'
+  ctx.strokeStyle = DIAL_COLORS.AXIS_STROKE
   ctx.stroke()
 }
 
@@ -29,8 +37,8 @@ const drawArmBar = (ctx: CanvasRenderingContext2D): void => {
   ctx.lineTo(x, y + r)
   ctx.quadraticCurveTo(x, y, x + r, y)
   ctx.closePath()
-  ctx.fillStyle = '#f59f00'
-  ctx.strokeStyle = '#d97706'
+  ctx.fillStyle = DIAL_COLORS.ARM_FILL
+  ctx.strokeStyle = DIAL_COLORS.ARM_STROKE
   ctx.lineWidth = 2
   ctx.fill()
   ctx.stroke()
@@ -48,7 +56,7 @@ export const drawArmPointer = (
   ctx.rotate((angleDegrees * Math.PI) / 180)
   ctx.beginPath()
   ctx.arc(0, 0, 6, 0, 2 * Math.PI)
-  ctx.fillStyle = '#333'
+  ctx.fillStyle = DIAL_COLORS.PIVOT_FILL
   ctx.fill()
   drawArmBar(ctx)
   ctx.restore()

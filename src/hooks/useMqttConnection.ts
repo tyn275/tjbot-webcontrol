@@ -22,9 +22,7 @@ const handleDisconnect = async (): Promise<boolean> => {
 const useUnloadDisconnect = (isConnected: boolean): void => {
   useEffect(() => {
     const handleUnload = () => {
-      if (isConnected) {
-        void disconnectMqtt()
-      }
+      if (isConnected) void disconnectMqtt()
     }
     window.addEventListener('beforeunload', handleUnload)
     window.addEventListener('pagehide', handleUnload)
@@ -35,22 +33,28 @@ const useUnloadDisconnect = (isConnected: boolean): void => {
   }, [isConnected])
 }
 
+const executeToggle = async (
+  botId: string,
+  isConnected: boolean,
+  setConnected: (val: boolean) => void
+) => {
+  const timeoutPromise = new Promise<boolean>((res) => setTimeout(() => res(false), 8000))
+  const actionPromise = isConnected ? handleDisconnect() : handleConnect(botId)
+  const next = await Promise.race([actionPromise, timeoutPromise])
+  setConnected(next)
+}
+
 export const useMqttConnection = (botId: string) => {
   const [isConnected, setIsConnected] = useState(() => isMqttConnected())
   const [isConnecting, setIsConnecting] = useState(false)
-
-  useEffect(() => {
-    return subscribeMqttStatus(setIsConnected)
-  }, [])
-
+  useEffect(() => subscribeMqttStatus(setIsConnected), [])
   useUnloadDisconnect(isConnected)
 
   const toggleConnect = async () => {
     if (isConnecting) return
     setIsConnecting(true)
     try {
-      const next = isConnected ? await handleDisconnect() : await handleConnect(botId)
-      setIsConnected(next)
+      await executeToggle(botId, isConnected, setIsConnected)
     } finally {
       setIsConnecting(false)
     }

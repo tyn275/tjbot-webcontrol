@@ -2,7 +2,6 @@
 export const STORAGE_KEYS = {
   BOT_ID: 'tjbot_device_id',
   RECENT_BOT_IDS: 'tjbot_recent_ids',
-  GEMINI_API_KEY: 'gemini_api_key',
 } as const
 
 const MAX_RECENT_BOT_IDS = 10

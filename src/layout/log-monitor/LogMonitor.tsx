@@ -13,7 +13,11 @@ export const LogMonitor: FC<LogMonitorProps> = ({ logs }) => {
 
   useEffect(() => {
     if (boxRef.current) {
-      boxRef.current.scrollTop = boxRef.current.scrollHeight
+      const { scrollHeight, scrollTop, clientHeight } = boxRef.current
+      const isNearBottom = scrollHeight - scrollTop - clientHeight < 50
+      if (isNearBottom) {
+        boxRef.current.scrollTop = boxRef.current.scrollHeight
+      }
     }
   }, [logs])
 

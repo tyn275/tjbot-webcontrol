@@ -7,3 +7,6 @@ export const buildCommand = (name: string, ...args: readonly CommandArg[]): stri
   )
   return `${name}(${formattedArgs.join(', ')})`
 }
+
+// Tạo lệnh yêu cầu thông tin cấu hình từ robot qua cổng phát lệnh tập trung
+export const buildInfoCommand = (): string => 'info'

@@ -2,6 +2,7 @@ export const commonI18n = {
   vi: {
     title: 'Trung tâm điều khiển',
     subtitle: 'Hệ thống điều khiển robot Raspberry Pi 4 qua MQTT',
+    brandLogoAlt: 'Biểu trưng TJBot',
     connected: 'Đã kết nối',
     disconnected: 'Chưa kết nối',
     connecting: 'Đang kết nối...',
@@ -35,6 +36,7 @@ export const commonI18n = {
   en: {
     title: 'TJBot Control Center',
     subtitle: 'Robot control system for Raspberry Pi 4 via MQTT',
+    brandLogoAlt: 'TJBot Logo',
     connected: 'Connected',
     disconnected: 'Disconnected',
     connecting: 'Connecting...',

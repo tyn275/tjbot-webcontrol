@@ -30,7 +30,7 @@
   &__disk {
     width: 120px;
     height: 120px;
-    background-color: #fafafa;
+    background-color: $mic-card-bg;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -82,8 +82,8 @@
 
     &:hover,
     &:focus {
-      background-color: darken(#17a2b8, 8%);
-      border-color: darken(#17a2b8, 8%);
+      background-color: darken($mic-btn-action, 8%);
+      border-color: darken($mic-btn-action, 8%);
       color: $white;
     }
   }
@@ -107,7 +107,7 @@
     font-size: 0.82rem;
     resize: none;
     overflow-y: auto;
-    border-color: #a5d8ff;
+    border-color: $mic-focus-border;
   }
 
   &__guide {

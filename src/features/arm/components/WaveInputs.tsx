@@ -1,5 +1,6 @@
 import type { FC, ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { clampTimes } from '../../../core/hardware-limits'
 import type { WaveSpeed } from '../arm.commands'
 
 interface Props {
@@ -23,7 +24,9 @@ export const WaveInputs: FC<Props> = ({ times, speed, onTimesChange, onSpeedChan
           value={times}
           min={1}
           max={20}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => onTimesChange(Number(e.target.value))}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            onTimesChange(clampTimes(Number(e.target.value) || 1, 1, 20))
+          }
         />
       </div>
       <div className="arm-wave__speed">
@@ -36,7 +39,7 @@ export const WaveInputs: FC<Props> = ({ times, speed, onTimesChange, onSpeedChan
           }
         >
           <option value="fast">{t('arm.speedFast')}</option>
-          <option value="low">{t('arm.speedSlow')}</option>
+          <option value="slow">{t('arm.speedSlow')}</option>
         </select>
       </div>
     </>

@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { clampTimes } from '../../../core/hardware-limits'
 import { dispatchRobotCommand } from '../../../services/mqtt/mqtt-client'
 import { buildWavehandCommand, buildStopWaveCommand, type WaveSpeed } from '../arm.commands'
 
@@ -17,11 +18,11 @@ const emit = (cmd: string, botId: string, isConnected: boolean): void => {
 export const useArmWave = ({ botId, isConnected, onEnsureMuscle }: WaveParams) => {
   const [times, setTimes] = useState(1)
   const [speed, setSpeed] = useState<WaveSpeed>('fast')
-  const [commandLog, setCommandLog] = useState('Wavehand("fast", 1)')
+  const [commandLog, setCommandLog] = useState(() => buildWavehandCommand('fast', 1))
 
   const wave = useCallback(() => {
     onEnsureMuscle()
-    const safeTimes = Math.max(1, Math.min(times, 20))
+    const safeTimes = clampTimes(times, 1, 20)
     const cmd = buildWavehandCommand(speed, safeTimes)
     setCommandLog(cmd)
     emit(cmd, botId, isConnected)

@@ -1,50 +1,39 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
-import { dispatchRobotCommand, subscribeMqttMessage } from '../../../services/mqtt/mqtt-client'
-import { HARDWARE_LIMITS, truncateTtsText } from '../../../core/hardware-limits'
+import { useState, useCallback } from 'react'
+import { dispatchRobotCommand } from '../../../services/mqtt/mqtt-client'
+import { HARDWARE_LIMITS, truncateTtsText, isCjkText } from '../../../core/hardware-limits'
 import { buildTtsCommand, buildSilentCommand } from '../audio.commands'
-import { estimateTtsDurationMs, isPlaybackFinishedMessage, countWords } from '../audio.utils'
+import { estimateTtsDurationMs, countWords } from '../audio.utils'
 import { VOICE_DATA, type TtsLanguage, type TtsService } from '../audio.types'
+import { useTtsPlayer } from './useTtsPlayer'
 
-type CleanupFn = () => void
-
-// Khởi chạy bộ lắng nghe sự kiện MQTT và đồng hồ dự phòng cho tác vụ đọc văn bản
-const startTtsWatcher = (botId: string, durationMs: number, onStop: () => void): CleanupFn => {
-  const timer = setTimeout(() => {
-    cleanup()
-    onStop()
-  }, durationMs)
-
-  const unsubscribe = subscribeMqttMessage((topic, payload) => {
-    if (topic === `${botId}/status` && isPlaybackFinishedMessage(payload)) {
-      cleanup()
-      onStop()
-    }
-  })
-
-  const cleanup = () => {
-    clearTimeout(timer)
-    unsubscribe()
-  }
-  return cleanup
-}
-
-// Bắn lệnh MQTT với cơ chế kiểm tra kết nối và ghi log
 const dispatchTts = (botId: string, cmd: string, isConnected: boolean): boolean => {
   return dispatchRobotCommand(botId, cmd, isConnected)
 }
 
-// Hook con quản lý chuỗi văn bản nhập vào và giới hạn số từ tối đa
+const truncateInputText = (val: string, lang: TtsLanguage): string => {
+  const isCjk = lang === 'ja' || isCjkText(val)
+  return countWords(val, lang) > HARDWARE_LIMITS.TTS_MAX_WORDS
+    ? truncateTtsText(val, HARDWARE_LIMITS.TTS_MAX_WORDS, isCjk)
+    : val
+}
+
+// Hook con quản lý chuỗi văn bản nhập vào, cờ cảnh báo rỗng và giới hạn số từ tối đa
 const useTtsTextState = (lang: TtsLanguage) => {
   const [text, setText] = useState('')
+  const [isEmptyAlert, setIsEmptyAlert] = useState(false)
+
   const handleText = useCallback(
     (val: string) => {
-      setText(countWords(val, lang) > HARDWARE_LIMITS.TTS_MAX_WORDS ? truncateTtsText(val) : val)
+      if (val.trim()) setIsEmptyAlert(false)
+      setText(truncateInputText(val, lang))
     },
     [lang]
   )
   return {
     text,
     setText: handleText,
+    isEmptyAlert,
+    setIsEmptyAlert,
     wordCount: countWords(text, lang),
     isOverLimit: countWords(text, lang) > HARDWARE_LIMITS.TTS_MAX_WORDS,
   }
@@ -64,36 +53,32 @@ const useTtsVoiceConfig = () => {
   return { lang, voice, service, setVoice, setService, setLang: handleLang }
 }
 
-// Hook con quản lý vòng đời hoạt ảnh đọc văn bản
-const useTtsPlayer = (botId: string) => {
-  const [isReading, setIsReading] = useState(false)
-  const cleanupRef = useRef<CleanupFn | null>(null)
-
-  const stopActive = useCallback(() => {
-    cleanupRef.current?.()
-    cleanupRef.current = null
-    setIsReading(false)
-  }, [])
-
-  useEffect(() => () => stopActive(), [stopActive])
-
-  const play = useCallback(
-    (durationMs: number) => {
-      stopActive()
-      setIsReading(true)
-      cleanupRef.current = startTtsWatcher(botId, durationMs, stopActive)
-    },
-    [botId, stopActive]
-  )
-
-  return { isReading, play, stopActive }
-}
-
 interface ActionParams {
   readonly botId: string
   readonly isConnected: boolean
+  readonly isOverLimit: boolean
   readonly player: ReturnType<typeof useTtsPlayer>
   readonly setLastCmd: (cmd: string) => void
+  readonly onEmptySubmit: () => void
+}
+
+const useSpeakHandler = (
+  params: ActionParams,
+  config: ReturnType<typeof useTtsVoiceConfig>,
+  text: string
+) => {
+  return useCallback(() => {
+    const trimmed = text.trim()
+    if (!trimmed) {
+      params.onEmptySubmit()
+      return
+    }
+    if (params.isOverLimit) return
+    const cmd = buildTtsCommand({ text: trimmed, ...config })
+    params.setLastCmd(cmd)
+    if (!dispatchTts(params.botId, cmd, params.isConnected)) return
+    params.player.play(estimateTtsDurationMs(trimmed, config.lang))
+  }, [params, config, text])
 }
 
 // Hook con điều phối hành động phát giọng nói và ngắt âm thanh
@@ -102,15 +87,7 @@ const useTtsActions = (
   config: ReturnType<typeof useTtsVoiceConfig>,
   text: string
 ) => {
-  const speak = useCallback(() => {
-    const trimmed = text.trim()
-    if (!trimmed) return
-    const cmd = buildTtsCommand({ text: trimmed, ...config })
-    params.setLastCmd(cmd)
-    if (!dispatchTts(params.botId, cmd, params.isConnected)) return
-    params.player.play(estimateTtsDurationMs(trimmed, config.lang))
-  }, [params, config, text])
-
+  const speak = useSpeakHandler(params, config, text)
   const silent = useCallback(() => {
     params.player.stopActive()
     params.setLastCmd(buildSilentCommand())
@@ -127,7 +104,14 @@ export const useAudioTts = (botId: string, isConnected = false) => {
   const player = useTtsPlayer(botId)
   const [lastCommand, setLastCommand] = useState('')
   const actions = useTtsActions(
-    { botId, isConnected, player, setLastCmd: setLastCommand },
+    {
+      botId,
+      isConnected,
+      isOverLimit: textState.isOverLimit,
+      player,
+      setLastCmd: setLastCommand,
+      onEmptySubmit: () => textState.setIsEmptyAlert(true),
+    },
     config,
     textState.text
   )

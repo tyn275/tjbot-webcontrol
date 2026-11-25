@@ -6,6 +6,7 @@ export interface TtsTextInputProps {
   readonly text: string
   readonly wordCount: number
   readonly isOverLimit: boolean
+  readonly isEmptyAlert?: boolean
   readonly onTextChange: (val: string) => void
 }
 
@@ -14,6 +15,7 @@ export const TtsTextInput: FC<TtsTextInputProps> = ({
   text,
   wordCount,
   isOverLimit,
+  isEmptyAlert = false,
   onTextChange,
 }) => {
   const { t } = useTranslation()
@@ -21,7 +23,7 @@ export const TtsTextInput: FC<TtsTextInputProps> = ({
   return (
     <div>
       <textarea
-        className="form-control form-control-sm"
+        className={`form-control form-control-sm ${isEmptyAlert ? 'audio__textarea--invalid border-danger' : ''}`}
         rows={2}
         placeholder={t('audio.placeholderTts')}
         value={text}
@@ -29,7 +31,7 @@ export const TtsTextInput: FC<TtsTextInputProps> = ({
       />
       <div className="d-flex justify-content-between mt-1 px-1">
         <span className="text-danger fw-bold audio__alert">
-          {isOverLimit ? t('audio.alertLimit') : ''}
+          {isOverLimit ? t('audio.alertLimit') : isEmptyAlert ? t('audio.alertEmpty') : ''}
         </span>
         <span className="text-muted audio__word-count">
           {wordCount} / {HARDWARE_LIMITS.TTS_MAX_WORDS} {t('audio.wordCountSuffix')}

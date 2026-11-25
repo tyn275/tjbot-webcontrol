@@ -3,20 +3,12 @@ import { dispatchRobotCommand } from '../../../services/mqtt/mqtt-client'
 import { logCommandError } from '../../../services/logger/log.service'
 import { buildRainbowCommand, buildLedOffCommand } from '../led.commands'
 
-const delayMs = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms))
-
-const sendEffectTransition = async (botId: string, effect: string): Promise<boolean> => {
-  const offCmd = buildLedOffCommand()
-  if (!dispatchRobotCommand(botId, offCmd)) return false
-  await delayMs(60)
-  const rainbowCmd = buildRainbowCommand(effect)
-  if (!dispatchRobotCommand(botId, rainbowCmd)) return false
-  return true
+const sendRainbowEffect = (botId: string, effect: string): boolean => {
+  return dispatchRobotCommand(botId, buildRainbowCommand(effect))
 }
 
 const sendStopEffect = (botId: string): void => {
-  const offCmd = buildLedOffCommand()
-  dispatchRobotCommand(botId, offCmd)
+  dispatchRobotCommand(botId, buildLedOffCommand())
 }
 
 const useSyncDisconnected = (isConnected: boolean, onReset: () => void): void => {
@@ -31,9 +23,9 @@ export const useLedRainbow = (botId: string, isConnected = false) => {
   useSyncDisconnected(isConnected, resetEffect)
 
   const triggerEffect = useCallback(
-    async (eff: string) => {
+    (eff: string) => {
       if (!isConnected) return logCommandError(buildRainbowCommand(eff))
-      if (await sendEffectTransition(botId, eff)) setActiveEffect(eff)
+      if (sendRainbowEffect(botId, eff)) setActiveEffect(eff)
     },
     [botId, isConnected]
   )

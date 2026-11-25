@@ -70,9 +70,12 @@ const useListenStop = (deps: ActionDeps) => {
   return useCallback(() => {
     deps.cleanupRef.current?.()
     deps.cleanupRef.current = null
-    deps.state.setIsListening(false)
-    deps.state.setLastCommand(buildListenCommand('off'))
-    dispatchRobotCommand(deps.botId, buildListenCommand('off'), deps.isConnected)
+    const cmd = buildListenCommand('off')
+    deps.state.setLastCommand(cmd)
+    const ok = dispatchRobotCommand(deps.botId, cmd, deps.isConnected)
+    if (ok) {
+      deps.state.setIsListening(false)
+    }
   }, [deps])
 }
 

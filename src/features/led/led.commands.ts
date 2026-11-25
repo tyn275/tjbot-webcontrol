@@ -1,6 +1,12 @@
 import { buildCommand } from '../../services/mqtt/command'
 
 // Danh mục ánh xạ màu cơ bản đã đăng ký sẵn trong bảng màu phần cứng của robot
+export const HEX_COLOR_REGEX = /^#[0-9A-Fa-f]{6}$/
+
+export const isValidHex = (hexColor: string): boolean => {
+  return HEX_COLOR_REGEX.test(hexColor)
+}
+
 export const COLOR_MAP: Record<string, string> = {
   '#FF0000': 'red',
   '#00FF00': 'green',

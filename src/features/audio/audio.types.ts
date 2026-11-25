@@ -35,6 +35,8 @@ export const LANGUAGES: readonly LanguageOption[] = [
 // Danh mục các nhà cung cấp dịch vụ tổng hợp giọng nói
 export const SERVICES: readonly TtsService[] = ['Google', 'FPT', 'Viettel'] as const
 
+// Lưu ý tích hợp: Khi phía robot Raspberry Pi hỗ trợ FPT và Viettel TTS,
+// bổ sung các cấu hình voice tương ứng vào VOICE_DATA bên dưới (ví dụ: fpt-nam-bac, viettel-nu-nam)
 // Danh sách các giọng đọc chi tiết theo từng quốc gia
 export const VOICE_DATA: Record<TtsLanguage, readonly VoiceOption[]> = {
   vi: [

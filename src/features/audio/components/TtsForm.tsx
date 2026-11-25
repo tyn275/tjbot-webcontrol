@@ -18,6 +18,7 @@ export const TtsForm: FC<Props> = ({ tts }) => {
         text={tts.text}
         wordCount={tts.wordCount}
         isOverLimit={tts.isOverLimit}
+        isEmptyAlert={tts.isEmptyAlert}
         onTextChange={tts.setText}
       />
       <div className="row g-2">

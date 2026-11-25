@@ -13,7 +13,7 @@ interface Props {
 export const AngleDial: FC<Props> = ({ angle, onChange, onCommit }) => {
   const { t } = useTranslation()
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const { onMouseDown } = useDialDrag({ canvasRef, onChange, onCommit })
+  const { onPointerDown } = useDialDrag({ canvasRef, onChange, onCommit })
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -32,7 +32,7 @@ export const AngleDial: FC<Props> = ({ angle, onChange, onCommit }) => {
           width={120}
           height={120}
           className="arm-dial__canvas"
-          onMouseDown={onMouseDown}
+          onPointerDown={onPointerDown}
         />
         <div className="mt-2 fw-bold arm-dial__label">{t('arm.angleDisplay', { angle })}</div>
       </div>

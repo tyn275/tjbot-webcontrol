@@ -1,5 +1,6 @@
 import type { FC, ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { clampTimes } from '../../../core/hardware-limits'
 import { BlinkSpeedSelect } from './BlinkSpeedSelect'
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 export const BlinkControl: FC<Props> = (props) => {
   const { t } = useTranslation()
   const handleTimes = (e: ChangeEvent<HTMLInputElement>) =>
-    props.onTimesChange(Number(e.target.value) || 1)
+    props.onTimesChange(clampTimes(Number(e.target.value) || 1, 1, 20))
 
   return (
     <>
